@@ -7,6 +7,8 @@ import { Locale, routing } from '@/i18n/routing';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import Providers from './provider';
+import Header from '@/components/ui/header/header';
+import Footer from '@/components/ui/footer/footer';
 
 export const metadata: Metadata = {
   title: 'Daya Devraha',
@@ -14,13 +16,14 @@ export const metadata: Metadata = {
     'This is a Nextjs frontend template with TypeScript and Tailwind CSS for rapid development of web applications and websites with a modern frontend stack and best practices.',
 };
 
-export default async function LocaleLayout({
-  children,
-  params,
-}: {
+export default async function LocaleLayout(props: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const params = await props.params;
+
+  const { children } = props;
+
   const { locale } = params;
 
   setRequestLocale(locale);
@@ -41,7 +44,9 @@ export default async function LocaleLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Header />
             {children}
+            <Footer />
           </ThemeProvider>
         </Providers>
       </NextIntlClientProvider>
