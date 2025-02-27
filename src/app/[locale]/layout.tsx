@@ -40,7 +40,7 @@ export default async function LocaleLayout(props: {
         <Providers>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >
