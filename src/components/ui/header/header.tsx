@@ -6,11 +6,8 @@ import { useState, useEffect } from 'react';
 import { Button } from '../button';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ModeToggle } from '@/components/utils/mode-toggle';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import LoginModal from '@/components/ui/login/login-modal';
-import SignUpModal from '@/components/ui/sign-up/sign-up-modal';
 
 const menuVariants = {
   open: {
@@ -148,7 +145,6 @@ function Navbar() {
       >
         <Links links={linksData} />
         <CTAButtons />
-        <ModeToggle />
       </motion.div>
       <motion.div
         initial={false}
@@ -223,7 +219,6 @@ function MobileLinks({ links }: MobileLinksProps) {
     >
       <Links links={links} />
       <CTAButtons />
-      <ModeToggle />
     </motion.nav>
   );
 }
@@ -231,8 +226,16 @@ function MobileLinks({ links }: MobileLinksProps) {
 function CTAButtons() {
   return (
     <div className={cn('flex gap-5')}>
-      <LoginModal buttonVariant="secondary" buttonEffect={'gooeyLeft'} />
-      <SignUpModal buttonVariant="outline" buttonEffect={'gooeyRight'} />
+      <Link href={'http://localhost:3000/login'}>
+        <Button variant={'outline'} effect={'shine'}>
+          Login
+        </Button>
+      </Link>
+      <Link href={'http://localhost:3000/register'}>
+        <Button variant={'default'} effect={'shine'}>
+          Register
+        </Button>
+      </Link>
     </div>
   );
 }
