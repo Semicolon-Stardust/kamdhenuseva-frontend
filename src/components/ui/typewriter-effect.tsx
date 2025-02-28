@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { motion, stagger, useAnimate, useInView } from 'framer-motion';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 export const TypewriterEffect = ({
   words,
@@ -25,7 +25,8 @@ export const TypewriterEffect = ({
   const [scope, animate] = useAnimate();
   const isInView = useInView(scope);
 
-  useEffect(() => {
+  // Memoizing the animation function to prevent unnecessary re-renders
+  const runAnimation = useCallback(() => {
     if (isInView) {
       animate(
         'span',
@@ -41,7 +42,11 @@ export const TypewriterEffect = ({
         },
       );
     }
-  }, [isInView]);
+  }, [animate, isInView]);
+
+  useEffect(() => {
+    runAnimation();
+  }, [runAnimation]); // Now the dependency array includes a stable function reference
 
   const renderWords = () => (
     <motion.div ref={scope} className="inline">
