@@ -43,18 +43,16 @@
   --popover: var(--background);
   --popover-foreground: var(--foreground);
 
-  /* ✅ Updated Primary & Secondary Colors */
-  --primary: oklch(0.55 0.14 145); /* #588157 */
+  --primary: oklch(39.86% 0.0387 162.26); /* #344E41 */
   --primary-foreground: oklch(0.985 0.001 106.423);
 
-  --secondary: oklch(0.22 0.03 145); /* #344E41 */
+  --secondary: oklch(56.12% 0.0784 143.89); /* #588157 */
   --secondary-foreground: var(--primary-foreground);
 
-  /* ✅ Added Missing Colors for Buttons */
   --input: oklch(0.923 0.003 48.717);
   --input-dark: oklch(0.268 0.007 34.298);
 
-  --accent: oklch(0.65 0.2 145); /* Brighter green for hover */
+  --accent: oklch(73.9% 0.0564 123.81); /* A3B18A */
   --accent-foreground: oklch(0.216 0.006 56.043);
 
   --accent-dark: oklch(0.268 0.007 34.298);

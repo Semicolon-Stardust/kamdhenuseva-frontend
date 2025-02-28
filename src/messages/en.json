@@ -19,7 +19,6 @@
     }
   },
   "HomePage": {
-    "title": "Bye, world!",
     "heroSection": {
       "carousel": {
         "1": {
@@ -40,40 +39,18 @@
           "heading": "Join Us Today",
           "paragraph": "This is a sample description for Slide 3."
         }
-      },
-      "title": "Component Catalogue",
-      "description": "Beautifully designed components suitable for your suite of websites.",
-      "cta": "Explore Sections"
-    },
-    "navigation": {
-      "title": "Browse Our Component Catalogue",
-      "description": "Choose a component and send us the details via WhatsApp, Mail, or Jira.",
-      "howToSend": {
-        "title": "How to Send Your Selection",
-        "description": "Once you’ve selected a component, send us the component label along with the required data via WhatsApp, Mail, or Jira."
-      },
-      "sections": {
-        "buttons": {
-          "title": "Buttons",
-          "description": "Pre-designed buttons with multiple variants.",
-          "href": "/buttons"
-        },
-        "heroSections": {
-          "title": "Hero Sections",
-          "description": "Pre-styled hero sections with dynamic layouts.",
-          "href": "/hero-sections"
-        },
-        "imageSections": {
-          "title": "Image Sections",
-          "description": "Layouts focusing on images and visual storytelling.",
-          "href": "/image-sections"
-        },
-        "miscSections": {
-          "title": "Misc Sections",
-          "description": "Accordions, CTA sections, and other reusable elements.",
-          "href": "/misc-sections"
-        }
       }
+    },
+    "aboutAshram": {
+      "heading": "About Sri Devraha Baba Ashram",
+      "subtitle": "Sri Devraha Baba Ashram\nBrahm Rishi Shri Shri Dev Das Ji Maharaj",
+      "description": "Here, away from the noisy streets, in the gardens of Vrindavan, amazing games of Radha and Krishna take place at all times. Krishna's friends, the cows, find shelter and love in this blessed place.\n\nIn the ancient city of Vrindavan, on the banks of the sacred Yamuna River, there is an Ashram of the world-famous sage Sri Devraha Baba, one of the greatest siddha yogis of India in the parampara of Sri Ramanuja Acharya. People of all castes and classes came to him to pay obeisances from different parts of India and many countries of the world. It was attended by Indian Prime Minister Indira Gandhi and her son Rajiv, the first President of the USSR Mikhail Gorbachev, as well as other politicians, saints, yogis, priests, rich and poor—all came for the blessing of Sri Devraha Baba—the true spiritual incarnation of love.\n\nToday, the ashram is run by the successor of Sri Devraha Baba, Mahatma Sri Devadas Maharaj, following the instructions of the great sage."
+    },
+    "adoptACowCTA": {
+      "headlinePart1": "Make a difference today. ",
+      "headlinePart2": "Adopt a COW!",
+      "description": "Join us in our mission to provide a loving home and care for cows in need. Your adoption can make a significant impact on their lives and promote compassion towards all living beings.",
+      "buttonText": "Adopt Now"
     }
   },
   "ButtonsDemo": {
@@ -163,22 +140,21 @@
   },
   "Footer": {
     "logo": "Kamdhenuseva",
-    "description": "This is a Nextjs frontend template with TypeScript and Tailwind CSS for rapid development of web applications and websites with a modern frontend stack and best practices.",
+    "description": "Kamdhenuseva is an initiative by Daya Devraha Ashram dedicated to the welfare of cows. Your contributions help provide food, shelter, and medical care to support and protect these sacred beings.",
     "sections": {
       "company": {
-        "title": "Company",
+        "title": "Our Other Websites",
         "links": {
-          "aboutUs": "About Us",
-          "careers": "Careers",
-          "press": "Press"
+          "dayaHome": "DAYA Home",
+          "kamdhenuseva": "Kamdhenuseva"
         }
       },
       "resources": {
-        "title": "Resources",
+        "title": "Links",
         "links": {
-          "blog": "Blog",
-          "helpCenter": "Help Center",
-          "contactSupport": "Contact Support"
+          "aboutUs": "About Us",
+          "donate": "Donate",
+          "contactUs": "Contact Us"
         }
       },
       "legal": {

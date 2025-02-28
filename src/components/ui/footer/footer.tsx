@@ -27,28 +27,21 @@ export default function Footer() {
         title: t('sections.company.title'),
         links: [
           {
-            name: t('sections.company.links.aboutUs'),
-            href: '/about',
+            name: t('sections.company.links.dayaHome'),
+            href: 'https://dayadevraha.com',
           },
           {
-            name: t('sections.company.links.careers'),
-            href: '/careers',
+            name: t('sections.company.links.kamdhenuseva'),
+            href: 'https://kamdhenuseva.dayadevraha.com',
           },
-          { name: t('sections.company.links.press'), href: '/press' },
         ],
       },
       {
         title: t('sections.resources.title'),
         links: [
-          { name: t('sections.resources.links.blog'), href: '/blog' },
-          {
-            name: t('sections.resources.links.helpCenter'),
-            href: '/help',
-          },
-          {
-            name: t('sections.resources.links.contactSupport'),
-            href: '/support',
-          },
+          { name: t('sections.resources.links.aboutUs'), href: '/about' },
+          { name: t('sections.resources.links.donate'), href: '/donate' },
+          { name: t('sections.resources.links.contactUs'), href: '/contact' },
         ],
       },
       {
@@ -166,7 +159,17 @@ export default function Footer() {
                   effect="hoverUnderline"
                   className={cn('text-white dark:text-white')}
                 >
-                  <Link href={link.href}>{link.name}</Link>
+                  {link.href.startsWith('https') ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <Link href={link.href}>{link.name}</Link>
+                  )}
                 </Button>
               </li>
             ))}
@@ -222,7 +225,7 @@ export default function Footer() {
             'text-center text-white md:text-left dark:text-gray-400',
           )}
         >
-          &copy; {new Date().getFullYear()} {footerData.logo.name}.
+          &copy; {new Date().getFullYear()} {footerData.logo.name}.{' '}
           {t('allRightsReserved')}
         </p>
         <p

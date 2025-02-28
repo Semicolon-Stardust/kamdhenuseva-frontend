@@ -100,11 +100,12 @@ function Navbar() {
         <Link href="/" className="flex items-center gap-1">
           {/* Daya Logo */}
           <Image
-            src="/daya-logo.svg"
+            src="/logo.png"
             alt="Daya Logo"
-            width={70}
-            height={70}
+            width={60}
+            height={60}
             priority
+            className="p-1"
           />
           <h1
             className={cn(
