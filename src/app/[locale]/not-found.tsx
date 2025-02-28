@@ -34,7 +34,7 @@ export default function NotFoundPage() {
   return (
     <motion.div
       className={cn(
-        'flex min-h-screen flex-col items-center justify-center bg-gray-100/30 p-4 sm:p-8 dark:bg-gray-900/30',
+        'flex min-h-screen flex-col items-center justify-center p-4 sm:p-8 dark:bg-gray-900/30',
       )}
       variants={containerVariants}
       initial="hidden"
@@ -47,7 +47,7 @@ export default function NotFoundPage() {
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="sm:h-200 sm:w-200"
+          className="sm:h-120 sm:w-120"
         >
           <path
             d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"
@@ -78,25 +78,22 @@ export default function NotFoundPage() {
         )}
         variants={itemVariants}
       >
-        <Button
-          variant="default"
-          effect="expandIcon"
-          iconPlacement="left"
-          icon={ArrowLeft}
-        >
-          <Link href="/">{t('homeLink')}</Link>
-        </Button>
-        <Button variant="default" effect="shineHover">
-          <Link href="/about">{t('aboutLink')}</Link>
-        </Button>
-        <Button
-          variant="default"
-          effect="expandIcon"
-          iconPlacement="right"
-          icon={ArrowRight}
-        >
-          <Link href="/contact">{t('contactLink')}</Link>
-        </Button>
+        <Link href="/about" passHref>
+          <Button variant="default" effect="shineHover">
+            {t('aboutLink')}
+          </Button>
+        </Link>
+
+        <Link href="/" passHref>
+          <Button
+            variant="default"
+            effect="expandIcon"
+            iconPlacement="right"
+            icon={ArrowRight}
+          >
+            {t('homeLink')}
+          </Button>
+        </Link>
       </motion.div>
     </motion.div>
   );

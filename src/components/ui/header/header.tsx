@@ -226,16 +226,12 @@ function CTAButtons() {
   return (
     <div className={cn('flex gap-5 pb-4 md:pb-0')}>
       <Link href={'http://localhost:3000/login'}>
-        <Button variant={'outline'} effect={'shine'} className="">
+        <Button variant={'default'} effect={'ringHover'}>
           Login
         </Button>
       </Link>
       <Link href={'http://localhost:3000/register'}>
-        <Button
-          variant={'default'}
-          effect={'shine'}
-          className="bg-background text-black"
-        >
+        <Button variant={'default'} effect={'ringHover'}>
           Register
         </Button>
       </Link>

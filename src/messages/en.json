@@ -3,11 +3,10 @@
     "title": "Page Not Found",
     "description": "The page you are looking for does not exist.",
     "homeLink": "Return to Home",
-    "aboutLink": "Learn More About Us",
-    "contactLink": "Contact Us"
+    "aboutLink": "Learn More About Us"
   },
   "Header": {
-    "logo": "Daya Devraha",
+    "logo": "Kamdhenuseva",
     "links": {
       "about": "About Us",
       "donate": "Donate",
@@ -163,7 +162,7 @@
     }
   },
   "Footer": {
-    "logo": "Nextjs Frontend Template",
+    "logo": "Kamdhenuseva",
     "description": "This is a Nextjs frontend template with TypeScript and Tailwind CSS for rapid development of web applications and websites with a modern frontend stack and best practices.",
     "sections": {
       "company": {
