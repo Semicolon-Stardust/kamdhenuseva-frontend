@@ -13,19 +13,19 @@ const buttonVariants = cva(
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90 dark:bg-destructive-dark dark:text-destructive-foreground-dark dark:hover:bg-destructive-dark/90',
         outline:
-          'border border-input bg-background hover:bg-accent hover:text-accent-foreground dark:border-input-dark dark:bg-background-dark dark:hover:bg-accent-dark dark:hover:text-accent-foreground-dark',
+          'border border-input bg-background hover:bg-accent hover:text-accent-foreground dark:border-[var(--color-input-dark)] dark:bg-[var(--color-background-dark)] dark:hover:bg-[var(--color-accent-dark)] dark:hover:text-[var(--color-accent-foreground-dark)]',
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80 dark:bg-secondary-dark dark:text-secondary-foreground-dark dark:hover:bg-secondary-dark/80',
         ghost:
           'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent-dark dark:hover:text-accent-foreground-dark',
-        link: 'text-primary underline-offset-4 hover:underline dark:text-primary-dark dark:hover:underline',
+        link: 'text-primary underline-offset-4 dark:text-primary-dark',
       },
       effect: {
         expandIcon: 'group gap-0 relative',
         ringHover:
-          'transition-all duration-300 hover:ring-2 hover:ring-primary/90 hover:ring-offset-2 dark:hover:ring-primary-dark/90',
+          'transition-all duration-300 hover:ring-2 hover:ring-white/90 hover:ring-offset-2 dark:hover:ring-white/90',
         shine:
-          'before:animate-shine relative overflow-hidden before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-no-repeat background-position_0s_ease dark:before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%,transparent_100%)]',
+          'relative overflow-hidden before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.5)_50%,transparent_75%)] before:bg-[length:250%_250%] before:bg-no-repeat before:animate-[shine_1.5s_infinite_linear] dark:before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%)]',
         shineHover:
           'relative overflow-hidden before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:transition-[background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] before:duration-1000 dark:before:bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_50%,transparent_75%,transparent_100%)]',
         gooeyRight:
@@ -35,7 +35,7 @@ const buttonVariants = cva(
         underline:
           'relative no-underline! after:absolute after:bg-primary after:bottom-2 after:h-[1px] after:w-2/3 after:origin-bottom-left after:scale-x-100 hover:after:origin-bottom-right hover:after:scale-x-0 after:transition-transform after:ease-in-out after:duration-300 dark:after:bg-primary-dark',
         hoverUnderline:
-          'relative no-underline! after:absolute after:bg-primary after:bottom-2 after:h-[1px] after:w-2/3 after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300 dark:after:bg-primary-dark',
+          'relative no-underline before:absolute before:left-1/2 before:bottom-[0.05em] before:h-[1px] before:w-0 before:bg-current before:transition-[width,transform] before:duration-300 before:ease-in-out before:-translate-x-1/2 hover:before:w-11/15',
       },
       size: {
         default: 'h-10 px-4 py-2',

@@ -61,7 +61,7 @@ export default function Header() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
       className={cn(
-        'fixed top-0 left-0 z-50 w-full bg-white select-none dark:bg-black',
+        'bg-primary fixed top-0 left-0 z-50 w-full select-none dark:bg-black',
         scrolled
           ? 'border-b border-gray-200 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] backdrop-blur-md transition-shadow duration-500 dark:border-gray-700 dark:shadow-[0_35px_60px_-15px_rgba(255,255,255,0.3)]'
           : 'transition-shadow duration-500',
@@ -78,9 +78,8 @@ function Navbar() {
   const t = useTranslations('Header');
 
   const linksData = [
-    { linkName: t('links.home'), href: '/' },
     { linkName: t('links.about'), href: '/about' },
-    { linkName: t('links.services'), href: '/services' },
+    { linkName: t('links.donate'), href: '/donate' },
     { linkName: t('links.contact'), href: '/contact' },
   ];
 
@@ -109,7 +108,7 @@ function Navbar() {
           />
           <h1
             className={cn(
-              'text-2xl font-bold text-black lg:text-3xl dark:text-white',
+              'text-2xl font-bold text-white lg:text-3xl dark:text-white',
             )}
           >
             {t('logo')}
@@ -190,7 +189,7 @@ function Links({ links }: LinkProps) {
             <Button
               variant={'link'}
               effect={'hoverUnderline'}
-              className="text-lg font-[300] text-black dark:text-white"
+              className="text-lg font-[300] text-white dark:text-white"
             >
               <Link href={link.href}>{link.linkName}</Link>
             </Button>
@@ -225,14 +224,18 @@ function MobileLinks({ links }: MobileLinksProps) {
 
 function CTAButtons() {
   return (
-    <div className={cn('flex gap-5')}>
+    <div className={cn('flex gap-5 pb-4 md:pb-0')}>
       <Link href={'http://localhost:3000/login'}>
-        <Button variant={'outline'} effect={'shine'}>
+        <Button variant={'outline'} effect={'shine'} className="">
           Login
         </Button>
       </Link>
       <Link href={'http://localhost:3000/register'}>
-        <Button variant={'default'} effect={'shine'}>
+        <Button
+          variant={'default'}
+          effect={'shine'}
+          className="bg-background text-black"
+        >
           Register
         </Button>
       </Link>

@@ -129,7 +129,7 @@ export default function Footer() {
     <footer
       className={cn(
         'px-4 py-8 md:px-10',
-        'bg-white/30 backdrop-blur-md dark:bg-gray-950',
+        'bg-primary backdrop-blur-md dark:bg-gray-950',
         'border-t border-gray-200 dark:border-gray-700',
         'shadow-[0_-35px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_-35px_60px_-15px_rgba(255,255,255,0.1)]',
         'grid grid-cols-1 items-start justify-center gap-8 md:grid-cols-4',
@@ -137,13 +137,11 @@ export default function Footer() {
     >
       <div className="col-span-1 text-center md:col-span-4 md:text-left">
         <Link href={footerData.logo.href}>
-          <h1
-            className={cn('text-2xl font-bold text-gray-950 dark:text-white')}
-          >
+          <h1 className={cn('text-2xl font-bold text-white dark:text-white')}>
             {footerData.logo.name}
           </h1>
         </Link>
-        <p className="mx-6 mt-2 text-gray-950 md:mx-0 dark:text-gray-300">
+        <p className="mx-6 mt-2 text-white md:mx-0 dark:text-gray-300">
           {footerData.p.text}
         </p>
       </div>
@@ -154,19 +152,19 @@ export default function Footer() {
         >
           <h2
             className={cn(
-              'font-mono text-xl font-bold text-black dark:text-white',
+              'font-mono text-xl font-bold text-white dark:text-white',
             )}
           >
             {section.title}
           </h2>
-          <div className={cn('bg-black dark:bg-white', 'h-0.5', 'w-10')}></div>
+          <div className={cn('bg-white dark:bg-white', 'h-0.5', 'w-10')}></div>
           <ul className={cn('mt-2 space-y-2')}>
             {section.links.map((link, index) => (
               <li key={index}>
                 <Button
                   variant="link"
                   effect="hoverUnderline"
-                  className={cn('text-black dark:text-white')}
+                  className={cn('text-white dark:text-white')}
                 >
                   <Link href={link.href}>{link.name}</Link>
                 </Button>
@@ -179,13 +177,13 @@ export default function Footer() {
       <div>
         <h2
           className={cn(
-            'flex flex-col items-center text-center font-mono text-xl font-bold text-black md:items-start md:text-left dark:text-white',
+            'flex flex-col items-center text-center font-mono text-xl font-bold text-white md:items-start md:text-left dark:text-white',
           )}
         >
           {t('socials.title')}
         </h2>
         <div
-          className={cn('mx-auto h-0.5 w-10 bg-black md:mx-0 dark:bg-white')}
+          className={cn('mx-auto h-0.5 w-10 bg-white md:mx-0 dark:bg-white')}
         ></div>
 
         <ul
@@ -221,7 +219,7 @@ export default function Footer() {
       <div className="col-span-1 mt-4 flex flex-col items-center justify-center space-y-2 border-t border-gray-200 pt-4 md:col-span-4 md:flex-row md:justify-between md:space-y-0 dark:border-gray-700">
         <p
           className={cn(
-            'text-center text-gray-500 md:text-left dark:text-gray-400',
+            'text-center text-white md:text-left dark:text-gray-400',
           )}
         >
           &copy; {new Date().getFullYear()} {footerData.logo.name}.
@@ -229,13 +227,17 @@ export default function Footer() {
         </p>
         <p
           className={cn(
-            'text-center text-gray-500 md:text-right dark:text-gray-400',
+            'text-center text-white md:text-right dark:text-gray-400',
           )}
         >
           {t('designedAndDevelopedBy')}{' '}
           {footerData.madeBy.map((madeBy, index) => (
             <React.Fragment key={index}>
-              <Button variant="link" effect="hoverUnderline">
+              <Button
+                variant="link"
+                effect="hoverUnderline"
+                className="text-white"
+              >
                 <Link href={madeBy.href}>{madeBy.name}</Link>
               </Button>
               {index < footerData.madeBy.length - 1 && (

@@ -9,10 +9,9 @@
   "Header": {
     "logo": "Daya Devraha",
     "links": {
-      "home": "Home",
-      "about": "About",
-      "services": "Services",
-      "contact": "Contact"
+      "about": "About Us",
+      "donate": "Donate",
+      "contact": "Contact Us"
     },
     "modeToggle": {
       "light": "Light",
