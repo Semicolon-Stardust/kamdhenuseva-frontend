@@ -17,12 +17,10 @@ export const TypewriterEffect = ({
   cursorClassName?: string;
 }) => {
   // Split text into array of characters, preserving spaces
-  const wordsArray = words.map((word) => {
-    return {
-      ...word,
-      text: word.text.split(''),
-    };
-  });
+  const wordsArray = words.map((word) => ({
+    ...word,
+    text: word.text.split(''),
+  }));
 
   const [scope, animate] = useAnimate();
   const isInView = useInView(scope);
@@ -45,34 +43,32 @@ export const TypewriterEffect = ({
     }
   }, [isInView]);
 
-  const renderWords = () => {
-    return (
-      <motion.div ref={scope} className="inline">
-        {wordsArray.map((word, idx) => (
-          <div key={`word-${idx}`} className="inline-block">
-            {word.text.map((char, index) => (
-              <motion.span
-                initial={{}}
-                key={`char-${index}`}
-                className={cn(
-                  'inline-block text-black opacity-0 dark:text-white',
-                  word.className,
-                )}
-              >
-                {/* Render non-breaking space for spaces */}
-                {char === ' ' ? '\u00A0' : char}
-              </motion.span>
-            ))}
-          </div>
-        ))}
-      </motion.div>
-    );
-  };
+  const renderWords = () => (
+    <motion.div ref={scope} className="inline">
+      {wordsArray.map((word, idx) => (
+        <div key={`word-${idx}`} className="inline-block">
+          {word.text.map((char, index) => (
+            <motion.span
+              initial={{}}
+              key={`char-${index}`}
+              className={cn(
+                'inline-block text-black opacity-0 dark:text-white',
+                word.className,
+              )}
+            >
+              {/* Render non-breaking space for spaces */}
+              {char === ' ' ? '\u00A0' : char}
+            </motion.span>
+          ))}
+        </div>
+      ))}
+    </motion.div>
+  );
 
   return (
     <div
       className={cn(
-        'text-center text-base font-bold sm:text-xl md:text-3xl lg:text-5xl',
+        'text-center text-lg font-bold sm:text-2xl md:text-4xl lg:text-5xl',
         className,
       )}
     >
