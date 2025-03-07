@@ -51,6 +51,10 @@
       "headlinePart2": "Adopt a COW!",
       "description": "Join us in our mission to provide a loving home and care for cows in need. Your adoption can make a significant impact on their lives and promote compassion towards all living beings.",
       "buttonText": "Adopt Now"
+    },
+    "cowCarousel": {
+      "heading": "Meet Our Sacred Cows",
+      "description": "Each cow in our ashram holds a special place in our hearts. Get to know them!"
     }
   },
   "ButtonsDemo": {
