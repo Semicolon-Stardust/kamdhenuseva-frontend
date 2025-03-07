@@ -11,7 +11,7 @@ export function AboutAshramSection() {
         <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl">
           {t('heading')}
         </h2>
-        <p className="mt-4 text-justify text-sm sm:text-base md:text-lg">
+        <p className="mt-4 text-justify text-sm whitespace-pre-line sm:text-base md:text-lg">
           {t('description')}
         </p>
       </div>

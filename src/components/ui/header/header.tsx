@@ -226,12 +226,12 @@ function MobileLinks({ links }: MobileLinksProps) {
 function CTAButtons() {
   return (
     <div className={cn('flex gap-5 pb-4 md:pb-0')}>
-      <Link href={'http://localhost:3000/login'}>
+      <Link href={'http://localhost:3000/en/login'}>
         <Button variant={'default'} effect={'ringHover'}>
           Login
         </Button>
       </Link>
-      <Link href={'http://localhost:3000/register'}>
+      <Link href={'http://localhost:3000/en/register'}>
         <Button variant={'default'} effect={'ringHover'}>
           Register
         </Button>
