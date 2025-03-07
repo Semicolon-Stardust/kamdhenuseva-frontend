@@ -17,7 +17,7 @@ export default function HomePage() {
       <Hero />
       <AboutAshramSection />
       <AdoptACowCTASection />
-      <CowCarouselSection/>
+      <CowCarouselSection />
     </main>
   );
 }

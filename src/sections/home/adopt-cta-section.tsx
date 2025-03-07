@@ -1,10 +1,11 @@
 import { TypewriterEffect } from '@/components/ui/typewriter-effect';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 export function AdoptACowCTASection() {
   const t = useTranslations('HomePage.adoptACowCTA');
+  const locale = useLocale();
 
   return (
     <section className="bg-primary flex w-full flex-col items-center justify-center px-4 py-12 text-white sm:px-6 sm:py-16 md:px-12 md:py-20">
@@ -25,7 +26,7 @@ export function AdoptACowCTASection() {
         asChild
         className="mt-4 px-6 py-3 text-base sm:mt-6 sm:px-8 sm:py-4 sm:text-lg"
       >
-        <Link href="/en/donate">{t('buttonText')}</Link>
+        <Link href={`/${locale}/donate`}>{t('buttonText')}</Link>
       </Button>
     </section>
   );
