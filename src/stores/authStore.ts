@@ -1,124 +1,124 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-'use client';
-
+// src/stores/authStore.ts
 import { create } from 'zustand';
 import apiClient from '@/apiClient';
 
-interface Admin {
+// Data type definitions
+export interface User {
   id: string;
   email: string;
   name: string;
+  // Additional user fields
 }
 
-interface User {
+export interface Admin {
   id: string;
   email: string;
   name: string;
-  twoFactorEnabled: boolean;
-  dateOfBirth?: string;
-  emergencyRecoveryContact?: string;
-  isVerified: boolean;
+  // Additional admin fields
+}
+
+export interface Cow {
+  _id: string;
+  name: string;
+  photo?: string;
+  age: number;
+  sicknessStatus: boolean;
+  agedStatus: boolean;
+  adoptionStatus: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Donation {
+  _id: string;
+  user: string;
+  amount: number;
+  tier: 'Bronze' | 'Silver' | 'Gold';
+  donationType: 'one-time' | 'recurring';
+  recurringFrequency?: 'monthly' | 'quarterly' | 'yearly';
+  transactionDetails?: Record<string, any>;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface AuthState {
-  // Admin state
-  admin: Admin | null;
-  isAuthenticatedAdmin: boolean;
-  // User state
+  // Authentication state
   user: User | null;
+  admin: Admin | null;
   isAuthenticatedUser: boolean;
-  // New flag for email verification (can be derived from user.isVerified)
-  isEmailVerified: boolean;
-  // A temporary email stored when 2FA is required
-  pendingUserEmail: string | null;
+  isAuthenticatedAdmin: boolean;
+
+  // Data state
+  cows: Cow[];
+  donations: Donation[];
+
   // Global flags
-  error: string | null;
   isLoading: boolean;
-  isCheckingAuth: boolean;
-  // Admin functions
-  registerAdmin: (
-    admin_name: string,
-    admin_email: string,
-    password: string,
-    key: string,
-  ) => Promise<void>;
-  loginAdmin: (admin_email: string, password: string) => Promise<void>;
-  logoutAdmin: () => Promise<void>;
-  checkAdminAuth: () => Promise<void>;
-  checkAdminProfile: () => Promise<void>;
-  // User functions
-  registerUser: (
-    name: string,
-    email: string,
-    password: string,
-    confirmPassword: string,
-    dateOfBirth?: string,
-    emergencyRecoveryContact?: string,
-  ) => Promise<void>;
-  loginUser: (
-    email: string,
-    password: string,
-  ) => Promise<{ twoFactorRequired: boolean }>;
+  error: string | null;
+
+  // Auth functions
+  loginUser: (email: string, password: string) => Promise<void>;
   logoutUser: () => Promise<void>;
-  checkUserAuth: () => Promise<void>;
-  checkUserProfile: () => Promise<void>;
-  // New functions:
-  updateUserPassword: (newPassword: string) => Promise<void>;
-  toggleUserTwoFactor: () => Promise<void>;
-  deleteUserAccount: () => Promise<void>;
-  verifyUserOTP: (otp: string) => Promise<void>;
-  // NEW: Function to check email verification status
-  checkUserVerificationStatus: () => Promise<void>;
+  loginAdmin: (email: string, password: string) => Promise<void>;
+  logoutAdmin: () => Promise<void>;
+
+  // Cow API functions
+  fetchCows: (queryParams?: Record<string, any>) => Promise<void>;
+  fetchCowById: (id: string) => Promise<Cow | null>;
+  createCow: (data: Partial<Cow>) => Promise<void>;
+  updateCow: (id: string, data: Partial<Cow>) => Promise<void>;
+  deleteCow: (id: string) => Promise<void>;
+
+  // Donation API functions
+  createDonation: (data: Partial<Donation>) => Promise<void>;
+  fetchDonationHistory: () => Promise<void>;
+  fetchAllDonations: () => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
-  // Initial state for admin
-  admin: null,
-  isAuthenticatedAdmin: false,
-  // Initial state for user
+export const useAuthStore = create<AuthState>((set) => ({
+  // Initial state
   user: null,
+  admin: null,
   isAuthenticatedUser: false,
-  isEmailVerified: false,
-  pendingUserEmail: null,
-  // Common flags
-  error: null,
+  isAuthenticatedAdmin: false,
+  cows: [],
+  donations: [],
   isLoading: false,
-  isCheckingAuth: true,
+  error: null,
 
-  // =========================
-  // Admin Functions (unchanged)
-  // =========================
-
-  registerAdmin: async (admin_name, admin_email, password, key) => {
+  // Authentication functions using apiClient
+  loginUser: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await apiClient.post('/admin/register', {
-        name: admin_name,
-        email: admin_email,
-        password,
-        adminKey: key,
-      });
+      const response = await apiClient.post('/user/login', { email, password });
+      // Assume the response contains user data and sets cookies automatically
       set({
-        admin: response.data.data,
-        isAuthenticatedAdmin: true,
+        user: response.data.data,
+        isAuthenticatedUser: true,
         isLoading: false,
       });
-    } catch (error: unknown) {
-      let errorMessage = 'Error registering admin';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      set({ error: errorMessage, isLoading: false });
-      throw error;
+    } catch (err: any) {
+      set({ error: err.message || 'Login failed', isLoading: false });
+      throw err;
     }
   },
 
-  loginAdmin: async (admin_email, password) => {
+  logoutUser: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      await apiClient.post('/user/logout');
+      set({ user: null, isAuthenticatedUser: false, isLoading: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Logout failed', isLoading: false });
+      throw err;
+    }
+  },
+
+  loginAdmin: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
       const response = await apiClient.post('/admin/login', {
-        email: admin_email,
+        email,
         password,
       });
       set({
@@ -126,13 +126,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isAuthenticatedAdmin: true,
         isLoading: false,
       });
-    } catch (error: unknown) {
-      let errorMessage = 'Error logging in admin';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      set({ error: errorMessage, isLoading: false });
-      throw error;
+    } catch (err: any) {
+      set({ error: err.message || 'Admin login failed', isLoading: false });
+      throw err;
     }
   },
 
@@ -140,307 +136,112 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       await apiClient.post('/admin/logout');
-      set({
-        admin: null,
-        isAuthenticatedAdmin: false,
-        isLoading: false,
-      });
-    } catch (error: unknown) {
-      let errorMessage = 'Error logging out admin';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      set({ error: errorMessage, isLoading: false });
-      throw error;
+      set({ admin: null, isAuthenticatedAdmin: false, isLoading: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Admin logout failed', isLoading: false });
+      throw err;
     }
   },
 
-  checkAdminAuth: async () => {
-    set({ isCheckingAuth: true });
-    try {
-      const response = await apiClient.get('/admin/validate-token', {
-        withCredentials: true,
-      });
-      set({
-        admin: response.data.data,
-        isAuthenticatedAdmin: true,
-        isCheckingAuth: false,
-      });
-    } catch (error: unknown) {
-      set({
-        admin: null,
-        isAuthenticatedAdmin: false,
-        isCheckingAuth: false,
-      });
-    }
-  },
-
-  checkAdminProfile: async () => {
-    try {
-      const response = await apiClient.get('/admin/profile', {
-        withCredentials: true,
-      });
-      set({
-        admin: response.data.data,
-        isAuthenticatedAdmin: true,
-      });
-    } catch (error: unknown) {
-      set({
-        admin: null,
-        isAuthenticatedAdmin: false,
-      });
-    }
-  },
-
-  // =========================
-  // User Functions
-  // =========================
-
-  registerUser: async (
-    name,
-    email,
-    password,
-    confirmPassword,
-    dateOfBirth,
-    emergencyRecoveryContact,
-  ) => {
+  // Cow API functions using apiClient
+  fetchCows: async (queryParams = {}) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await apiClient.post('/auth/register', {
-        name,
-        email,
-        password,
-        confirmPassword,
-        dateOfBirth,
-        emergencyRecoveryContact,
+      const response = await apiClient.get('/cows', {
+        params: queryParams,
       });
-      set({
-        user: response.data.data,
-        isAuthenticatedUser: true,
-        isLoading: false,
-        isEmailVerified: response.data.data.isVerified,
-      });
-    } catch (error: unknown) {
-      let errorMessage = 'Error registering user';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      set({ error: errorMessage, isLoading: false });
-      throw error;
+      set({ cows: response.data.data, isLoading: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Failed to fetch cows', isLoading: false });
+      throw err;
     }
   },
 
-  loginUser: async (email, password) => {
+  fetchCowById: async (id: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await apiClient.post('/auth/login', {
-        email,
-        password,
-      });
-      if (response.data.data.twoFactorRequired) {
-        set({ pendingUserEmail: email, isLoading: false });
-        return { twoFactorRequired: true };
-      } else {
-        set({
-          user: response.data.data,
-          isAuthenticatedUser: true,
-          isLoading: false,
-          pendingUserEmail: null,
-          isEmailVerified: response.data.data.isVerified,
-        });
-        return { twoFactorRequired: false };
-      }
-    } catch (error: unknown) {
-      let errorMessage = 'Error logging in user';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      set({ error: errorMessage, isLoading: false });
-      throw error;
-    }
-  },
-
-  logoutUser: async () => {
-    set({ isLoading: true, error: null });
-    try {
-      await apiClient.post('/auth/logout');
-      set({
-        user: null,
-        isAuthenticatedUser: false,
-        isLoading: false,
-        isEmailVerified: false,
-      });
-    } catch (error: unknown) {
-      let errorMessage = 'Error logging out user';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      set({ error: errorMessage, isLoading: false });
-      throw error;
-    }
-  },
-
-  checkUserAuth: async () => {
-    set({ isCheckingAuth: true });
-    try {
-      const response = await apiClient.get('/auth/validate-token', {
-        withCredentials: true,
-      });
-      set({
-        user: response.data.data,
-        isAuthenticatedUser: true,
-        isCheckingAuth: false,
-        isEmailVerified: response.data.data.isVerified,
-      });
-    } catch (error: unknown) {
-      set({
-        user: null,
-        isAuthenticatedUser: false,
-        isCheckingAuth: false,
-        isEmailVerified: false,
-      });
-    }
-  },
-
-  checkUserProfile: async () => {
-    try {
-      const response = await apiClient.get('/auth/profile', {
-        withCredentials: true,
-      });
-      set({
-        user: response.data.data,
-        isAuthenticatedUser: true,
-        isEmailVerified: response.data.data.isVerified,
-      });
-    } catch (error: unknown) {
-      set({
-        user: null,
-        isAuthenticatedUser: false,
-        isEmailVerified: false,
-      });
-    }
-  },
-
-  // -------------------------
-  // New User Functions
-  // -------------------------
-
-  updateUserPassword: async (newPassword: string) => {
-    set({ isLoading: true, error: null });
-    try {
-      await apiClient.put(
-        '/auth/update-profile',
-        { password: newPassword },
-        { withCredentials: true },
-      );
+      const response = await apiClient.get(`/cows/${id}`);
       set({ isLoading: false });
-    } catch (error: unknown) {
-      let errorMessage = 'Error updating password';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      set({ error: errorMessage, isLoading: false });
-      throw error;
+      return response.data.data;
+    } catch (err: any) {
+      set({ error: err.message || 'Failed to fetch cow', isLoading: false });
+      throw err;
     }
   },
 
-  toggleUserTwoFactor: async () => {
+  createCow: async (data) => {
     set({ isLoading: true, error: null });
     try {
-      const currentUser = get().user;
-      if (currentUser && currentUser.twoFactorEnabled) {
-        await apiClient.post(
-          '/user/disable-two-factor',
-          {},
-          { withCredentials: true },
-        );
-        set((state) => ({
-          user: state.user ? { ...state.user, twoFactorEnabled: false } : null,
-          isLoading: false,
-        }));
-      } else {
-        await apiClient.post(
-          '/user/enable-two-factor',
-          {},
-          { withCredentials: true },
-        );
-        set((state) => ({
-          user: state.user ? { ...state.user, twoFactorEnabled: true } : null,
-          isLoading: false,
-        }));
-      }
-    } catch (error: unknown) {
-      let errorMessage = 'Error toggling 2FA preferences';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      set({ error: errorMessage, isLoading: false });
-      throw error;
+      await apiClient.post('/admin/cows', data);
+      set({ isLoading: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Failed to create cow', isLoading: false });
+      throw err;
     }
   },
 
-  deleteUserAccount: async () => {
+  updateCow: async (id: string, data) => {
     set({ isLoading: true, error: null });
     try {
-      await apiClient.delete('/auth/delete-account', {
-        withCredentials: true,
-      });
+      await apiClient.put(`/admin/cows/${id}`, data);
+      set({ isLoading: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Failed to update cow', isLoading: false });
+      throw err;
+    }
+  },
+
+  deleteCow: async (id: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      await apiClient.delete(`/admin/cows/${id}`);
+      set({ isLoading: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Failed to delete cow', isLoading: false });
+      throw err;
+    }
+  },
+
+  // Donation API functions using apiClient
+  createDonation: async (data) => {
+    set({ isLoading: true, error: null });
+    try {
+      await apiClient.post('/donations', data);
+      set({ isLoading: false });
+    } catch (err: any) {
       set({
-        user: null,
-        isAuthenticatedUser: false,
+        error: err.message || 'Failed to create donation',
         isLoading: false,
-        isEmailVerified: false,
       });
-    } catch (error: unknown) {
-      let errorMessage = 'Error deleting account';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      set({ error: errorMessage, isLoading: false });
-      throw error;
+      throw err;
     }
   },
 
-  verifyUserOTP: async (otp: string) => {
+  fetchDonationHistory: async () => {
     set({ isLoading: true, error: null });
     try {
-      const email = get().user?.email || get().pendingUserEmail;
-      if (!email) {
-        throw new Error('No email available for OTP verification.');
-      }
-      const response = await apiClient.post(
-        '/user/verify-otp',
-        { email, otp },
-        { withCredentials: true },
-      );
+      const response = await apiClient.get('/donations/history');
+      set({ donations: response.data.data, isLoading: false });
+    } catch (err: any) {
       set({
-        user: response.data.data,
-        isAuthenticatedUser: true,
+        error: err.message || 'Failed to fetch donation history',
         isLoading: false,
-        pendingUserEmail: null,
-        isEmailVerified: response.data.data.isVerified,
       });
-    } catch (error: unknown) {
-      let errorMessage = 'Error verifying OTP';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      set({ error: errorMessage, isLoading: false });
-      throw error;
+      throw err;
     }
   },
 
-  // New function to check email verification status.
-  checkUserVerificationStatus: async () => {
+  fetchAllDonations: async () => {
+    set({ isLoading: true, error: null });
     try {
-      const response = await apiClient.get('/user/verification-status', {
-        withCredentials: true,
-      });
+      const response = await apiClient.get('/donations/admin/all');
+      set({ donations: response.data.data, isLoading: false });
+    } catch (err: any) {
       set({
-        isEmailVerified: response.data.data.verified,
+        error: err.message || 'Failed to fetch all donations',
+        isLoading: false,
       });
-    } catch (error: unknown) {
-      set({ isEmailVerified: false });
+      throw err;
     }
   },
 }));
