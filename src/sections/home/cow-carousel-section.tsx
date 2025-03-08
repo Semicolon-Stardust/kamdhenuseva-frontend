@@ -76,12 +76,14 @@ export function CowCarouselSection() {
             ))}
           </CarouselContent>
 
-          {/* Carousel Navigation Button */}
-          <CarouselPrevious />
-          <CarouselNext />
+          {/* Hide navigation buttons on small screens */}
+          <div className="hidden md:block">
+            <CarouselPrevious />
+            <CarouselNext />
+          </div>
         </Carousel>
 
-        {/* Carousel Navigation */}
+        {/* Carousel Navigation Dots */}
         <div className="absolute -bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
           {cows.map((_, index) => (
             <button

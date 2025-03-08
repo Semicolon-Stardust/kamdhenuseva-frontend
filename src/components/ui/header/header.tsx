@@ -68,8 +68,7 @@ function Navbar() {
         <div className="md:hidden">
           <Button
             variant={'link'}
-            effect={'shine'}
-            className="bg-black text-lg font-[300] text-white dark:bg-white dark:text-black"
+            className="bg-accent text-lg font-[300] text-white dark:bg-white dark:text-black"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={30} /> : <Menu size={30} />}
