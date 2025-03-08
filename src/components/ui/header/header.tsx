@@ -47,7 +47,7 @@ export default function Header({ headerData }: HeaderProps) {
         'bg-primary top-0 left-0 z-50 w-full select-none md:fixed dark:bg-black',
         scrolled
           ? 'border-b border-gray-200 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] backdrop-blur-md transition-shadow duration-500 dark:border-gray-700 dark:shadow-[0_35px_60px_-15px_rgba(255,255,255,0.3)]'
-          : 'transition-shadow duration-500'
+          : 'transition-shadow duration-500',
       )}
     >
       <Navbar headerData={headerData} />
