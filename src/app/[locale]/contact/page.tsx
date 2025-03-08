@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 export default function ContactPage() {
   const t = useTranslations('ContactPage');
-  const locale = useLocale();
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-12 md:mt-14">
