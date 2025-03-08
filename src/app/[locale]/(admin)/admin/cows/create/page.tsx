@@ -46,11 +46,13 @@ export default function AdminCowCreate() {
     <motion.div
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      className="p-40 min-h-screen"
+      className="min-h-screen p-40"
     >
-      <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className="mx-auto max-w-md overflow-hidden rounded-lg bg-white shadow-lg">
         <div className="p-6">
-          <h1 className="mb-4 text-2xl font-bold text-center">Create New Cow</h1>
+          <h1 className="mb-4 text-center text-2xl font-bold">
+            Create New Cow
+          </h1>
           {mutation.isError && (
             <div className="mb-4 text-red-600">
               Error: {(mutation.error as Error)?.message}
@@ -58,7 +60,7 @@ export default function AdminCowCreate() {
           )}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <label className="block mb-1">Name:</label>
+              <label className="mb-1 block">Name:</label>
               <input
                 type="text"
                 {...register('name', { required: 'Name is required' })}
@@ -69,7 +71,7 @@ export default function AdminCowCreate() {
               )}
             </div>
             <div>
-              <label className="block mb-1">Age:</label>
+              <label className="mb-1 block">Age:</label>
               <input
                 type="number"
                 {...register('age', {
@@ -85,7 +87,7 @@ export default function AdminCowCreate() {
             <button
               type="submit"
               disabled={mutation.isPending}
-              className="w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 transition-colors"
+              className="w-full rounded bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
             >
               {mutation.isPending ? 'Creating...' : 'Create Cow'}
             </button>

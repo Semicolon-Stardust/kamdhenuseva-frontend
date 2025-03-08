@@ -51,6 +51,7 @@ export default async function LocaleLayout(props: {
                 links: [
                   { linkName: 'Home', href: '/' },
                   { linkName: 'About', href: '/about' },
+                  { linkName: 'Donate', href: '/donate' },
                   { linkName: 'Contact', href: '/contact' },
                 ],
                 ctaButtons: {
