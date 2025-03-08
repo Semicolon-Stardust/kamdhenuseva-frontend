@@ -44,7 +44,7 @@ export default function AdminLoginPage() {
 	// If already logged in, redirect to admin settings.
 	useEffect(() => {
 		if (admin) {
-			router.push(`/${locale}/admin/settings`);
+			router.push(`/${locale}/admin/dashboard`);
 		}
 	}, [admin, router, locale]);
 
