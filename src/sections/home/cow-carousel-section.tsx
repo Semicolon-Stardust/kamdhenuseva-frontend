@@ -38,7 +38,7 @@ export function CowCarouselSection() {
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-12">
-      <h2 className="text-center text-3xl font-bold sm:text-4xl">
+      <h2 className="text-center text-2xl font-bold sm:text-3xl md:text-4xl">
         {t('heading')}
       </h2>
       <p className="mt-2 text-center text-gray-600 sm:text-lg">

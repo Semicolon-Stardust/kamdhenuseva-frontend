@@ -92,6 +92,20 @@
     "title": "About us",
     "home": "Go to the home page"
   },
+  "CowsPage": {
+    "breadcrumb": "Donate",
+    "heading": "Meet Our Cows",
+    "description": "Each cow in our ashram holds a special place in our hearts. Get to know them!"
+  },
+  "DonateCowPage": {
+    "heading": "Donate for {name}",
+    "gender": "Gender",
+    "isAged": "Aged",
+    "isSick": "Sick",
+    "yes": "Yes",
+    "no": "No",
+    "donateNow": "Donate Now"
+  },
   "Login": {
     "title": "Login",
     "description": "Select your login type and enter your credentials.",
