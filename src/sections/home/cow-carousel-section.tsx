@@ -55,7 +55,7 @@ export function CowCarouselSection() {
                 className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
               >
                 <Link href={`/${locale}/donate/${cow.id}`} className="block">
-                  <Card className="relative overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
+                  <Card className="relative overflow-hidden rounded-lg shadow-lg transition-transform">
                     {/* Cow Image */}
                     <Image
                       src={cow.image}
