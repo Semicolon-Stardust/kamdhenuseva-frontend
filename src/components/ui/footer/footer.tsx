@@ -212,7 +212,7 @@ export default function Footer() {
                   <social.icons className="h-6 w-6 md:h-8 md:w-8" />
                 </Button>
               </Link>
-              <span className="text-center text-sm md:hidden">
+              <span className="text-center text-sm text-white md:hidden">
                 {social.name}
               </span>
             </li>
