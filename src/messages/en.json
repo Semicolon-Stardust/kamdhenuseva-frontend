@@ -57,37 +57,6 @@
       "description": "Each cow in our ashram holds a special place in our hearts. Get to know them!"
     }
   },
-  "ButtonsDemo": {
-    "title": "Button Variants & Effects",
-    "description": "Explore different button styles, effects, and sizes available in our component library.",
-    "variants": {
-      "title": "Button Variants",
-      "default": "Default",
-      "destructive": "Destructive",
-      "outline": "Outline",
-      "secondary": "Secondary",
-      "ghost": "Ghost",
-      "link": "Link"
-    },
-    "effects": {
-      "title": "Button Effects",
-      "expandIcon": "Expand Icon",
-      "ringHover": "Ring Hover",
-      "shine": "Shine",
-      "shineHover": "Shine Hover",
-      "gooeyRight": "Gooey Right",
-      "gooeyLeft": "Gooey Left",
-      "underline": "Underline",
-      "hoverUnderline": "Hover Underline"
-    },
-    "sizes": {
-      "title": "Button Sizes",
-      "default": "Default",
-      "sm": "Small",
-      "lg": "Large",
-      "icon": "Icon"
-    }
-  },
   "AboutPage": {
     "title": "About us",
     "home": "Go to the home page"
@@ -105,6 +74,14 @@
     "yes": "Yes",
     "no": "No",
     "donateNow": "Donate Now"
+  },
+  "ContactPage": {
+    "heading": "Contact Us",
+    "description": "Feel free to reach out to us for any inquiries or assistance.",
+    "callUs": "Call Us",
+    "emailUs": "Email Us",
+    "whatsappUs": "WhatsApp Us",
+    "address": "Yogiraj Devraha Baba Ashram, Vrindavan, Uttar Pradesh, India"
   },
   "Login": {
     "title": "Login",
