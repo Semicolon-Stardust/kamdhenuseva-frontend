@@ -1,4 +1,4 @@
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 
