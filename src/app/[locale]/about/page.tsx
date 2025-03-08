@@ -35,7 +35,7 @@ export default function AboutPage() {
           alt="About Sri Devraha Baba Ashram"
           width={1200}
           height={600}
-          className="h-64 w-full rounded-lg object-fit shadow-lg sm:h-96"
+          className="object-fit h-64 w-full rounded-lg shadow-lg sm:h-96"
         />
       </header>
 
