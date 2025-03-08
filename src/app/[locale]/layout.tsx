@@ -11,9 +11,9 @@ import Header from '@/components/ui/header/header';
 import Footer from '@/components/ui/footer/footer';
 
 export const metadata: Metadata = {
-  title: 'Daya Devraha',
+  title: 'DAYA - Kamdhenuseva',
   description:
-    'This is a Nextjs frontend template with TypeScript and Tailwind CSS for rapid development of web applications and websites with a modern frontend stack and best practices.',
+    'Kamdhenuseva is an initiative by Daya Devraha Ashram dedicated to the welfare of cows. Your contributions help provide food, shelter, and medical care to support and protect these sacred beings.',
 };
 
 export default async function LocaleLayout(props: {
