@@ -60,7 +60,7 @@ export default async function LocaleLayout(props: {
                   registerHref: '/register',
                 },
               }}
-             />
+            />
             {children}
             <Footer />
           </ThemeProvider>
