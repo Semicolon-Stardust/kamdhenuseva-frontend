@@ -792,7 +792,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   createCow: async (data) => {
     set({ isLoading: true, error: null });
     try {
-      await apiClient.post('/admin/cows', data);
+      await apiClient.post('/cows/admin/cows', data);
       set({ isLoading: false });
     } catch (err: any) {
       set({ error: err.message || 'Failed to create cow', isLoading: false });
