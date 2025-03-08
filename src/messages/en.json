@@ -58,8 +58,24 @@
     }
   },
   "AboutPage": {
-    "title": "About us",
-    "home": "Go to the home page"
+    "breadcrumb": "About Us",
+    "heading": "Welcome to Sri Devraha Baba Ashram",
+    "subheading": "A sacred place for the preservation and well-being of cows.",
+
+    "hinduTitle": "Cows in Hinduism",
+    "hinduDescription": "Hindu religion considers cows as goddesses, as it bestows us with life-saving milk. Even Lord Krishna is known as Govinda and Gopala—'Lord and Guardian of Cows.' As per Hinduism, the cow is symbolic of wealth and good fortune and is worshiped as Kamdhenu, the sacred cow, which is considered the source of all prosperity. Vedas link cows to well-being and prosperity in the household. Sri Devraha Baba once said, 'A Hindu can be recognized by the way he loves and worships cows.' Baba believed cows will one day save Bharat Varsh (India).",
+
+    "guardianTitle": "Become a Guardian of Cows",
+    "guardianDescription": "You can become the guardian of one or more cows, visit them in the ashram, or receive updates remotely. All friends of our Goshala cows always receive special blessings from Guruji Mahatma Sri Devdas Ji Maharaj.",
+
+    "nutritionTitle": "A Nourishing and Loving Environment",
+    "nutritionDescription": "In the Sri Devraha Baba Ashram goshala, the mother cows receive full, balanced, and high-quality nutrition. We select eco-friendly feeds from trusted suppliers near Vrindavan to ensure their health and happiness.",
+
+    "cowImportanceTitle": "The Sacred Role of Cows in Humanity",
+    "cowImportanceDescription": "The cow is an amazing divine being carrying powerful vibrations of the Universe. She provides milk, ghee, butter, and medicinal products, playing an essential role in Ayurveda and human well-being.",
+
+    "preservationTitle": "Preserving Rare Cow Breeds",
+    "preservationDescription": "Previously, there were more than a hundred breeds of cows in India, but today only 32 remain. The Ashram of Sri Devraha Baba is dedicated to preserving and reproducing these rare breeds."
   },
   "CowsPage": {
     "breadcrumb": "Donate",
