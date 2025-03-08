@@ -5,10 +5,28 @@ import { Link } from '@/i18n/routing';
 import { useState, useEffect } from 'react';
 import { Button } from '../button';
 import { Menu, X } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
-export default function Header() {
+export interface HeaderData {
+  logoSrc: string;
+  logoText: string;
+  links: {
+    linkName: string;
+    href: string;
+  }[];
+  ctaButtons: {
+    loginText: string;
+    registerText: string;
+    loginHref: string;
+    registerHref: string;
+  };
+}
+
+interface HeaderProps {
+  headerData: HeaderData | undefined;
+}
+
+export default function Header({ headerData }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -17,10 +35,11 @@ export default function Header() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Render a fallback while headerData is undefined.
+  if (!headerData) return <div>Loading...</div>;
 
   return (
     <header
@@ -28,43 +47,37 @@ export default function Header() {
         'bg-primary top-0 left-0 z-50 w-full select-none md:fixed dark:bg-black',
         scrolled
           ? 'border-b border-gray-200 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] backdrop-blur-md transition-shadow duration-500 dark:border-gray-700 dark:shadow-[0_35px_60px_-15px_rgba(255,255,255,0.3)]'
-          : 'transition-shadow duration-500',
+          : 'transition-shadow duration-500'
       )}
     >
-      <Navbar />
+      <Navbar headerData={headerData} />
     </header>
   );
 }
 
-function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const t = useTranslations('Header');
+interface NavbarProps {
+  headerData: HeaderData;
+}
 
-  const linksData = [
-    { linkName: t('links.about'), href: '/about' },
-    { linkName: t('links.donate'), href: '/donate' },
-    { linkName: t('links.contact'), href: '/contact' },
-  ];
+function Navbar({ headerData }: NavbarProps) {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="flex flex-col items-center justify-between px-5 py-1 md:flex-row md:px-20 lg:px-40">
       <div className="flex w-full items-center justify-between md:w-auto">
         <Link href="/" className="flex items-center gap-1">
-          {/* Daya Logo */}
           <Image
-            src="/logo.png"
-            alt="Daya Logo"
+            src={headerData.logoSrc}
+            alt="Logo"
             width={60}
             height={60}
             priority
             className="h-14 w-14 p-1 lg:h-16 lg:w-16"
           />
           <h1 className="text-2xl font-bold text-white lg:text-3xl dark:text-white">
-            {t('logo')}
+            {headerData.logoText}
           </h1>
         </Link>
-
-        {/* Hamburger Button for Mobile */}
         <div className="md:hidden">
           <Button
             variant={'link'}
@@ -78,29 +91,29 @@ function Navbar() {
 
       {/* Desktop Navigation */}
       <div className="hidden items-center gap-5 md:flex">
-        <Links links={linksData} />
-        <CTAButtons />
+        <Links links={headerData.links} />
+        <CTAButtons ctaButtons={headerData.ctaButtons} />
       </div>
 
       {/* Mobile Navigation */}
       {isOpen && (
         <nav className="mt-10 flex w-full flex-col items-center gap-5 md:hidden">
-          <Links links={linksData} />
-          <CTAButtons />
+          <Links links={headerData.links} />
+          <CTAButtons ctaButtons={headerData.ctaButtons} />
         </nav>
       )}
     </div>
   );
 }
 
-interface LinkProps {
+interface LinksProps {
   links: {
     linkName: string;
     href: string;
   }[];
 }
 
-function Links({ links }: LinkProps) {
+function Links({ links }: LinksProps) {
   return (
     <ul className="flex items-center">
       {links.map((link) => (
@@ -118,19 +131,30 @@ function Links({ links }: LinkProps) {
   );
 }
 
-function CTAButtons() {
+interface CTAButtonsProps {
+  ctaButtons: {
+    loginText: string;
+    registerText: string;
+    loginHref: string;
+    registerHref: string;
+  };
+}
+
+function CTAButtons({ ctaButtons }: CTAButtonsProps) {
+  const buttons = [
+    { text: ctaButtons.loginText, href: ctaButtons.loginHref },
+    { text: ctaButtons.registerText, href: ctaButtons.registerHref },
+  ];
+
   return (
     <div className="flex gap-5 pb-4 md:pb-0">
-      <Link href="/en/login">
-        <Button variant={'default'} effect={'ringHover'}>
-          Login
-        </Button>
-      </Link>
-      <Link href="/en/register">
-        <Button variant={'default'} effect={'ringHover'}>
-          Register
-        </Button>
-      </Link>
+      {buttons.map((button) => (
+        <Link key={button.href} href={button.href}>
+          <Button variant={'default'} effect={'ringHover'}>
+            {button.text}
+          </Button>
+        </Link>
+      ))}
     </div>
   );
 }
