@@ -14,6 +14,8 @@ interface CowFormValues {
 
 export default function AdminCowEdit() {
   const { id } = useParams();
+  // Ensure id is always a string
+  const cowId = Array.isArray(id) ? id[0] : id;
   const router = useRouter();
   const fetchCowById = useAuthStore((state) => state.fetchCowById);
   const updateCow = useAuthStore((state) => state.updateCow);
@@ -24,14 +26,14 @@ export default function AdminCowEdit() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ['cow', id],
+    queryKey: ['cow', cowId],
     queryFn: async () => {
-      if (id) {
-        return await fetchCowById(id);
+      if (cowId) {
+        return await fetchCowById(cowId);
       }
       return null;
     },
-    enabled: Boolean(id),
+    enabled: Boolean(cowId),
   });
 
   const {
@@ -50,8 +52,8 @@ export default function AdminCowEdit() {
 
   const mutation = useMutation({
     mutationFn: async (data: CowFormValues) => {
-      if (id) {
-        await updateCow(id, data);
+      if (cowId) {
+        await updateCow(cowId, data);
       }
     },
     onSuccess: () => {

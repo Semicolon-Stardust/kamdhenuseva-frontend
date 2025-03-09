@@ -10,25 +10,21 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div>
       <Header
-        links={[
-          { linkName: 'Home', href: '/' },
-          { linkName: 'About', href: '/about' },
-          { linkName: 'Contact', href: '/contact' },
-        ]}
-        ctaButtons={[
-          {
-            href: '/admin/login',
-            label: 'Login',
-            variant: 'outline',
-            effect: 'hoverUnderline',
+        headerData={{
+          logoSrc: '/logo.png',
+          logoText: 'Daya Devraha',
+          links: [
+            { linkName: 'Home', href: '/' },
+            { linkName: 'About', href: '/about' },
+            { linkName: 'Contact', href: '/contact' },
+          ],
+          ctaButtons: {
+            loginText: 'Login',
+            registerText: 'Register',
+            loginHref: '/admin/login',
+            registerHref: '/admin/register',
           },
-          {
-            href: '/admin/register',
-            label: 'Register',
-            variant: 'default',
-            effect: 'hoverUnderline',
-          },
-        ]}
+        }}
       />
       {children}
       <Footer />
