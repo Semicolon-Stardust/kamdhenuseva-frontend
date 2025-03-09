@@ -15,10 +15,10 @@ export default function ContactPage() {
       </p>
 
       {/* Contact Buttons */}
-      <div className="mt-8 flex items-center justify-center gap-4">
+      <div className="mt-8 flex flex-wrap justify-center gap-4">
         {/* Phone */}
         <Link href="tel:+917302756618">
-          <button className="bg-primary hover:bg-primary/90 flex items-center gap-2 rounded-lg px-4 py-3 text-white transition sm:px-6">
+          <button className="bg-primary hover:bg-primary/90 flex w-16 items-center justify-center gap-2 rounded-lg px-4 py-3 text-white transition sm:w-56 sm:px-6">
             <Phone className="h-6 w-6" />
             <span className="hidden sm:inline">{t('callUs')}</span>
           </button>
@@ -26,7 +26,7 @@ export default function ContactPage() {
 
         {/* Email */}
         <Link href="mailto:kamdhenuseva@dayadevraha.com">
-          <button className="bg-secondary hover:bg-secondary/90 flex items-center gap-2 rounded-lg px-4 py-3 text-white transition sm:px-6">
+          <button className="bg-secondary hover:bg-secondary/90 flex w-16 items-center justify-center gap-2 rounded-lg px-4 py-3 text-white transition sm:w-56 sm:px-6">
             <Mail className="h-6 w-6" />
             <span className="hidden sm:inline">{t('emailUs')}</span>
           </button>
@@ -34,7 +34,7 @@ export default function ContactPage() {
 
         {/* WhatsApp */}
         <Link href="https://wa.me/+917302756618" target="_blank">
-          <button className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-white transition hover:bg-green-700 sm:px-6">
+          <button className="flex w-16 items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-white transition hover:bg-green-700 sm:w-56 sm:px-6">
             <MessageCircle className="h-6 w-6" />
             <span className="hidden sm:inline">{t('whatsappUs')}</span>
           </button>
