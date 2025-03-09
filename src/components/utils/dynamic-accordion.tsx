@@ -20,10 +20,13 @@ export default function DynamicAccordion({ items }: DynamicAccordionProps) {
     <Accordion type="single" collapsible>
       {items.map((item) => (
         <AccordionItem key={item.id} value={item.id}>
-          <AccordionTrigger className="flex items-center justify-between py-4 text-lg font-medium text-gray-900 transition-colors duration-300 hover:text-gray-950">
+          {/* Make accordion title white */}
+          <AccordionTrigger className="flex items-center justify-between py-4 text-lg font-medium text-white transition-colors duration-300 hover:text-gray-200">
             {item.title}
           </AccordionTrigger>
-          <AccordionContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm">
+
+          {/* Make accordion content white */}
+          <AccordionContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm text-white">
             <div className="pt-0 pb-4">{item.content}</div>
           </AccordionContent>
         </AccordionItem>
