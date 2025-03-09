@@ -56,9 +56,9 @@ export default function AdminRegisterPage() {
   const params = useParams();
   const locale = params.locale || 'en';
 
-  // If already registered and logged in, redirect to admin settings.
+  // If already registered and logged in, redirect to admin dashboard.
   if (admin) {
-    router.push(`/${locale}/admin/settings`);
+    router.push(`/${locale}/admin/dashboard`);
     return null;
   }
 

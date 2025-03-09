@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
+import CowCard from '@/components/cows/cow-card';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -197,42 +198,15 @@ const DashboardPage: React.FC = () => {
                 Error loading cows.
               </motion.p>
             ) : cowsData && cowsData.length > 0 ? (
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={containerVariants}
-                className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-              >
+              <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {cowsData.map((cow: any) => (
-                  <motion.div
+                  <CowCard
                     key={cow._id}
-                    variants={itemVariants}
-                    className="bg-card rounded-lg p-4 shadow"
-                  >
-                    <motion.h3 className="text-xl font-semibold">
-                      {cow.name}
-                    </motion.h3>
-                    {cow.photo && (
-                      <motion.img
-                        src={cow.photo}
-                        alt={cow.name}
-                        className="mt-2 h-48 w-full rounded object-cover"
-                      />
-                    )}
-                    <motion.p className="mt-2">
-                      <span className="font-medium">Age:</span> {cow.age}
-                    </motion.p>
-                    <motion.p className="mt-2">
-                      <span className="font-medium">Sickness Status:</span>{' '}
-                      {cow.sicknessStatus ? 'Sick' : 'Healthy'}
-                    </motion.p>
-                    <motion.p className="mt-2">
-                      <span className="font-medium">Adoption Status:</span>{' '}
-                      {cow.adoptionStatus ? 'Adopted' : 'Available'}
-                    </motion.p>
-                  </motion.div>
+                    cow={cow}
+                    link={`/donate/${cow._id}`}
+                  />
                 ))}
-              </motion.div>
+              </div>
             ) : (
               <motion.p variants={itemVariants} className="mt-4">
                 No cows available.

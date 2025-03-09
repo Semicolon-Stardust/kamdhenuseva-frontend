@@ -22,31 +22,31 @@ export default function DashboardLayout({
   const {
     user,
     isCheckingAuth,
-    isAuthenticatedUser,
-    checkUserAuth,
-    checkUserProfile,
+    isAuthenticatedAdmin,
+    checkAdminAuth,
+    checkAdminProfile,
   } = useAuthStore();
 
   // Check user authentication on mount.
   useEffect(() => {
     (async () => {
-      await checkUserAuth();
+      await checkAdminAuth();
     })();
-  }, [checkUserAuth]);
+  }, [checkAdminAuth]);
 
   // Once authenticated, fetch the user profile to get the username.
   useEffect(() => {
-    if (isAuthenticatedUser) {
-      checkUserProfile();
+    if (isAuthenticatedAdmin) {
+      checkAdminProfile();
     }
-  }, [isAuthenticatedUser, checkUserProfile]);
+  }, [isAuthenticatedAdmin, checkAdminProfile]);
 
   // Redirect to login if not authenticated once checking is complete.
   useEffect(() => {
-    if (!isCheckingAuth && !isAuthenticatedUser) {
+    if (!isCheckingAuth && !isAuthenticatedAdmin) {
       router.push(`/${locale}/login`);
     }
-  }, [isCheckingAuth, isAuthenticatedUser, router, locale]);
+  }, [isCheckingAuth, isAuthenticatedAdmin, router, locale]);
 
   // While waiting for the auth check to finish, show a loading indicator.
   if (isCheckingAuth) {

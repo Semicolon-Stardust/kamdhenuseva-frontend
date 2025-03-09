@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
   const { loginAdmin, logoutAdmin, admin, checkAdminVerificationStatus } =
     useAuthStore();
 
-  // If already logged in, redirect to admin settings.
+  // If already logged in, redirect to admin dashboard.
   useEffect(() => {
     if (admin) {
       router.push(`/${locale}/admin/dashboard`);
@@ -64,7 +64,7 @@ export default function AdminLoginPage() {
         );
         await logoutAdmin();
       } else {
-        router.push(`/${locale}/settings`);
+        router.push(`/${locale}/dashboard`);
       }
     },
     onError: (error: unknown) => {
