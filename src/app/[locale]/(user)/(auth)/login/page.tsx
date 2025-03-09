@@ -81,7 +81,7 @@ export default function LoginPage() {
         );
         await logoutUser();
       } else {
-        router.push(`/${locale}/settings`);
+        router.push(`/${locale}/dashboard`);
       }
     },
   });

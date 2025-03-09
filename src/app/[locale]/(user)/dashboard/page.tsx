@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
 
-// Framer Motion variants for container and items
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -31,14 +30,12 @@ const itemVariants = {
 };
 
 const DashboardPage: React.FC = () => {
-  // Extract data and functions from auth store
+  // Extract functions from the auth store
   const user = useAuthStore((state) => state.user);
   const fetchDonationHistory = useAuthStore(
     (state) => state.fetchDonationHistory,
   );
-  const donations = useAuthStore((state) => state.donations);
   const fetchCows = useAuthStore((state) => state.fetchCows);
-  const cows = useAuthStore((state) => state.cows);
 
   // TanStack Query to fetch donation history
   const {
@@ -49,7 +46,8 @@ const DashboardPage: React.FC = () => {
     queryKey: ['donationHistory'],
     queryFn: async () => {
       await fetchDonationHistory();
-      return donations;
+      // Use getState() to ensure we get the latest updated donations
+      return useAuthStore.getState().donations;
     },
     staleTime: 300000, // 5 minutes
     refetchOnWindowFocus: false,
@@ -64,7 +62,8 @@ const DashboardPage: React.FC = () => {
     queryKey: ['cows'],
     queryFn: async () => {
       await fetchCows();
-      return cows;
+      // Use getState() to get the latest cows from the store
+      return useAuthStore.getState().cows;
     },
     staleTime: 300000,
     refetchOnWindowFocus: false,
@@ -76,9 +75,8 @@ const DashboardPage: React.FC = () => {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="bg-background text-foreground mt-14 min-h-screen"
+      className="bg-background text-foreground min-h-screen"
     >
-      {/* Main Content */}
       <main className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <motion.div className="px-4 py-6 sm:px-0" variants={sectionVariants}>
           {/* Profile Section */}
@@ -93,7 +91,7 @@ const DashboardPage: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="mt-4 rounded-lg bg-white p-6 shadow"
+                className="bg-card mt-4 rounded-lg p-6 shadow"
               >
                 <p>
                   <span className="font-medium">Name:</span> {user.name}
@@ -146,7 +144,7 @@ const DashboardPage: React.FC = () => {
                 initial="hidden"
                 animate="visible"
                 variants={containerVariants}
-                className="mt-4 rounded-lg bg-white p-6 shadow"
+                className="bg-card mt-4 rounded-lg p-6 shadow"
               >
                 <motion.ul>
                   {donationHistoryData.map((donation: any) => (
@@ -209,7 +207,7 @@ const DashboardPage: React.FC = () => {
                   <motion.div
                     key={cow._id}
                     variants={itemVariants}
-                    className="rounded-lg bg-white p-4 shadow"
+                    className="bg-card rounded-lg p-4 shadow"
                   >
                     <motion.h3 className="text-xl font-semibold">
                       {cow.name}

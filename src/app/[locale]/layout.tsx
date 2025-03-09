@@ -44,7 +44,7 @@ export default async function LocaleLayout(props: {
             enableSystem
             disableTransitionOnChange
           >
-            <Header
+            {/* <Header
               headerData={{
                 logoSrc: '/logo.png',
                 logoText: 'Daya Devraha',
@@ -61,9 +61,9 @@ export default async function LocaleLayout(props: {
                   registerHref: '/register',
                 },
               }}
-            />
+            /> */}
             {children}
-            <Footer />
+            {/* <Footer /> */}
           </ThemeProvider>
         </Providers>
       </NextIntlClientProvider>
