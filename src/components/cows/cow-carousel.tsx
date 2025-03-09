@@ -46,14 +46,14 @@ export function CowCarousel({ cows, limit = cows.length }: CowCarouselProps) {
         <CarouselContent className="gap-6">
           {cows.slice(0, limit).map((cow) => (
             <CarouselItem
-              key={cow.id}
+              key={cow._id}
               className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
             >
-              <Link href={`/${locale}/donate/${cow.id}`} className="block">
-                <Card className="relative overflow-hidden rounded-lg shadow-lg transition-transform">
+              <Link href={`/${locale}/donate/${cow._id}`} className="block">
+                <Card className="relative overflow-hidden rounded-lg shadow-lg transition-transform hover:opacity-90">
                   {/* Cow Image */}
                   <Image
-                    src={cow.image}
+                    src={cow.photo}
                     alt={cow.name}
                     width={600}
                     height={400}
