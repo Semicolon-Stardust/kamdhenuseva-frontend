@@ -17,7 +17,7 @@ export default function ContactPage() {
       {/* Contact Buttons */}
       <div className="mt-8 flex items-center justify-center gap-4">
         {/* Phone */}
-        <Link href="tel:+919876543210">
+        <Link href="tel:+917302756618">
           <button className="bg-primary hover:bg-primary/90 flex items-center gap-2 rounded-lg px-4 py-3 text-white transition sm:px-6">
             <Phone className="h-6 w-6" />
             <span className="hidden sm:inline">{t('callUs')}</span>
@@ -25,7 +25,7 @@ export default function ContactPage() {
         </Link>
 
         {/* Email */}
-        <Link href="mailto:contact@ashram.com">
+        <Link href="mailto:kamdhenuseva@dayadevraha.com">
           <button className="bg-secondary hover:bg-secondary/90 flex items-center gap-2 rounded-lg px-4 py-3 text-white transition sm:px-6">
             <Mail className="h-6 w-6" />
             <span className="hidden sm:inline">{t('emailUs')}</span>
@@ -33,7 +33,7 @@ export default function ContactPage() {
         </Link>
 
         {/* WhatsApp */}
-        <Link href="https://wa.me/919876543210" target="_blank">
+        <Link href="https://wa.me/+917302756618" target="_blank">
           <button className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-white transition hover:bg-green-700 sm:px-6">
             <MessageCircle className="h-6 w-6" />
             <span className="hidden sm:inline">{t('whatsappUs')}</span>
@@ -45,12 +45,13 @@ export default function ContactPage() {
       <div className="mt-6 flex flex-col items-center gap-2 text-center sm:gap-4">
         {/* Phone Number */}
         <p className="flex items-center gap-2 text-lg font-semibold">
-          <Phone className="text-primary h-5 w-5" /> +91 98765 43210
+          <Phone className="text-primary h-5 w-5" /> +91 7302 756 618
         </p>
 
         {/* Email */}
         <p className="flex items-center gap-2 text-lg font-semibold">
-          <Mail className="text-secondary h-5 w-5" /> contact@ashram.com
+          <Mail className="text-secondary h-5 w-5" />{' '}
+          kamdhenuseva@dayadevraha.com
         </p>
 
         {/* Address */}

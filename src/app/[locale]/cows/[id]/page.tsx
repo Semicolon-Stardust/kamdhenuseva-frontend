@@ -7,6 +7,8 @@ import { useParams } from 'next/navigation';
 
 export default function UserCowDetail() {
   const { id } = useParams();
+  const cowId = Array.isArray(id) ? id[0] : id;
+
   const fetchCowById = useAuthStore((state) => state.fetchCowById);
 
   const {
@@ -14,12 +16,12 @@ export default function UserCowDetail() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ['cowDetail', id],
+    queryKey: ['cowDetail', cowId],
     queryFn: async () => {
-      if (id) return await fetchCowById(id);
+      if (cowId) return await fetchCowById(cowId);
       return null;
     },
-    enabled: Boolean(id),
+    enabled: Boolean(cowId),
   });
 
   if (isLoading) return <div>Loading...</div>;
