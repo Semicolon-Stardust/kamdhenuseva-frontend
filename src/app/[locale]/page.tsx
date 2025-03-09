@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import { AboutAshramSection } from '@/sections/home/about-ashram-section';
 import { AdoptACowCTASection } from '@/sections/home/adopt-cta-section';
 import { CowCarouselSection } from '@/sections/home/cow-carousel-section';
+import FAQSection from '@/sections/home/faq-section';
 import Hero from '@/sections/home/hero-section';
 
 export default function HomePage() {
@@ -18,6 +19,7 @@ export default function HomePage() {
       <AboutAshramSection />
       <AdoptACowCTASection />
       <CowCarouselSection />
+      <FAQSection />
     </main>
   );
 }
