@@ -50,9 +50,9 @@ export default async function LocaleLayout(props: {
                 logoText: 'Daya Devraha',
                 links: [
                   { linkName: 'Home', href: '/' },
-                  { linkName: 'About', href: '/about' },
+                  { linkName: 'About Us', href: '/about' },
                   { linkName: 'Donate', href: '/donate' },
-                  { linkName: 'Contact', href: '/contact' },
+                  { linkName: 'Contact Us', href: '/contact' },
                 ],
                 ctaButtons: {
                   loginText: 'Login',
