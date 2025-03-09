@@ -100,15 +100,20 @@
     "heading": "Meet Our Cows",
     "description": "Each cow in our ashram holds a special place in our hearts. Get to know them!"
   },
+
   "DonateCowPage": {
-    "heading": "Donate for {name}",
+    "heading": "Donate to {name}",
     "gender": "Gender",
     "isAged": "Aged",
     "isSick": "Sick",
+    "adoptionStatus": "Adoption Status",
+    "adopted": "Adopted",
+    "available": "Available",
     "yes": "Yes",
     "no": "No",
     "donateNow": "Donate Now"
   },
+
   "ContactPage": {
     "heading": "Contact Us",
     "description": "Feel free to reach out to us for any inquiries or assistance.",
