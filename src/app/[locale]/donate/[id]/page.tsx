@@ -19,7 +19,7 @@ export default function DonateCowPage(props: {
   const params = use(props.params);
   const t = useTranslations('DonateCowPage');
   const locale = useLocale();
-  const cow = cows.find((c) => c.id.toString() === params.id);
+  const cow = cows.find((c) => c._id.toString() === params.id);
 
   if (!cow) return notFound();
 
@@ -49,7 +49,7 @@ export default function DonateCowPage(props: {
       <div className="mt-6 flex flex-col items-center justify-center">
         {/* Cow Image */}
         <Image
-          src={cow.image}
+          src={cow.photo}
           alt={cow.name}
           width={600}
           height={400}
@@ -57,16 +57,21 @@ export default function DonateCowPage(props: {
         />
 
         {/* Cow Details */}
-        <div className="mt-6 w-full text-center">
+        <div className="mt-6 w-full space-y-2 text-center">
           <p className="text-lg font-semibold">
             {t('gender')}: {cow.gender}
           </p>
           <p className="text-lg font-semibold">
-            {t('isAged')}: {cow.isAged ? t('yes') : t('no')}
+            {t('isAged')}: {cow.agedStatus ? t('yes') : t('no')}
           </p>
           <p className="text-lg font-semibold">
-            {t('isSick')}: {cow.isSick ? t('yes') : t('no')}
+            {t('isSick')}: {cow.sicknessStatus ? t('yes') : t('no')}
           </p>
+          <p className="text-lg font-semibold">
+            {t('adoptionStatus')}:{' '}
+            {cow.adoptionStatus ? t('adopted') : t('available')}
+          </p>
+          <p className="mt-4 text-gray-700">{cow.description}</p>
         </div>
 
         {/* Donate Button */}

@@ -1,7 +1,6 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { cows } from '@/data/cows';
+import CowCard from '@/components/cows/cow-card';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,7 +12,6 @@ import {
 
 export default function CowsPage() {
   const t = useTranslations('CowsPage');
-  const locale = useLocale();
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-12 md:mt-14">
@@ -21,7 +19,7 @@ export default function CowsPage() {
       <Breadcrumb className="mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/${locale}`}>Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -40,31 +38,7 @@ export default function CowsPage() {
       {/* Grid layout for cows */}
       <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {cows.map((cow) => (
-          <Link
-            key={cow.id}
-            href={`/${locale}/donate/${cow.id}`}
-            className="block"
-          >
-            <div className="h-56 overflow-hidden rounded-lg border border-gray-200 shadow-lg transition-transform hover:scale-105 sm:h-64 md:h-72">
-              {/* Image (Top Half) */}
-              <div className="h-2/3 w-full">
-                <Image
-                  src={cow.image}
-                  alt={cow.name}
-                  width={400}
-                  height={300}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-
-              {/* Name (Bottom Half) */}
-              <div className="flex h-1/3 items-center justify-center bg-gray-100 px-4">
-                <h2 className="text-base font-semibold text-gray-800 sm:text-lg">
-                  {cow.name}
-                </h2>
-              </div>
-            </div>
-          </Link>
+          <CowCard key={cow._id} cow={cow} />
         ))}
       </div>
     </section>
