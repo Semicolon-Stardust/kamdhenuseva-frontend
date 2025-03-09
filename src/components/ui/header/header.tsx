@@ -7,6 +7,15 @@ import { Button } from '../button';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 
+// Import shadcn's Select components
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
 export interface HeaderData {
   logoSrc: string;
   logoText: string;
@@ -20,6 +29,9 @@ export interface HeaderData {
     loginHref: string;
     registerHref: string;
   };
+  // New props for authenticated state and dropdown options.
+  isAuthenticated?: boolean;
+  dropdownOptions?: { value: string; label: string }[];
 }
 
 interface HeaderProps {
@@ -62,6 +74,13 @@ interface NavbarProps {
 function Navbar({ headerData }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Provide default dropdown options if none are passed via prop drilling.
+  const defaultDropdownOptions = [
+    { value: 'profile', label: 'Profile' },
+    { value: 'settings', label: 'Settings' },
+    { value: 'logout', label: 'Logout' },
+  ];
+
   return (
     <div className="flex flex-col items-center justify-between px-5 py-1 md:flex-row md:px-20 lg:px-40">
       <div className="flex w-full items-center justify-between md:w-auto">
@@ -92,14 +111,37 @@ function Navbar({ headerData }: NavbarProps) {
       {/* Desktop Navigation */}
       <div className="hidden items-center gap-5 md:flex">
         <Links links={headerData.links} />
-        <CTAButtons ctaButtons={headerData.ctaButtons} />
+        {headerData.isAuthenticated ? (
+          <UserDropdown
+            options={headerData.dropdownOptions || defaultDropdownOptions}
+            onChange={(value) => {
+              // Handle dropdown change (e.g. navigate or update state)
+              console.log('Selected:', value);
+            }}
+          />
+        ) : (
+          <CTAButtons
+            ctaButtons={{ ...headerData.ctaButtons, onClick: () => {} }}
+          />
+        )}
       </div>
 
       {/* Mobile Navigation */}
       {isOpen && (
         <nav className="mt-10 flex w-full flex-col items-center gap-5 md:hidden">
           <Links links={headerData.links} />
-          <CTAButtons ctaButtons={headerData.ctaButtons} />
+          {headerData.isAuthenticated ? (
+            <UserDropdown
+              options={headerData.dropdownOptions || defaultDropdownOptions}
+              onChange={(value) => {
+                console.log('Selected:', value);
+              }}
+            />
+          ) : (
+            <CTAButtons
+              ctaButtons={{ ...headerData.ctaButtons, onClick: () => {} }}
+            />
+          )}
         </nav>
       )}
     </div>
@@ -137,24 +179,61 @@ interface CTAButtonsProps {
     registerText: string;
     loginHref: string;
     registerHref: string;
+    onClick: () => void;
   };
 }
 
 function CTAButtons({ ctaButtons }: CTAButtonsProps) {
   const buttons = [
-    { text: ctaButtons.loginText, href: ctaButtons.loginHref },
-    { text: ctaButtons.registerText, href: ctaButtons.registerHref },
+    {
+      text: ctaButtons.loginText,
+      href: ctaButtons.loginHref,
+      onClick: ctaButtons.onClick,
+    },
+    {
+      text: ctaButtons.registerText,
+      href: ctaButtons.registerHref,
+      onClick: ctaButtons.onClick,
+    },
   ];
 
   return (
     <div className="flex gap-5 pb-4 md:pb-0">
       {buttons.map((button) => (
         <Link key={button.href} href={button.href}>
-          <Button variant={'default'} effect={'ringHover'}>
+          <Button
+            variant={'default'}
+            effect={'ringHover'}
+            onClick={button.onClick}
+          >
             {button.text}
           </Button>
         </Link>
       ))}
     </div>
+  );
+}
+
+// New Component: UserDropdown using shadcn's Select.
+interface UserDropdownProps {
+  options: { value: string; label: string }[];
+  onChange: (value: string) => void;
+  defaultValue?: string;
+}
+
+function UserDropdown({ options, onChange, defaultValue }: UserDropdownProps) {
+  return (
+    <Select onValueChange={onChange} defaultValue={defaultValue}>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Account" />
+      </SelectTrigger>
+      <SelectContent>
+        {options.map((option) => (
+          <SelectItem key={option.value} value={option.value}>
+            {option.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }

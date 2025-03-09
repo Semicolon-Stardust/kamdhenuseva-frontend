@@ -65,28 +65,13 @@ export default function SettingsLayout({
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
+    <div className="min-h-screen pt-14">
       <div className="flex">
-        {/* Vertical Sidebar */}
-        <VerticalSidebar
-          heading="User Settings"
-          headingLink={`/settings`}
-          links={[
-            { label: 'Verify Email', href: `/settings/verify-email` },
-            { label: 'Change Password', href: `/settings/password-change` },
-            {
-              label: 'Two Factor Authentication',
-              href: `/settings/two-factor`,
-            },
-            { label: 'Delete Account', href: `/settings/delete-account` },
-          ]}
-          onLogout={handleLogout}
-        />
         {/* Main content area */}
         <main className="flex-1 p-8">
-          <div className="mx-auto max-w-3xl rounded-lg bg-white p-6 shadow dark:bg-stone-800">
+          <div className="mx-auto max-w-3xl rounded-lg bg-white p-6 shadow">
             {user && (
-              <h1 className="text-3xl font-bold text-black dark:text-white">
+              <h1 className="text-3xl font-bold text-black">
                 {getGreeting()}, {user?.name?.split(' ')[0] || 'User'}
               </h1>
             )}

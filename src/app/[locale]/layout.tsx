@@ -8,7 +8,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import Providers from './provider';
 import Header from '@/components/ui/header/header';
-import Footer from '@/components/ui/footer/footer';
+
 
 export const metadata: Metadata = {
   title: 'DAYA - Kamdhenuseva',
@@ -21,9 +21,7 @@ export default async function LocaleLayout(props: {
   params: Promise<{ locale: string }>;
 }) {
   const params = await props.params;
-
   const { children } = props;
-
   const { locale } = params;
 
   setRequestLocale(locale);
@@ -31,6 +29,8 @@ export default async function LocaleLayout(props: {
   if (!routing.locales.includes(locale as Locale)) {
     notFound();
   }
+
+
 
   const messages = await getMessages();
 
@@ -44,7 +44,7 @@ export default async function LocaleLayout(props: {
             enableSystem
             disableTransitionOnChange
           >
-            {/* <Header
+            <Header
               headerData={{
                 logoSrc: '/logo.png',
                 logoText: 'Daya Devraha',
@@ -60,8 +60,15 @@ export default async function LocaleLayout(props: {
                   loginHref: '/login',
                   registerHref: '/register',
                 },
+                // Dynamically set authentication state.
+                // isAuthenticated,
+                dropdownOptions: [
+                  { value: 'profile', label: 'Profile' },
+                  { value: 'settings', label: 'Settings' },
+                  { value: 'logout', label: 'Logout' },
+                ],
               }}
-            /> */}
+            />
             {children}
             {/* <Footer /> */}
           </ThemeProvider>
