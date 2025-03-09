@@ -55,6 +55,24 @@
     "cowCarousel": {
       "heading": "Meet Our Sacred Cows",
       "description": "Each cow in our ashram holds a special place in our hearts. Get to know them!"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "description": "Find answers to common queries below.",
+      "questions": {
+        "1": {
+          "question": "How can I donate to the cows?",
+          "answer": "You can donate online through our donation page or visit our ashram in person."
+        },
+        "2": {
+          "question": "Where is the ashram located?",
+          "answer": "The ashram is located in Vrindavan, India. You can find it on Google Maps."
+        },
+        "3": {
+          "question": "Can I visit the cows in person?",
+          "answer": "Yes, visitors are welcome to the ashram to meet and care for the cows."
+        }
+      }
     }
   },
   "AboutPage": {
