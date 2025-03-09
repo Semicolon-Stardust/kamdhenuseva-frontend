@@ -14,7 +14,7 @@ import {
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useLocale } from 'next-intl';
-import { Cow } from '@/data/cows';
+import type { Cow } from '@/data/cows';
 
 interface CowCarouselProps {
   cows: Cow[];
@@ -50,7 +50,7 @@ export function CowCarousel({ cows, limit = cows.length }: CowCarouselProps) {
               className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
             >
               <Link href={`/${locale}/donate/${cow._id}`} className="block">
-                <Card className="relative overflow-hidden rounded-lg shadow-lg transition-transform hover:opacity-90">
+                <Card className="group relative overflow-hidden rounded-lg shadow-lg transition-transform hover:opacity-90">
                   {/* Cow Image */}
                   <Image
                     src={cow.photo}
@@ -59,11 +59,17 @@ export function CowCarousel({ cows, limit = cows.length }: CowCarouselProps) {
                     height={400}
                     className="h-64 w-full object-cover"
                   />
-                  {/* Name Overlay */}
+                  {/* Name Overlay (always visible) */}
                   <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent px-4 py-3">
                     <h3 className="text-lg font-semibold text-white">
                       {cow.name}
                     </h3>
+                  </div>
+                  {/* Description Overlay (shown on hover) */}
+                  <div className="bg-opacity-70 absolute inset-0 flex items-center justify-center bg-black px-4 py-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <p className="text-center text-sm text-white">
+                      {cow.description}
+                    </p>
                   </div>
                 </Card>
               </Link>

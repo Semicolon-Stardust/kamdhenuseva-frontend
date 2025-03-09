@@ -74,7 +74,7 @@ export default function RegisterPage() {
   // Redirect if already authenticated.
   useEffect(() => {
     if (authData?.isAuthenticated || storeAuthenticated) {
-      router.push(`/${locale}/settings`);
+      router.push(`/${locale}/dashboard`);
     }
   }, [authData, storeAuthenticated, router, locale]);
 

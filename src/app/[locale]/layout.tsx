@@ -7,8 +7,7 @@ import { Locale, routing } from '@/i18n/routing';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import Providers from './provider';
-import Header from '@/components/ui/header/header';
-import Footer from '@/components/ui/footer/footer';
+import AuthHeaderWrapper from '@/components/ui/header/AuthHeaderWrapper';
 
 export const metadata: Metadata = {
   title: 'DAYA - Kamdhenuseva',
@@ -21,9 +20,7 @@ export default async function LocaleLayout(props: {
   params: Promise<{ locale: string }>;
 }) {
   const params = await props.params;
-
   const { children } = props;
-
   const { locale } = params;
 
   setRequestLocale(locale);
@@ -38,32 +35,9 @@ export default async function LocaleLayout(props: {
     <section lang={locale}>
       <NextIntlClientProvider messages={messages}>
         <Providers>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Header
-              headerData={{
-                logoSrc: '/logo.png',
-                logoText: 'Daya Devraha',
-                links: [
-                  { linkName: 'Home', href: '/' },
-                  { linkName: 'About Us', href: '/about' },
-                  { linkName: 'Donate', href: '/donate' },
-                  { linkName: 'Contact Us', href: '/contact' },
-                ],
-                ctaButtons: {
-                  loginText: 'Login',
-                  registerText: 'Register',
-                  loginHref: '/login',
-                  registerHref: '/register',
-                },
-              }}
-            />
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+            <AuthHeaderWrapper />
             {children}
-            <Footer />
           </ThemeProvider>
         </Providers>
       </NextIntlClientProvider>
