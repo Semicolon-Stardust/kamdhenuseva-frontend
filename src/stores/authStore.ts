@@ -806,7 +806,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   updateCow: async (id: string, data) => {
     set({ isLoading: true, error: null });
     try {
-      await apiClient.put(`/admin/cows/${id}`, data);
+      await apiClient.put(`/cows/admin/cows/${id}`, data);
       set({ isLoading: false });
     } catch (err: any) {
       set({ error: err.message || 'Failed to update cow', isLoading: false });
@@ -817,7 +817,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   deleteCow: async (id: string) => {
     set({ isLoading: true, error: null });
     try {
-      await apiClient.delete(`/admin/cows/${id}`);
+      await apiClient.delete(`cows/admin/cows/${id}`);
       set({ isLoading: false });
     } catch (err: any) {
       set({ error: err.message || 'Failed to delete cow', isLoading: false });

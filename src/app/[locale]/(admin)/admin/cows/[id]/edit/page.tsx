@@ -1,26 +1,40 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
+
 interface CowFormValues {
   name: string;
-  age: number;
+  photo?: string;
+  description?: string;
+  sicknessStatus: boolean;
+  gender?: string;
+  agedStatus: boolean;
+  adoptionStatus: boolean;
 }
 
 export default function AdminCowEdit() {
-  const { id } = useParams();
-  // Ensure id is always a string
+  const { id, locale } = useParams();
   const cowId = Array.isArray(id) ? id[0] : id;
   const router = useRouter();
   const fetchCowById = useAuthStore((state) => state.fetchCowById);
   const updateCow = useAuthStore((state) => state.updateCow);
 
-  // Use TanStack Query to fetch the cow data
   const {
     data: cow,
     isLoading,
@@ -28,9 +42,7 @@ export default function AdminCowEdit() {
   } = useQuery({
     queryKey: ['cow', cowId],
     queryFn: async () => {
-      if (cowId) {
-        return await fetchCowById(cowId);
-      }
+      if (cowId) return await fetchCowById(cowId);
       return null;
     },
     enabled: Boolean(cowId),
@@ -40,24 +52,30 @@ export default function AdminCowEdit() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<CowFormValues>();
 
-  // When the cow data is loaded, reset the form with default values
   useEffect(() => {
     if (cow) {
-      reset({ name: cow.name, age: cow.age });
+      reset({
+        name: cow.name,
+        photo: cow.photo || '',
+        description: cow.description || '',
+        sicknessStatus: cow.sicknessStatus,
+        gender: cow.gender || undefined,
+        agedStatus: cow.agedStatus,
+        adoptionStatus: cow.adoptionStatus,
+      });
     }
   }, [cow, reset]);
 
   const mutation = useMutation({
     mutationFn: async (data: CowFormValues) => {
-      if (cowId) {
-        await updateCow(cowId, data);
-      }
+      if (cowId) await updateCow(cowId, data);
     },
     onSuccess: () => {
-      router.push('/admin/cows');
+      router.push(`/${locale}/admin/cows`);
     },
   });
 
@@ -74,44 +92,112 @@ export default function AdminCowEdit() {
     <motion.div
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      className="p-4"
+      className="min-h-screen p-40 bg-background text-foreground"
     >
       <h1 className="mb-4 text-2xl font-bold">Edit Cow</h1>
       {mutation.isError && (
-        <div className="mb-4 text-red-600">
+        <div className="mb-4 text-destructive">
           Error: {(mutation.error as Error)?.message}
         </div>
       )}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {/* Name */}
         <div>
-          <label className="block">Name:</label>
-          <input
+          <Label htmlFor="name">Name:</Label>
+          <Input
+            id="name"
             type="text"
             {...register('name', { required: 'Name is required' })}
-            className="w-full rounded border p-2"
           />
           {errors.name && (
-            <span className="text-red-500">{errors.name.message}</span>
+            <span className="text-destructive">{errors.name.message}</span>
           )}
         </div>
+
+        {/* Photo URL */}
         <div>
-          <label className="block">Age:</label>
-          <input
-            type="number"
-            {...register('age', {
-              required: 'Age is required',
-              valueAsNumber: true,
-            })}
-            className="w-full rounded border p-2"
-          />
-          {errors.age && (
-            <span className="text-red-500">{errors.age.message}</span>
-          )}
+          <Label htmlFor="photo">Photo URL:</Label>
+          <Input id="photo" type="text" {...register('photo')} />
         </div>
+
+        {/* Description */}
+        <div>
+          <Label htmlFor="description">Description:</Label>
+          <Textarea id="description" {...register('description')} />
+        </div>
+
+        {/* Gender Select */}
+        <div>
+          <Label htmlFor="gender">Gender:</Label>
+          <Controller
+            control={control}
+            name="gender"
+            render={({ field }) => (
+              <Select
+                onValueChange={field.onChange}
+                value={field.value || undefined}
+              >
+                <SelectTrigger>
+                  {field.value ? field.value : 'Select Gender'}
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Male">Male</SelectItem>
+                  <SelectItem value="Female">Female</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
+        </div>
+
+        {/* Sickness Status */}
+        <div className="flex items-center space-x-2">
+          <Controller
+            control={control}
+            name="sicknessStatus"
+            render={({ field: { onChange, value } }) => (
+              <Checkbox
+                checked={value}
+                onCheckedChange={(checked) => onChange(checked)}
+              />
+            )}
+          />
+          <Label>Sick?</Label>
+        </div>
+
+        {/* Aged Status */}
+        <div className="flex items-center space-x-2">
+          <Controller
+            control={control}
+            name="agedStatus"
+            render={({ field: { onChange, value } }) => (
+              <Checkbox
+                checked={value}
+                onCheckedChange={(checked) => onChange(checked)}
+              />
+            )}
+          />
+          <Label>Aged?</Label>
+        </div>
+
+        {/* Adoption Status */}
+        <div className="flex items-center space-x-2">
+          <Controller
+            control={control}
+            name="adoptionStatus"
+            render={({ field: { onChange, value } }) => (
+              <Checkbox
+                checked={value}
+                onCheckedChange={(checked) => onChange(checked)}
+              />
+            )}
+          />
+          <Label>Adopted?</Label>
+        </div>
+
         <button
           type="submit"
           disabled={mutation.isPending}
-          className="rounded bg-green-500 px-4 py-2 text-white"
+          className="px-4 py-2 rounded bg-primary text-primary-foreground"
         >
           {mutation.isPending ? 'Updating...' : 'Update Cow'}
         </button>
