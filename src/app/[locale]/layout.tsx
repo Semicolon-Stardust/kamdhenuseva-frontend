@@ -8,6 +8,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import Providers from './provider';
 import AuthHeaderWrapper from '@/components/ui/header/AuthHeaderWrapper';
+import Footer from '@/components/ui/footer/footer';
 
 export const metadata: Metadata = {
   title: 'DAYA - Kamdhenuseva',
@@ -43,6 +44,7 @@ export default async function LocaleLayout(props: {
           >
             <AuthHeaderWrapper />
             {children}
+            <Footer />
           </ThemeProvider>
         </Providers>
       </NextIntlClientProvider>
