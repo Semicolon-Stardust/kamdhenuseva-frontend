@@ -51,7 +51,7 @@ export default function VerifyOTPPage() {
     onSuccess: () => {
       setSuccessMessage('OTP verified successfully!');
       setTimeout(() => {
-        router.push(`/${locale}/admin/settings`);
+        router.push(`/${locale}/admin/dashboard`);
       }, 2000);
     },
     onError: () => {

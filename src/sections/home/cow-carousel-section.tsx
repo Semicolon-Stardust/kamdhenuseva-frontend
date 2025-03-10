@@ -2,11 +2,31 @@
 
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
-import { cows } from '@/data/cows';
+import { useAuthStore } from '@/stores/authStore';
+import { useQuery } from '@tanstack/react-query';
 import { CowCarousel } from '@/components/cows/cow-carousel';
 
 export function CowCarouselSection() {
   const t = useTranslations('HomePage.cowCarousel');
+  const fetchCows = useAuthStore((state) => state.fetchCows);
+
+  // Use TanStack Query to fetch cows data
+  const {
+    data: cowsData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['cows'],
+    queryFn: async () => {
+      await fetchCows();
+      return useAuthStore.getState().cows;
+    },
+    staleTime: 300000,
+    refetchOnWindowFocus: false,
+  });
+
+  if (isLoading) return <div>Loading cows...</div>;
+  if (isError || !cowsData) return <div>Error fetching cows data.</div>;
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-12">
@@ -16,7 +36,7 @@ export function CowCarouselSection() {
       <p className="mt-2 text-center text-gray-600 sm:text-lg">
         {t('description')}
       </p>
-      <CowCarousel cows={cows} limit={10} />
+      <CowCarousel cows={cowsData} limit={10} />
     </section>
   );
 }

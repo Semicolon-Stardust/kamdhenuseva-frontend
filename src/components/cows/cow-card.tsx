@@ -1,17 +1,17 @@
 import Image from 'next/image';
-import Link from 'next/link';
-import { useLocale } from 'next-intl';
+import { Link } from '@/i18n/routing';
+
 import { Cow } from '@/data/cows';
 
 interface CowCardProps {
   cow: Cow;
+  link: string;
 }
 
-export default function CowCard({ cow }: CowCardProps) {
-  const locale = useLocale();
+export default function CowCard({ cow, link }: CowCardProps) {
 
   return (
-    <Link href={`/${locale}/donate/${cow._id}`} className="block">
+    <Link href={`${link}`} className="block">
       <div className="h-64 cursor-pointer overflow-hidden rounded-lg border border-gray-200 shadow-md transition-all duration-300 hover:opacity-90 sm:h-72 md:h-80">
         {/* Image (Top Half) */}
         <div className="h-2/3 w-full">

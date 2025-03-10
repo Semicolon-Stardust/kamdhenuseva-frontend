@@ -37,10 +37,10 @@ export default function VerticalSidebar({
       initial="hidden"
       animate="visible"
       variants={sidebarVariants}
-      className="fixed top-0 left-0 z-10 flex h-full w-64 flex-col bg-gray-200 p-6 shadow-lg dark:bg-black"
+      className="bg-background fixed top-0 left-0 z-10 flex h-full w-64 flex-col p-6 shadow-lg"
     >
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+        <h2 className="text-foreground text-2xl font-bold">
           <Link href={headingLink}>{heading}</Link>
         </h2>
       </div>
@@ -49,7 +49,7 @@ export default function VerticalSidebar({
           <Link
             key={link.href}
             href={link.href}
-            className="text-lg text-gray-700 hover:text-black dark:text-white dark:hover:text-white"
+            className="text-foreground hover:text-accent text-lg"
           >
             {link.label}
           </Link>

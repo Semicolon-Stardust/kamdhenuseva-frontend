@@ -1,19 +1,23 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Link } from '@/i18n/routing';
-import { useState, useEffect } from 'react';
 import { Button } from '../button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 import Image from 'next/image';
+// Import your Radix Dropdown primitives (adjust the path as needed)
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
 
 export interface HeaderData {
   logoSrc: string;
   logoText: string;
-  links: {
-    linkName: string;
-    href: string;
-  }[];
+  links: { linkName: string; href: string }[];
   ctaButtons: {
     loginText: string;
     registerText: string;
@@ -22,24 +26,47 @@ export interface HeaderData {
   };
 }
 
-interface HeaderProps {
-  headerData: HeaderData | undefined;
+export interface AuthData {
+  isAuthenticated: boolean;
+  userName: string;
+  dropdownOptions?: {
+    value: string;
+    label: string;
+    href?: string;
+    onClick?: () => void;
+  }[];
 }
 
-export default function Header({ headerData }: HeaderProps) {
+interface HeaderProps {
+  headerData?: HeaderData;
+  authData?: AuthData;
+}
+
+export default function Header({ headerData, authData }: HeaderProps) {
+  // Use fallback static header data if none is passed.
+  const staticHeaderData: HeaderData = headerData || {
+    logoSrc: '/logo.png',
+    logoText: 'Daya Devraha',
+    links: [
+      { linkName: 'Home', href: '/' },
+      { linkName: 'About Us', href: '/about' },
+      { linkName: 'Donate', href: '/donate' },
+      { linkName: 'Contact Us', href: '/contact' },
+    ],
+    ctaButtons: {
+      loginText: 'Login',
+      registerText: 'Register',
+      loginHref: '/login',
+      registerHref: '/register',
+    },
+  };
+
   const [scrolled, setScrolled] = useState(false);
-
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Render a fallback while headerData is undefined.
-  if (!headerData) return <div>Loading...</div>;
 
   return (
     <header
@@ -50,21 +77,22 @@ export default function Header({ headerData }: HeaderProps) {
           : 'transition-shadow duration-500',
       )}
     >
-      <Navbar headerData={headerData} />
+      <Navbar headerData={staticHeaderData} authData={authData} />
     </header>
   );
 }
 
 interface NavbarProps {
   headerData: HeaderData;
+  authData?: AuthData;
 }
 
-function Navbar({ headerData }: NavbarProps) {
+function Navbar({ headerData, authData }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="flex flex-col items-center justify-between px-5 py-1 md:flex-row md:px-20 lg:px-40">
-      <div className="flex w-full items-center justify-between md:w-auto">
+      <div className="flex items-center justify-between w-full md:w-auto">
         <Link href="/" className="flex items-center gap-1">
           <Image
             src={headerData.logoSrc}
@@ -72,7 +100,7 @@ function Navbar({ headerData }: NavbarProps) {
             width={60}
             height={60}
             priority
-            className="h-14 w-14 p-1 lg:h-16 lg:w-16"
+            className="p-1 h-14 w-14 lg:h-16 lg:w-16"
           />
           <h1 className="text-2xl font-bold text-white lg:text-3xl dark:text-white">
             {headerData.logoText}
@@ -80,9 +108,9 @@ function Navbar({ headerData }: NavbarProps) {
         </Link>
         <div className="md:hidden">
           <Button
-            variant={'link'}
+            variant="link"
             className="bg-accent text-lg font-[300] text-white dark:bg-white dark:text-black"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsOpen((prev) => !prev)}
           >
             {isOpen ? <X size={30} /> : <Menu size={30} />}
           </Button>
@@ -90,16 +118,24 @@ function Navbar({ headerData }: NavbarProps) {
       </div>
 
       {/* Desktop Navigation */}
-      <div className="hidden items-center gap-5 md:flex">
+      <div className="items-center hidden gap-5 md:flex">
         <Links links={headerData.links} />
-        <CTAButtons ctaButtons={headerData.ctaButtons} />
+        {authData && authData.isAuthenticated ? (
+          <UserDropdown authData={authData} />
+        ) : (
+          <CTAButtons ctaButtons={headerData.ctaButtons} />
+        )}
       </div>
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <nav className="mt-10 flex w-full flex-col items-center gap-5 md:hidden">
+        <nav className="flex flex-col items-center w-full gap-5 mt-10 md:hidden">
           <Links links={headerData.links} />
-          <CTAButtons ctaButtons={headerData.ctaButtons} />
+          {authData && authData.isAuthenticated ? (
+            <UserDropdown authData={authData} />
+          ) : (
+            <CTAButtons ctaButtons={headerData.ctaButtons} />
+          )}
         </nav>
       )}
     </div>
@@ -107,10 +143,7 @@ function Navbar({ headerData }: NavbarProps) {
 }
 
 interface LinksProps {
-  links: {
-    linkName: string;
-    href: string;
-  }[];
+  links: { linkName: string; href: string }[];
 }
 
 function Links({ links }: LinksProps) {
@@ -119,8 +152,8 @@ function Links({ links }: LinksProps) {
       {links.map((link) => (
         <li key={link.href}>
           <Button
-            variant={'link'}
-            effect={'hoverUnderline'}
+            variant="link"
+            effect="hoverUnderline"
             className="text-lg font-[300] text-white dark:text-white"
           >
             <Link href={link.href}>{link.linkName}</Link>
@@ -137,24 +170,63 @@ interface CTAButtonsProps {
     registerText: string;
     loginHref: string;
     registerHref: string;
+    onClick?: () => void;
   };
 }
 
 function CTAButtons({ ctaButtons }: CTAButtonsProps) {
   const buttons = [
-    { text: ctaButtons.loginText, href: ctaButtons.loginHref },
-    { text: ctaButtons.registerText, href: ctaButtons.registerHref },
+    {
+      text: ctaButtons.loginText,
+      href: ctaButtons.loginHref,
+      onClick: ctaButtons.onClick || (() => {}),
+    },
+    {
+      text: ctaButtons.registerText,
+      href: ctaButtons.registerHref,
+      onClick: ctaButtons.onClick || (() => {}),
+    },
   ];
-
   return (
     <div className="flex gap-5 pb-4 md:pb-0">
       {buttons.map((button) => (
         <Link key={button.href} href={button.href}>
-          <Button variant={'default'} effect={'ringHover'}>
+          <Button variant="default" effect="ringHover" onClick={button.onClick} className={cn("cursor-pointer")}>
             {button.text}
           </Button>
         </Link>
       ))}
     </div>
+  );
+}
+
+interface UserDropdownProps {
+  authData: AuthData;
+}
+
+function UserDropdown({ authData }: UserDropdownProps) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 border rounded-md cursor-pointer bg-background hover:bg-gray-50">
+        <User size={20} />
+        <span>{authData.userName}</span>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56 cursor-pointer">
+        {authData.dropdownOptions?.map((option) => (
+          <DropdownMenuItem
+            key={option.value}
+            onSelect={() => option.onClick && option.onClick()}
+          >
+            {option.href ? (
+              <Link href={option.href} className="block w-full">
+                {option.label}
+              </Link>
+            ) : (
+              option.label
+            )}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
