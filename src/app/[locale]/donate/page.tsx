@@ -52,11 +52,12 @@ export default function CowsPage() {
     refetchOnWindowFocus: false,
   });
 
+  // Filtering and Sorting Logic
   const filteredAndSortedCows = useMemo(() => {
     if (!cows) return [];
 
-    // Filtering
-    let filteredCows = cows.filter((cow) => {
+    // Filtering cows based on search query and selected filters
+    const filteredCows = cows.filter((cow) => {
       return (
         (!searchQuery ||
           cow.name.toLowerCase().includes(searchQuery.toLowerCase())) &&
@@ -66,7 +67,7 @@ export default function CowsPage() {
       );
     });
 
-    // Sorting
+    // Sorting cows based on the selected sort field
     return filteredCows.sort((a, b) => {
       if (sortField === 'name-asc') {
         return a.name.localeCompare(b.name);
@@ -78,29 +79,29 @@ export default function CowsPage() {
   }, [cows, searchQuery, selectedFilter, sortField]);
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-12 md:mt-14">
+    <main className="mx-auto max-w-7xl px-6 py-12 md:mt-14">
       {/* Breadcrumbs */}
-      <Breadcrumb className="mb-6">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>{t('breadcrumb')}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <nav aria-label="breadcrumb" className="mb-6">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{t('breadcrumb')}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </nav>
 
-      <h1 className="text-center text-3xl font-bold sm:text-4xl">
-        {t('heading')}
-      </h1>
-      <p className="mt-2 text-center text-gray-600 sm:text-lg">
-        {t('description')}
-      </p>
+      <header className="text-center">
+        <h1 className="text-3xl font-bold sm:text-4xl">{t('heading')}</h1>
+        <p className="mt-2 text-gray-600 sm:text-lg">{t('description')}</p>
+      </header>
 
       {/* Search, Filter, and Sorting */}
-      <div className="mt-6 flex flex-row items-center justify-between gap-4 sm:flex-row">
+      <section className="mt-6 flex flex-row items-center justify-between gap-4 sm:flex-row">
         <FilterOptions
           selectedFilter={selectedFilter}
           setSelectedFilter={setSelectedFilter}
@@ -119,20 +120,28 @@ export default function CowsPage() {
             desc: 'Z-A',
           }}
         />
-      </div>
+      </section>
 
       {/* Loading & Error Handling */}
       {isLoading && <Loader />}
       {error && (
-        <div>Error: {error instanceof Error ? error.message : error}</div>
+        <div className="mt-4 text-center text-red-500">
+          Error: {error instanceof Error ? error.message : error}
+        </div>
       )}
 
-      {/* Grid layout for cows */}
-      <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {filteredAndSortedCows.map((cow) => (
-          <CowCard key={cow._id} cow={cow} link={`donate/${cow._id}`} />
-        ))}
-      </div>
-    </section>
+      {/* Display Cows */}
+      <section className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {filteredAndSortedCows.length > 0 ? (
+          filteredAndSortedCows.map((cow) => (
+            <CowCard key={cow._id} cow={cow} link={`donate/${cow._id}`} />
+          ))
+        ) : (
+          <p className="col-span-full text-center text-gray-500">
+            No cows found.
+          </p>
+        )}
+      </section>
+    </main>
   );
 }
