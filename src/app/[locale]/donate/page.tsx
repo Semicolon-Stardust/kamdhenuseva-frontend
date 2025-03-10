@@ -16,6 +16,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import Loader from '@/components/ui/loader';
 
 export default function CowsPage() {
   const t = useTranslations('CowsPage');
@@ -101,7 +102,11 @@ export default function CowsPage() {
       </div>
 
       {/* Loading & Error Handling */}
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <div className="min-h-screen">
+          <Loader />
+        </div>
+      )}
       {error && (
         <div>Error: {error instanceof Error ? error.message : error}</div>
       )}
