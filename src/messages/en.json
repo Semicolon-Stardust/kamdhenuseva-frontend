@@ -124,16 +124,37 @@
   },
 
   "DonateCowPage": {
-    "heading": "Donate to {name}",
+    "heading": "Support {name} with your donation",
+    "description": "Your generous donation will provide proper care and food for {name}.",
+    "cowDetails": "Cow Details",
+    "isSick": "Sick",
     "gender": "Gender",
     "isAged": "Aged",
-    "isSick": "Sick",
-    "adoptionStatus": "Adoption Status",
-    "adopted": "Adopted",
-    "available": "Available",
+    "adoptionStatus": "Adopted",
     "yes": "Yes",
     "no": "No",
-    "donateNow": "Donate Now"
+    "adopted": "Yes",
+    "available": "This cow is available for adoption",
+    "donateNow": "Donate Now",
+
+    "highlights": "Highlights",
+    "descriptionLabel": "Description",
+
+    "benefitsOfDonating": "Benefits of Donating",
+    "supportAnimalWelfare": "Supports animal welfare and protection.",
+    "taxDeduction": "May be tax-deductible (depending on region).",
+    "spiritualBlessings": "Brings blessings and positive karma.",
+
+    "benefitsForCow": "How This Helps the Cow",
+    "nutritiousFood": "Provides high-quality, nutritious food.",
+    "properMedicalCare": "Ensures regular veterinary care and treatment.",
+    "safeShelter": "Keeps the cow in a safe and loving environment.",
+
+    "disclaimer": "Disclaimer",
+    "disclaimerText": "We strive for accuracy, but details may change. Please verify with our support team.",
+
+    "customerCare": "Customer Care",
+    "contactUs": "For assistance, contact us at"
   },
 
   "ContactPage": {
