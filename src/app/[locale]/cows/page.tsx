@@ -32,7 +32,6 @@ export default function UserCowList() {
         {cows.map((cow) => (
           <li key={cow._id} className="mb-2">
             <Link href={`/cows/${cow._id}`} className="text-blue-500 underline">
-            
               {cow.name}
             </Link>
           </li>

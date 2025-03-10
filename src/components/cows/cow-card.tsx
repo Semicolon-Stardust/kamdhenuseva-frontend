@@ -9,7 +9,6 @@ interface CowCardProps {
 }
 
 export default function CowCard({ cow, link }: CowCardProps) {
-
   return (
     <Link href={`${link}`} className="block">
       <div className="h-64 cursor-pointer overflow-hidden rounded-lg border border-gray-200 shadow-md transition-all duration-300 hover:opacity-90 sm:h-72 md:h-80">

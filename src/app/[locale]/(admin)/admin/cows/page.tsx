@@ -34,12 +34,12 @@ export default function AdminCowList() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="p-40 bg-background text-foreground"
+      className="bg-background text-foreground p-40"
     >
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold text-primary">Admin - Cow List</h1>
+      <div className="mb-4 flex items-center justify-between">
+        <h1 className="text-primary text-2xl font-bold">Admin - Cow List</h1>
         <Link href={`/admin/cows/create`}>
-          <button className="px-4 py-2 transition-colors rounded bg-primary text-primary-foreground hover:bg-primary-dark">
+          <button className="bg-primary text-primary-foreground hover:bg-primary-dark rounded px-4 py-2 transition-colors">
             Create New Cow
           </button>
         </Link>
@@ -66,7 +66,7 @@ export default function AdminCowList() {
                 <TableCell>{cow.name}</TableCell>
                 <TableCell className="text-right">
                   <Link href={`/admin/cows/${cow._id}/edit`}>
-                    <button className="px-2 py-1 transition-colors rounded bg-primary text-primary-foreground hover:bg-primary-dark">
+                    <button className="bg-primary text-primary-foreground hover:bg-primary-dark rounded px-2 py-1 transition-colors">
                       Edit
                     </button>
                   </Link>

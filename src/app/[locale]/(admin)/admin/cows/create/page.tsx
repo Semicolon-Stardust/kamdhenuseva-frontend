@@ -63,15 +63,15 @@ export default function AdminCowCreate() {
     <motion.div
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      className="flex items-center justify-center min-h-screen p-8 bg-background text-foreground"
+      className="bg-background text-foreground flex min-h-screen items-center justify-center p-8"
     >
-      <div className="max-w-md mx-auto overflow-hidden rounded-lg shadow-lg bg-card">
+      <div className="bg-card mx-auto max-w-md overflow-hidden rounded-lg shadow-lg">
         <div className="p-6">
-          <h1 className="mb-4 text-2xl font-bold text-center">
+          <h1 className="mb-4 text-center text-2xl font-bold">
             Create New Cow
           </h1>
           {mutation.isError && (
-            <div className="mb-4 text-destructive">
+            <div className="text-destructive mb-4">
               Error: {(mutation.error as Error)?.message}
             </div>
           )}
@@ -172,7 +172,7 @@ export default function AdminCowCreate() {
             <button
               type="submit"
               disabled={mutation.isPending}
-              className="w-full px-4 py-2 transition-colors rounded bg-primary text-primary-foreground hover:bg-primary-dark"
+              className="bg-primary text-primary-foreground hover:bg-primary-dark w-full rounded px-4 py-2 transition-colors"
             >
               {mutation.isPending ? 'Creating...' : 'Create Cow'}
             </button>

@@ -92,11 +92,11 @@ export default function AdminCowEdit() {
     <motion.div
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      className="min-h-screen p-40 bg-background text-foreground"
+      className="bg-background text-foreground min-h-screen p-40"
     >
       <h1 className="mb-4 text-2xl font-bold">Edit Cow</h1>
       {mutation.isError && (
-        <div className="mb-4 text-destructive">
+        <div className="text-destructive mb-4">
           Error: {(mutation.error as Error)?.message}
         </div>
       )}
@@ -197,7 +197,7 @@ export default function AdminCowEdit() {
         <button
           type="submit"
           disabled={mutation.isPending}
-          className="px-4 py-2 rounded bg-primary text-primary-foreground"
+          className="bg-primary text-primary-foreground rounded px-4 py-2"
         >
           {mutation.isPending ? 'Updating...' : 'Update Cow'}
         </button>

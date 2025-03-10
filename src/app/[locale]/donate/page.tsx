@@ -34,7 +34,6 @@ export default function CowsPage() {
     refetchOnWindowFocus: false,
   });
 
-  
   return (
     <section className="mx-auto max-w-7xl px-6 py-12 md:mt-14">
       {/* Breadcrumbs */}
@@ -65,7 +64,9 @@ export default function CowsPage() {
 
       {/* Grid layout for cows */}
       <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {cowsData?.map((cow: any) => <CowCard key={cow._id} cow={cow} link={`donate/${cow._id}`} />)}
+        {cowsData?.map((cow: any) => (
+          <CowCard key={cow._id} cow={cow} link={`donate/${cow._id}`} />
+        ))}
       </div>
     </section>
   );

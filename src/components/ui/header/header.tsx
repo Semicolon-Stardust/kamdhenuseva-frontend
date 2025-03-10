@@ -92,7 +92,7 @@ function Navbar({ headerData, authData }: NavbarProps) {
 
   return (
     <div className="flex flex-col items-center justify-between px-5 py-1 md:flex-row md:px-20 lg:px-40">
-      <div className="flex items-center justify-between w-full md:w-auto">
+      <div className="flex w-full items-center justify-between md:w-auto">
         <Link href="/" className="flex items-center gap-1">
           <Image
             src={headerData.logoSrc}
@@ -100,7 +100,7 @@ function Navbar({ headerData, authData }: NavbarProps) {
             width={60}
             height={60}
             priority
-            className="p-1 h-14 w-14 lg:h-16 lg:w-16"
+            className="h-14 w-14 p-1 lg:h-16 lg:w-16"
           />
           <h1 className="text-2xl font-bold text-white lg:text-3xl dark:text-white">
             {headerData.logoText}
@@ -118,7 +118,7 @@ function Navbar({ headerData, authData }: NavbarProps) {
       </div>
 
       {/* Desktop Navigation */}
-      <div className="items-center hidden gap-5 md:flex">
+      <div className="hidden items-center gap-5 md:flex">
         <Links links={headerData.links} />
         {authData && authData.isAuthenticated ? (
           <UserDropdown authData={authData} />
@@ -129,7 +129,7 @@ function Navbar({ headerData, authData }: NavbarProps) {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <nav className="flex flex-col items-center w-full gap-5 mt-10 md:hidden">
+        <nav className="mt-10 flex w-full flex-col items-center gap-5 md:hidden">
           <Links links={headerData.links} />
           {authData && authData.isAuthenticated ? (
             <UserDropdown authData={authData} />
@@ -191,7 +191,12 @@ function CTAButtons({ ctaButtons }: CTAButtonsProps) {
     <div className="flex gap-5 pb-4 md:pb-0">
       {buttons.map((button) => (
         <Link key={button.href} href={button.href}>
-          <Button variant="default" effect="ringHover" onClick={button.onClick} className={cn("cursor-pointer")}>
+          <Button
+            variant="default"
+            effect="ringHover"
+            onClick={button.onClick}
+            className={cn('cursor-pointer')}
+          >
             {button.text}
           </Button>
         </Link>
@@ -207,7 +212,7 @@ interface UserDropdownProps {
 function UserDropdown({ authData }: UserDropdownProps) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 border rounded-md cursor-pointer bg-background hover:bg-gray-50">
+      <DropdownMenuTrigger className="bg-background inline-flex cursor-pointer items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
         <User size={20} />
         <span>{authData.userName}</span>
       </DropdownMenuTrigger>

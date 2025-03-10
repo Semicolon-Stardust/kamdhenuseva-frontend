@@ -32,15 +32,20 @@ export default async function LocaleLayout(props: {
   const messages = await getMessages();
 
   return (
-    <section lang={locale}>
+    <main lang={locale}>
       <NextIntlClientProvider messages={messages}>
         <Providers>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
             <AuthHeaderWrapper />
             {children}
           </ThemeProvider>
         </Providers>
       </NextIntlClientProvider>
-    </section>
+    </main>
   );
 }
