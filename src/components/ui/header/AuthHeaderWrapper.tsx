@@ -84,8 +84,8 @@ export default function AuthHeaderWrapper() {
       dropdownOptions: [
         {
           value: 'dashboard',
-          label: user.name || 'Dashboard',
-          href: '/dashboard',
+          label: `Account Settings(${user.name ? user.name.split(' ')[0] : 'User'})` || 'Dashboard',
+          href: `/${user.name ? user.name.split(' ')[0].toLowerCase() : 'user'}-settings`,
         },
         {
           value: 'logout',

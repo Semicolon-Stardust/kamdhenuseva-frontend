@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-// Updated validation schema: Removed adminKey field.
 const registerSchema = z
   .object({
     name: z.string().nonempty({ message: 'Name is required' }),
@@ -51,16 +51,26 @@ export default function AdminRegisterPage() {
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
   });
-  const { registerAdmin, isLoading, error, admin } = useAuthStore();
+  const { registerAdmin, logoutAdmin, isLoading, error, admin } = useAuthStore();
   const router = useRouter();
   const params = useParams();
   const locale = params.locale || 'en';
 
-  // If already registered and logged in, redirect to admin dashboard.
-  if (admin) {
-    router.push(`/${locale}/admin/dashboard`);
-    return null;
-  }
+  // If already logged in:
+  // • if verified: push to dashboard
+  // • if not verified: logout and push to login page
+  useEffect(() => {
+    if (admin) {
+      if (admin.isVerified) {
+        router.push(`/${locale}/admin/dashboard`);
+      } else {
+        (async () => {
+          await logoutAdmin();
+          router.push(`/${locale}/admin/login`);
+        })();
+      }
+    }
+  }, [admin, router, locale, logoutAdmin]);
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
@@ -69,9 +79,9 @@ export default function AdminRegisterPage() {
         data.email,
         data.password,
         data.confirmPassword,
-        data.dateOfBirth ?? '',
+        data.dateOfBirth ?? ''
       );
-      // After registration, redirect to verify-email page.
+      // After registration, redirect to verify-email page
       router.push(`/${locale}/admin/verify-email`);
     } catch (err) {
       console.error('Registration error:', err);
@@ -122,7 +132,7 @@ export default function AdminRegisterPage() {
               type="email"
               {...register('email')}
               className="mt-1 w-full"
-              placeholder="admin@dayadevraha.com"
+              placeholder="admin@example.com"
             />
             {errors.email && (
               <p className="text-destructive mt-1 text-xs">
@@ -148,10 +158,7 @@ export default function AdminRegisterPage() {
             )}
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium"
-            >
+            <Label htmlFor="confirmPassword" className="block text-sm font-medium">
               Confirm Password
             </Label>
             <Input
