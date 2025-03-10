@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectContent,
   SelectItem,
+  SelectValue,
 } from '@/components/ui/select';
 
 interface CowFormValues {
@@ -137,13 +138,16 @@ export default function AdminCowEdit() {
           <Controller
             control={control}
             name="gender"
+            defaultValue={cow?.gender || ''} // set default value from cow data
             render={({ field }) => (
               <Select
                 onValueChange={field.onChange}
-                value={field.value || undefined}
+                value={field.value} // pass field.value directly
               >
                 <SelectTrigger>
-                  {field.value ? field.value : 'Select Gender'}
+                  <SelectValue>
+                    {field.value ? field.value : 'Select Gender'}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Male">Male</SelectItem>

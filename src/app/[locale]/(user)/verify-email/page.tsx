@@ -8,7 +8,7 @@ import { useAuthStore } from '@/stores/authStore';
 export default function VerifyEmailPage() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
-  const { verifyUserEmail, isLoading, error } = useAuthStore();
+  const { verifyUserEmail, logoutUser, isLoading, error } = useAuthStore();
   const router = useRouter();
   const params = useParams();
   const locale = params.locale || 'en';
@@ -35,6 +35,12 @@ export default function VerifyEmailPage() {
       setVerificationStatus('failure');
     }
   }, [token, verifyUserEmail]);
+
+  // Logout then push to login page
+  const handleLogoutAndRedirect = async () => {
+    await logoutUser();
+    router.push(`/${locale}/login`);
+  };
 
   // Framer Motion animation variants for the icons.
   const iconVariants = {
@@ -77,7 +83,7 @@ export default function VerifyEmailPage() {
           </p>
           <button
             className="mt-6 rounded bg-green-500 px-4 py-2 text-white"
-            onClick={() => router.push(`/${locale}/login`)}
+            onClick={handleLogoutAndRedirect}
           >
             Go to Login
           </button>
@@ -106,7 +112,7 @@ export default function VerifyEmailPage() {
           <p className="mt-4 text-xl text-green-600">Email already verified!</p>
           <button
             className="mt-6 rounded bg-green-500 px-4 py-2 text-white"
-            onClick={() => router.push(`/${locale}/login`)}
+            onClick={handleLogoutAndRedirect}
           >
             Go to Login
           </button>
@@ -144,7 +150,7 @@ export default function VerifyEmailPage() {
           </button>
           <button
             className="mt-6 rounded bg-red-500 px-4 py-2 text-white"
-            onClick={() => router.push(`/${locale}/login`)}
+            onClick={handleLogoutAndRedirect}
           >
             Back to Login
           </button>

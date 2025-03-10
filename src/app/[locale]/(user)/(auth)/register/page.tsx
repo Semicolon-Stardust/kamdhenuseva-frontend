@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-// Define a validation schema for registration using Zod.
 const registerSchema = z
   .object({
     name: z.string().nonempty({ message: 'Name is required' }),
@@ -23,9 +22,7 @@ const registerSchema = z
     password: z
       .string()
       .min(6, { message: 'Password must be at least 6 characters long' }),
-    confirmPassword: z
-      .string()
-      .nonempty({ message: 'Please confirm your password' }),
+    confirmPassword: z.string().nonempty({ message: 'Please confirm your password' }),
     dateOfBirth: z.string().optional(),
     emergencyRecoveryContact: z.string().optional(),
   })
@@ -36,7 +33,6 @@ const registerSchema = z
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
-// Framer Motion animation variants.
 const containerVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
@@ -56,29 +52,25 @@ export default function RegisterPage() {
   const {
     registerUser,
     checkUserAuth,
+    logoutUser,
     isAuthenticatedUser: storeAuthenticated,
   } = useAuthStore();
 
-  // Use an object to configure the query.
   const { data: authData } = useQuery({
     queryKey: ['auth'],
     queryFn: async () => {
       const result = await checkUserAuth();
-      // Ensure that we always return an object—even if result is undefined.
       return result ?? { isAuthenticated: false };
     },
-    // Alternatively, you could also provide an initialData:
     initialData: { isAuthenticated: false },
   });
 
-  // Redirect if already authenticated.
   useEffect(() => {
     if (authData?.isAuthenticated || storeAuthenticated) {
       router.push(`/${locale}/dashboard`);
     }
   }, [authData, storeAuthenticated, router, locale]);
 
-  // Use a mutation for registration.
   const registerMutation = useMutation({
     mutationFn: async (data: RegisterFormData) => {
       return await registerUser(
@@ -90,8 +82,14 @@ export default function RegisterPage() {
         data.emergencyRecoveryContact,
       );
     },
-    onSuccess: () => {
-      setRegistrationSuccess(true);
+    onSuccess: async () => {
+      // If the email isn't verified, logout and push to login.
+      if (!useAuthStore.getState().isEmailVerified) {
+        await logoutUser();
+        router.push(`/${locale}/login`);
+      } else {
+        setRegistrationSuccess(true);
+      }
     },
   });
 
@@ -157,10 +155,7 @@ export default function RegisterPage() {
         </motion.h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <motion.div variants={fieldVariants}>
-            <Label
-              htmlFor="name"
-              className="block text-sm font-medium text-white"
-            >
+            <Label htmlFor="name" className="block text-sm font-medium text-white">
               Name
             </Label>
             <Input
@@ -177,10 +172,7 @@ export default function RegisterPage() {
             )}
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Label
-              htmlFor="email"
-              className="block text-sm font-medium text-white"
-            >
+            <Label htmlFor="email" className="block text-sm font-medium text-white">
               Email
             </Label>
             <Input
@@ -197,10 +189,7 @@ export default function RegisterPage() {
             )}
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Label
-              htmlFor="password"
-              className="block text-sm font-medium text-white"
-            >
+            <Label htmlFor="password" className="block text-sm font-medium text-white">
               Password
             </Label>
             <Input
@@ -217,10 +206,7 @@ export default function RegisterPage() {
             )}
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium text-white"
-            >
+            <Label htmlFor="confirmPassword" className="block text-sm font-medium text-white">
               Confirm Password
             </Label>
             <Input
@@ -237,10 +223,7 @@ export default function RegisterPage() {
             )}
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Label
-              htmlFor="dateOfBirth"
-              className="block text-sm font-medium text-white"
-            >
+            <Label htmlFor="dateOfBirth" className="block text-sm font-medium text-white">
               Date of Birth
             </Label>
             <Input
@@ -251,10 +234,7 @@ export default function RegisterPage() {
             />
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Label
-              htmlFor="emergencyRecoveryContact"
-              className="block text-sm font-medium text-white"
-            >
+            <Label htmlFor="emergencyRecoveryContact" className="block text-sm font-medium text-white">
               Emergency Recovery Contact
             </Label>
             <Input
@@ -272,8 +252,7 @@ export default function RegisterPage() {
           </motion.div>
           {registerMutation.error && (
             <p className="text-destructive text-center">
-              {(registerMutation.error as Error)?.message ||
-                'Registration failed.'}
+              {(registerMutation.error as Error)?.message || 'Registration failed.'}
             </p>
           )}
         </form>

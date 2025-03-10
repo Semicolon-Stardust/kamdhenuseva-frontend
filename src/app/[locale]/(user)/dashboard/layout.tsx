@@ -25,6 +25,8 @@ export default function DashboardLayout({
     isAuthenticatedUser,
     checkUserAuth,
     checkUserProfile,
+    logoutUser,
+    isEmailVerified,
   } = useAuthStore();
 
   // Check user authentication on mount.
@@ -40,6 +42,20 @@ export default function DashboardLayout({
       checkUserProfile();
     }
   }, [isAuthenticatedUser, checkUserProfile]);
+
+  // Handle email verification status
+  useEffect(() => {
+    const handleVerificationCheck = async () => {
+      if (isAuthenticatedUser && user && !isEmailVerified) {
+        await logoutUser();
+        router.push(`/${locale}/login`);
+      }
+    };
+    
+    if (user) {
+      handleVerificationCheck();
+    }
+  }, [user, isEmailVerified, isAuthenticatedUser, logoutUser, router, locale]);
 
   // Redirect to login if not authenticated once checking is complete.
   useEffect(() => {

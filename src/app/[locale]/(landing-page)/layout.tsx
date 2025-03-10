@@ -1,9 +1,9 @@
 import Footer from '@/components/ui/footer/footer';
 import AuthHeaderWrapper from '@/components/ui/header/AuthHeaderWrapper';
-import { ReactNode } from 'react';
+import React from 'react';
 
 interface LayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {

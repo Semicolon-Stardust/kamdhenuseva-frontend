@@ -8,7 +8,7 @@ import { useAuthStore } from '@/stores/authStore';
 export default function AdminVerifyEmailPage() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
-  const { verifyAdminEmail, isLoading, error } = useAuthStore();
+  const { verifyAdminEmail, logoutAdmin, isLoading, error } = useAuthStore();
   const router = useRouter();
   const params = useParams();
   const locale = params.locale || 'en';
@@ -45,6 +45,11 @@ export default function AdminVerifyEmailPage() {
     },
   };
 
+  const handleGoToLogin = async () => {
+    await logoutAdmin();
+    router.push(`/${locale}/admin/login`);
+  };
+
   return (
     <motion.div
       className="bg-background dark:bg-background-dark flex min-h-screen flex-col items-center justify-center p-4"
@@ -77,7 +82,7 @@ export default function AdminVerifyEmailPage() {
           </p>
           <button
             className="mt-6 rounded bg-green-500 px-4 py-2 text-white"
-            onClick={() => router.push(`/${locale}/admin/login`)}
+            onClick={handleGoToLogin}
           >
             Go to Login
           </button>
@@ -103,10 +108,12 @@ export default function AdminVerifyEmailPage() {
               d="M5 13l4 4L19 7"
             />
           </svg>
-          <p className="mt-4 text-xl text-green-600">Email already verified!</p>
+          <p className="mt-4 text-xl text-green-600">
+            Email already verified!
+          </p>
           <button
             className="mt-6 rounded bg-green-500 px-4 py-2 text-white"
-            onClick={() => router.push(`/${locale}/admin/login`)}
+            onClick={handleGoToLogin}
           >
             Go to Login
           </button>
@@ -138,13 +145,15 @@ export default function AdminVerifyEmailPage() {
           {error && <p className="text-destructive mt-2 text-sm">{error}</p>}
           <button
             className="mt-4 text-blue-500 underline hover:text-blue-700"
-            onClick={() => router.push(`/${locale}/admin/resend-verification`)}
+            onClick={() =>
+              router.push(`/${locale}/admin/resend-verification`)
+            }
           >
             Resend Verification Email
           </button>
           <button
             className="mt-6 rounded bg-red-500 px-4 py-2 text-white"
-            onClick={() => router.push(`/${locale}/admin/login`)}
+            onClick={handleGoToLogin}
           >
             Back to Login
           </button>

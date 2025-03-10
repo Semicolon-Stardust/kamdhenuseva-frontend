@@ -17,6 +17,14 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import Loader from '@/components/ui/loader';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 
 export default function CowsPage() {
   const t = useTranslations('CowsPage');
@@ -27,10 +35,13 @@ export default function CowsPage() {
     aged: false,
     adopted: false,
   });
-
   const [sortField, setSortField] = useState<'name-asc' | 'name-desc'>(
     'name-asc',
   );
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 8;
 
   const labels = {
     sick: 'Sick',
@@ -77,6 +88,27 @@ export default function CowsPage() {
       return 0;
     });
   }, [cows, searchQuery, selectedFilter, sortField]);
+
+  // Calculate pagination values
+  const totalPages = Math.ceil(filteredAndSortedCows.length / pageSize);
+  const paginatedCows = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredAndSortedCows.slice(start, start + pageSize);
+  }, [filteredAndSortedCows, currentPage, pageSize]);
+
+  // Handle page change for direct clicks.
+  const handlePageClick = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  // Handle Previous and Next buttons
+  const handlePrevious = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-12 md:mt-14">
@@ -132,8 +164,8 @@ export default function CowsPage() {
 
       {/* Display Cows */}
       <section className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {filteredAndSortedCows.length > 0 ? (
-          filteredAndSortedCows.map((cow) => (
+        {paginatedCows.length > 0 ? (
+          paginatedCows.map((cow) => (
             <CowCard key={cow._id} cow={cow} link={`donate/${cow._id}`} />
           ))
         ) : (
@@ -142,6 +174,51 @@ export default function CowsPage() {
           </p>
         )}
       </section>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <nav className="mt-8">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handlePrevious();
+                  }}
+                />
+              </PaginationItem>
+              {Array.from({ length: totalPages }, (_, i) => {
+                const page = i + 1;
+                return (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      href="#"
+                      isActive={currentPage === page}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handlePageClick(page);
+                      }}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              })}
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNext();
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </nav>
+      )}
     </main>
   );
 }
