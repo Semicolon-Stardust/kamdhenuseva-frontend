@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore, type Cow } from '@/stores/authStore';
@@ -21,41 +21,61 @@ import Loader from '@/components/ui/loader';
 export default function CowsPage() {
   const t = useTranslations('CowsPage');
   const fetchCows = useAuthStore((state) => state.fetchCows);
-
-  // States for search, filter, and sorting (Pagination Removed)
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState({
     sick: false,
     aged: false,
     adopted: false,
   });
+
+  const [sortField, setSortField] = useState<'name-asc' | 'name-desc'>(
+    'name-asc',
+  );
+
   const labels = {
     sick: 'Sick',
     aged: 'Aged',
     adopted: 'Adopted',
   };
-  const [sortField, setSortField] = useState('name');
 
-  // Fetch cows without pagination
   const {
     data: cows,
     isLoading,
     error,
   } = useQuery<Cow[]>({
-    queryKey: ['cows', searchQuery, selectedFilter, sortField],
+    queryKey: ['cows'],
     queryFn: async () => {
-      await fetchCows({
-        name: searchQuery,
-        sick: selectedFilter.sick,
-        old: selectedFilter.aged,
-        adopted: selectedFilter.adopted,
-        sort: sortField,
-      });
+      await fetchCows();
       return useAuthStore.getState().cows;
     },
     staleTime: 300000,
     refetchOnWindowFocus: false,
   });
+
+  const filteredAndSortedCows = useMemo(() => {
+    if (!cows) return [];
+
+    // Filtering
+    let filteredCows = cows.filter((cow) => {
+      return (
+        (!searchQuery ||
+          cow.name.toLowerCase().includes(searchQuery.toLowerCase())) &&
+        (!selectedFilter.sick || cow.sicknessStatus) &&
+        (!selectedFilter.aged || cow.agedStatus) &&
+        (!selectedFilter.adopted || cow.adoptionStatus)
+      );
+    });
+
+    // Sorting
+    return filteredCows.sort((a, b) => {
+      if (sortField === 'name-asc') {
+        return a.name.localeCompare(b.name);
+      } else if (sortField === 'name-desc') {
+        return b.name.localeCompare(a.name);
+      }
+      return 0;
+    });
+  }, [cows, searchQuery, selectedFilter, sortField]);
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-12 md:mt-14">
@@ -109,7 +129,7 @@ export default function CowsPage() {
 
       {/* Grid layout for cows */}
       <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {cows?.map((cow) => (
+        {filteredAndSortedCows.map((cow) => (
           <CowCard key={cow._id} cow={cow} link={`donate/${cow._id}`} />
         ))}
       </div>

@@ -8,8 +8,8 @@ import {
 import { Button } from '@/components/ui/button';
 
 interface SortOptionsProps {
-  sortField: string;
-  setSortField: (field: string) => void;
+  sortField: 'name-asc' | 'name-desc';
+  setSortField: (field: 'name-asc' | 'name-desc') => void;
   labels: { asc: string; desc: string };
 }
 
