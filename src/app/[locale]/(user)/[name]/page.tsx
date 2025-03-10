@@ -7,7 +7,7 @@ export default function UserSettingsPage() {
   } = useAuthStore();
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex">
       {/* Main content area */}
       <div className="">
         <h1 className="text-2xl font-semibold text-black dark:text-white">

@@ -76,19 +76,23 @@ export default function UserSettingsLayout({
       href: `/${user?.name ? user.name.split(' ')[0].toLowerCase() : ''}-settings/two-factor`,
       label: 'Two-Factor Authentication',
     },
+    {
+      href: `/${user?.name ? user.name.split(' ')[0].toLowerCase() : ''}-settings/delete-account`,
+      label: 'Delete Account',
+    }
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="">
       <SidebarProvider>
         <VerticalSidebar
           heading="Account Settings"
           headingLink={`/${user?.name ? user.name.split(' ')[0].toLowerCase() : ''}-settings`}
           links={links}
         />
-        <div className="ml- flex">
-          <SidebarTrigger />
-          <main className="flex-1 p-8">{children}</main>
+        <SidebarTrigger />
+        <div className="px-10 pt-14 min-h-screen">
+          <main>{children}</main>
         </div>
       </SidebarProvider>
     </div>
