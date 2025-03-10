@@ -22,7 +22,9 @@ const registerSchema = z
     password: z
       .string()
       .min(6, { message: 'Password must be at least 6 characters long' }),
-    confirmPassword: z.string().nonempty({ message: 'Please confirm your password' }),
+    confirmPassword: z
+      .string()
+      .nonempty({ message: 'Please confirm your password' }),
     dateOfBirth: z.string().optional(),
     emergencyRecoveryContact: z.string().optional(),
   })
@@ -155,7 +157,10 @@ export default function RegisterPage() {
         </motion.h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <motion.div variants={fieldVariants}>
-            <Label htmlFor="name" className="block text-sm font-medium text-white">
+            <Label
+              htmlFor="name"
+              className="block text-sm font-medium text-white"
+            >
               Name
             </Label>
             <Input
@@ -172,7 +177,10 @@ export default function RegisterPage() {
             )}
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Label htmlFor="email" className="block text-sm font-medium text-white">
+            <Label
+              htmlFor="email"
+              className="block text-sm font-medium text-white"
+            >
               Email
             </Label>
             <Input
@@ -189,7 +197,10 @@ export default function RegisterPage() {
             )}
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Label htmlFor="password" className="block text-sm font-medium text-white">
+            <Label
+              htmlFor="password"
+              className="block text-sm font-medium text-white"
+            >
               Password
             </Label>
             <Input
@@ -206,7 +217,10 @@ export default function RegisterPage() {
             )}
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Label htmlFor="confirmPassword" className="block text-sm font-medium text-white">
+            <Label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-white"
+            >
               Confirm Password
             </Label>
             <Input
@@ -223,7 +237,10 @@ export default function RegisterPage() {
             )}
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Label htmlFor="dateOfBirth" className="block text-sm font-medium text-white">
+            <Label
+              htmlFor="dateOfBirth"
+              className="block text-sm font-medium text-white"
+            >
               Date of Birth
             </Label>
             <Input
@@ -234,7 +251,10 @@ export default function RegisterPage() {
             />
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Label htmlFor="emergencyRecoveryContact" className="block text-sm font-medium text-white">
+            <Label
+              htmlFor="emergencyRecoveryContact"
+              className="block text-sm font-medium text-white"
+            >
               Emergency Recovery Contact
             </Label>
             <Input
@@ -252,7 +272,8 @@ export default function RegisterPage() {
           </motion.div>
           {registerMutation.error && (
             <p className="text-destructive text-center">
-              {(registerMutation.error as Error)?.message || 'Registration failed.'}
+              {(registerMutation.error as Error)?.message ||
+                'Registration failed.'}
             </p>
           )}
         </form>

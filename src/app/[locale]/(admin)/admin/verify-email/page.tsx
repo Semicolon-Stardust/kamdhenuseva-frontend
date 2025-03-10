@@ -108,9 +108,7 @@ export default function AdminVerifyEmailPage() {
               d="M5 13l4 4L19 7"
             />
           </svg>
-          <p className="mt-4 text-xl text-green-600">
-            Email already verified!
-          </p>
+          <p className="mt-4 text-xl text-green-600">Email already verified!</p>
           <button
             className="mt-6 rounded bg-green-500 px-4 py-2 text-white"
             onClick={handleGoToLogin}
@@ -145,9 +143,7 @@ export default function AdminVerifyEmailPage() {
           {error && <p className="text-destructive mt-2 text-sm">{error}</p>}
           <button
             className="mt-4 text-blue-500 underline hover:text-blue-700"
-            onClick={() =>
-              router.push(`/${locale}/admin/resend-verification`)
-            }
+            onClick={() => router.push(`/${locale}/admin/resend-verification`)}
           >
             Resend Verification Email
           </button>

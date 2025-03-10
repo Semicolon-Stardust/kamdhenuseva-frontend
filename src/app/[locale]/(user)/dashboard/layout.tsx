@@ -3,6 +3,8 @@
 import { useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
+import AuthHeaderWrapper from '@/components/ui/header/AuthHeaderWrapper';
+import Footer from '@/components/ui/footer/footer';
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -51,7 +53,7 @@ export default function DashboardLayout({
         router.push(`/${locale}/login`);
       }
     };
-    
+
     if (user) {
       handleVerificationCheck();
     }
@@ -74,10 +76,11 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen pt-14">
-      <div className="flex">
+    <main className="">
+      <AuthHeaderWrapper />
+      <div className="flex min-h-screen pt-14">
         {/* Main content area */}
-        <main className="flex-1 p-6 sm:p-8">
+        <div className="flex-1 p-6 sm:p-8">
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             {user && (
               <h1 className="text-3xl font-bold text-black">
@@ -86,8 +89,9 @@ export default function DashboardLayout({
             )}
           </div>
           {children}
-        </main>
+        </div>
       </div>
-    </div>
+      <Footer />
+    </main>
   );
 }

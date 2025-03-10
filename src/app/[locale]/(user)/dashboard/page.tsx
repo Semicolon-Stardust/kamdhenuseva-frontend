@@ -1,11 +1,19 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
 import CowCard from '@/components/cows/cow-card';
 import Loader from '@/components/ui/loader';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -32,7 +40,7 @@ const itemVariants = {
 };
 
 const DashboardPage: React.FC = () => {
-  // Extract functions from the auth store
+  // Extract functions and data from the auth store
   const user = useAuthStore((state) => state.user);
   const fetchDonationHistory = useAuthStore(
     (state) => state.fetchDonationHistory,
@@ -48,10 +56,9 @@ const DashboardPage: React.FC = () => {
     queryKey: ['donationHistory'],
     queryFn: async () => {
       await fetchDonationHistory();
-      // Use getState() to ensure we get the latest updated donations
       return useAuthStore.getState().donations;
     },
-    staleTime: 300000, // 5 minutes
+    staleTime: 300000,
     refetchOnWindowFocus: false,
   });
 
@@ -64,12 +71,36 @@ const DashboardPage: React.FC = () => {
     queryKey: ['cows'],
     queryFn: async () => {
       await fetchCows();
-      // Use getState() to get the latest cows from the store
       return useAuthStore.getState().cows;
     },
     staleTime: 300000,
     refetchOnWindowFocus: false,
   });
+
+  // Pagination state for cows
+  const [currentCowsPage, setCurrentCowsPage] = useState(1);
+  const cowsPageSize = 8;
+  const totalCowsPages = useMemo(() => {
+    return cowsData ? Math.ceil(cowsData.length / cowsPageSize) : 0;
+  }, [cowsData]);
+
+  const paginatedCows = useMemo(() => {
+    if (!cowsData) return [];
+    const start = (currentCowsPage - 1) * cowsPageSize;
+    return cowsData.slice(start, start + cowsPageSize);
+  }, [cowsData, currentCowsPage]);
+
+  const handleCowsPageClick = (page: number) => {
+    setCurrentCowsPage(page);
+  };
+
+  const handleCowsPrevious = () => {
+    setCurrentCowsPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleCowsNext = () => {
+    setCurrentCowsPage((prev) => Math.min(prev + 1, totalCowsPages));
+  };
 
   return (
     <motion.div
@@ -149,7 +180,6 @@ const DashboardPage: React.FC = () => {
                 className="bg-card mt-4 rounded-lg p-6 shadow"
               >
                 <motion.ul>
-                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                   {donationHistoryData.map((donation: any) => (
                     <motion.li
                       key={donation._id}
@@ -185,7 +215,7 @@ const DashboardPage: React.FC = () => {
             )}
           </section>
 
-          {/* Cows Section */}
+          {/* Cows Section with Pagination */}
           <section className="mb-8">
             <motion.h2
               variants={itemVariants}
@@ -200,16 +230,60 @@ const DashboardPage: React.FC = () => {
                 Error loading cows.
               </motion.p>
             ) : cowsData && cowsData.length > 0 ? (
-              <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                {cowsData.map((cow: any) => (
-                  <CowCard
-                    key={cow._id}
-                    cow={cow}
-                    link={`/donate/${cow._id}`}
-                  />
-                ))}
-              </div>
+              <>
+                <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  {paginatedCows.map((cow: any) => (
+                    <CowCard
+                      key={cow._id}
+                      cow={cow}
+                      link={`/donate/${cow._id}`}
+                    />
+                  ))}
+                </div>
+                {totalCowsPages > 1 && (
+                  <nav className="mt-8">
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleCowsPrevious();
+                            }}
+                          />
+                        </PaginationItem>
+                        {Array.from({ length: totalCowsPages }, (_, i) => {
+                          const page = i + 1;
+                          return (
+                            <PaginationItem key={page}>
+                              <PaginationLink
+                                href="#"
+                                isActive={currentCowsPage === page}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleCowsPageClick(page);
+                                }}
+                              >
+                                {page}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        })}
+                        <PaginationItem>
+                          <PaginationNext
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleCowsNext();
+                            }}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  </nav>
+                )}
+              </>
             ) : (
               <motion.p variants={itemVariants} className="mt-4">
                 No cows available.

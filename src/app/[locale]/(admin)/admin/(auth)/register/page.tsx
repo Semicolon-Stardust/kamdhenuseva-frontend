@@ -51,7 +51,8 @@ export default function AdminRegisterPage() {
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
   });
-  const { registerAdmin, logoutAdmin, isLoading, error, admin } = useAuthStore();
+  const { registerAdmin, logoutAdmin, isLoading, error, admin } =
+    useAuthStore();
   const router = useRouter();
   const params = useParams();
   const locale = params.locale || 'en';
@@ -79,7 +80,7 @@ export default function AdminRegisterPage() {
         data.email,
         data.password,
         data.confirmPassword,
-        data.dateOfBirth ?? ''
+        data.dateOfBirth ?? '',
       );
       // After registration, redirect to verify-email page
       router.push(`/${locale}/admin/verify-email`);
@@ -158,7 +159,10 @@ export default function AdminRegisterPage() {
             )}
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Label htmlFor="confirmPassword" className="block text-sm font-medium">
+            <Label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium"
+            >
               Confirm Password
             </Label>
             <Input
