@@ -79,7 +79,7 @@ export default function UserSettingsLayout({
     {
       href: `/${user?.name ? user.name.split(' ')[0].toLowerCase() : ''}-settings/delete-account`,
       label: 'Delete Account',
-    }
+    },
   ];
 
   return (
@@ -91,7 +91,7 @@ export default function UserSettingsLayout({
           links={links}
         />
         <SidebarTrigger />
-        <div className="px-10 pt-14 min-h-screen">
+        <div className="min-h-screen px-10 pt-14">
           <main>{children}</main>
         </div>
       </SidebarProvider>

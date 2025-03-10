@@ -11,13 +11,18 @@ interface LocaleSwitcherProps {
 
 export default function LocaleSwitcher({
   className,
-  iconClassName
+  iconClassName,
 }: LocaleSwitcherProps = {}) {
   const locale = useLocale();
 
   return (
-    <div className={cn("flex items-center gap-2", className)}>
-      <Globe className={cn("text-muted-foreground h-4 w-4 text-white", iconClassName)} />
+    <div className={cn('flex items-center gap-2', className)}>
+      <Globe
+        className={cn(
+          'text-muted-foreground h-4 w-4 text-white',
+          iconClassName,
+        )}
+      />
       <LocaleSwitcherSelect defaultValue={locale} label="Select a locale">
         {routing.locales.map((cur) => (
           <option key={cur} value={cur}>
