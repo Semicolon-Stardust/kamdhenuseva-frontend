@@ -79,7 +79,7 @@ export default function CowsPage() {
       </p>
 
       {/* Search, Filter, and Sorting */}
-      <div className="mt-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
+      <div className="mt-6 flex flex-row items-center justify-between gap-4 sm:flex-row">
         <FilterOptions
           selectedFilter={selectedFilter}
           setSelectedFilter={setSelectedFilter}

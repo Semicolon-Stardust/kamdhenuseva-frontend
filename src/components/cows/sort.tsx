@@ -26,7 +26,9 @@ export default function SortOptions({
           className="flex items-center gap-2 border border-gray-500 px-4 py-2"
         >
           <ArrowUpDown className="h-5 w-5 text-gray-500" />
-          <span>{sortField === 'name-asc' ? labels.asc : labels.desc}</span>
+          <span className="hidden sm:inline">
+            {sortField === 'name-asc' ? labels.asc : labels.desc}
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-36 border border-gray-500">

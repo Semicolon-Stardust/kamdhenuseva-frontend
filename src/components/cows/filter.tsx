@@ -33,7 +33,7 @@ export default function FilterOptions({
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-2 rounded-lg border border-gray-500 px-3 py-2">
           <Filter className="h-5 w-5 text-gray-500" />
-          <span>Filter</span>
+          <span className="hidden sm:inline">Filter</span>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="border border-gray-500">
