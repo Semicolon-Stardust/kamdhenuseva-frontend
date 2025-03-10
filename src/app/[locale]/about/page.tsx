@@ -35,7 +35,7 @@ export default function AboutPage() {
           alt="About Sri Devraha Baba Ashram"
           width={1200}
           height={600}
-          className="object-fit h-64 w-full rounded-lg shadow-lg sm:h-96"
+          className="object-fit h-36 w-full rounded-lg shadow-lg sm:h-54 md:h-96"
         />
       </header>
 
@@ -51,7 +51,7 @@ export default function AboutPage() {
           <h2 className="text-2xl font-semibold sm:text-3xl">
             {t('hinduTitle')}
           </h2>
-          <p className="mt-4 text-gray-700 sm:text-lg">
+          <p className="mt-4 text-justify text-gray-700 sm:text-lg md:text-center">
             {t('hinduDescription')}
           </p>
         </article>
@@ -71,10 +71,10 @@ export default function AboutPage() {
       {/* Guardian of Cows Section */}
       <section className="mt-10 flex flex-col-reverse items-center gap-8 md:flex-row">
         <article className="md:w-1/2">
-          <h2 className="text-2xl font-semibold sm:text-3xl">
+          <h2 className="text-center text-2xl font-semibold sm:text-3xl md:text-left">
             {t('guardianTitle')}
           </h2>
-          <p className="mt-4 text-gray-700 sm:text-lg">
+          <p className="mt-4 text-justify text-gray-700 sm:text-lg md:text-left">
             {t('guardianDescription')}
           </p>
         </article>
@@ -101,10 +101,10 @@ export default function AboutPage() {
           />
         </div>
         <article className="md:w-1/2">
-          <h2 className="text-2xl font-semibold sm:text-3xl">
+          <h2 className="text-center text-2xl font-semibold sm:text-3xl md:text-left">
             {t('nutritionTitle')}
           </h2>
-          <p className="mt-4 text-gray-700 sm:text-lg">
+          <p className="mt-4 text-justify text-gray-700 sm:text-lg md:text-left">
             {t('nutritionDescription')}
           </p>
         </article>
@@ -113,10 +113,10 @@ export default function AboutPage() {
       {/* Importance of Cows Section */}
       <section className="mt-10 flex flex-col-reverse items-center gap-8 md:flex-row">
         <article className="md:w-1/2">
-          <h2 className="text-2xl font-semibold sm:text-3xl">
+          <h2 className="text-center text-2xl font-semibold sm:text-3xl md:text-left">
             {t('cowImportanceTitle')}
           </h2>
-          <p className="mt-4 text-gray-700 sm:text-lg">
+          <p className="mt-4 text-justify text-gray-700 sm:text-lg md:text-left">
             {t('cowImportanceDescription')}
           </p>
         </article>
@@ -133,10 +133,10 @@ export default function AboutPage() {
 
       {/* Preservation Section */}
       <section className="mt-8 text-center">
-        <h2 className="text-2xl font-semibold sm:text-3xl">
+        <h2 className="text-center text-2xl font-semibold sm:text-3xl md:text-left">
           {t('preservationTitle')}
         </h2>
-        <p className="mt-4 text-gray-700 sm:text-lg">
+        <p className="mt-4 text-justify text-gray-700 sm:text-lg md:text-left">
           {t('preservationDescription')}
         </p>
       </section>

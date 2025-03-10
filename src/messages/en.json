@@ -95,10 +95,32 @@
     "preservationTitle": "Preserving Rare Cow Breeds",
     "preservationDescription": "Previously, there were more than a hundred breeds of cows in India, but today only 32 remain. The Ashram of Sri Devraha Baba is dedicated to preserving and reproducing these rare breeds."
   },
+
   "CowsPage": {
     "breadcrumb": "Donate",
     "heading": "Meet Our Cows",
-    "description": "Each cow in our ashram holds a special place in our hearts. Get to know them!"
+    "description": "Each cow in our ashram holds a special place in our hearts. Get to know them!",
+    "search": { "placeholder": "Search cows..." },
+    "filter": {
+      "sick": "Sick?",
+      "aged": "Aged?",
+      "adopted": "Adopted?"
+    },
+    "sort": {
+      "name": "Sort by Name",
+      "age": "Sort by Age",
+      "adopted": "Sort by Adoption Status"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "of": "of"
+    },
+    "yes": "Yes",
+    "no": "No",
+    "adopted": "Adopted",
+    "available": "Available"
   },
 
   "DonateCowPage": {

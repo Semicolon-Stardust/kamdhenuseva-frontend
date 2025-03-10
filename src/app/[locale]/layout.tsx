@@ -8,6 +8,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import Providers from './provider';
 import AuthHeaderWrapper from '@/components/ui/header/AuthHeaderWrapper';
+import Footer from '@/components/ui/footer/footer';
 
 export const metadata: Metadata = {
   title: 'DAYA - Kamdhenuseva',
@@ -32,15 +33,21 @@ export default async function LocaleLayout(props: {
   const messages = await getMessages();
 
   return (
-    <section lang={locale}>
+    <main lang={locale}>
       <NextIntlClientProvider messages={messages}>
         <Providers>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
             <AuthHeaderWrapper />
             {children}
+            <Footer />
           </ThemeProvider>
         </Providers>
       </NextIntlClientProvider>
-    </section>
+    </main>
   );
 }

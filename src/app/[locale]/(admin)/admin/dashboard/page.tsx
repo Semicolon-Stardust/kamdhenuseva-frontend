@@ -110,12 +110,6 @@ const AdminDashboardPage: React.FC = () => {
                     {admin.dateOfBirth}
                   </p>
                 )}
-                {admin.emergencyRecoveryContact && (
-                  <p>
-                    <span className="font-medium">Emergency Contact:</span>{' '}
-                    {admin.emergencyRecoveryContact}
-                  </p>
-                )}
               </motion.div>
             ) : (
               <motion.p variants={itemVariants} className="mt-4">
@@ -148,6 +142,7 @@ const AdminDashboardPage: React.FC = () => {
                 className="bg-card mt-4 rounded-lg p-6 shadow"
               >
                 <motion.ul>
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                   {donationHistoryData.map((donation: any) => (
                     <motion.li
                       key={donation._id}
@@ -199,6 +194,7 @@ const AdminDashboardPage: React.FC = () => {
               </motion.p>
             ) : cowsData && cowsData.length > 0 ? (
               <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {cowsData.map((cow: any) => (
                   <CowCard
                     key={cow._id}

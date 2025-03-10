@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 
-import { Cow } from '@/data/cows';
+import { Cow } from '@/stores/authStore';
 
 interface CowCardProps {
   cow: Cow;
@@ -9,14 +9,13 @@ interface CowCardProps {
 }
 
 export default function CowCard({ cow, link }: CowCardProps) {
-
   return (
     <Link href={`${link}`} className="block">
       <div className="h-64 cursor-pointer overflow-hidden rounded-lg border border-gray-200 shadow-md transition-all duration-300 hover:opacity-90 sm:h-72 md:h-80">
         {/* Image (Top Half) */}
         <div className="h-2/3 w-full">
           <Image
-            src={cow.photo}
+            src={cow.photo || ''}
             alt={cow.name}
             width={400}
             height={300}

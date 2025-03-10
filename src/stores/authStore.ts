@@ -35,6 +35,8 @@ export interface Cow {
   sicknessStatus: boolean;
   agedStatus: boolean;
   adoptionStatus: boolean;
+  description: string;
+  gender: 'Male' | 'Female';
   createdAt?: string;
   updatedAt?: string;
 }
