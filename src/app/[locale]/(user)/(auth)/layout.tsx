@@ -1,4 +1,3 @@
-import Header from '@/components/ui/header/header';
 import { ReactNode } from 'react';
 
 interface LayoutProps {

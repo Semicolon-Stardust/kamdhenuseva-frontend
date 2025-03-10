@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useAuthStore } from '@/stores/authStore';
 import { useQuery } from '@tanstack/react-query';
 import { CowCarousel } from '@/components/cows/cow-carousel';
+import Loader from '@/components/ui/loader';
 
 export function CowCarouselSection() {
   const t = useTranslations('HomePage.cowCarousel');
@@ -25,8 +26,18 @@ export function CowCarouselSection() {
     refetchOnWindowFocus: false,
   });
 
-  if (isLoading) return <div>Loading cows...</div>;
-  if (isError || !cowsData) return <div>Error fetching cows data.</div>;
+  if (isLoading)
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  if (isError || !cowsData)
+    return (
+      <div className="w-full text-center text-2xl font-semibold text-red-500">
+        Error fetching cows data.
+      </div>
+    );
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-12">

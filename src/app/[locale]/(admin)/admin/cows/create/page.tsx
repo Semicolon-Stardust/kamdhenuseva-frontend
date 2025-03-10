@@ -22,7 +22,7 @@ interface CowFormValues {
   photo?: string;
   description?: string;
   sicknessStatus: boolean;
-  gender?: string;
+  gender?: 'Male' | 'Female';
   agedStatus: boolean;
   adoptionStatus: boolean;
 }
@@ -109,7 +109,9 @@ export default function AdminCowCreate() {
                 name="gender"
                 render={({ field }) => (
                   <Select
-                    onValueChange={field.onChange}
+                    onValueChange={(value) =>
+                      field.onChange(value as 'Male' | 'Female')
+                    }
                     value={field.value || undefined}
                   >
                     <SelectTrigger>

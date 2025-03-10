@@ -14,7 +14,7 @@ import {
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useLocale } from 'next-intl';
-import type { Cow } from '@/data/cows';
+import type { Cow } from '@/stores/authStore';
 
 interface CowCarouselProps {
   cows: Cow[];
@@ -53,7 +53,7 @@ export function CowCarousel({ cows, limit = cows.length }: CowCarouselProps) {
                 <Card className="group relative overflow-hidden rounded-lg shadow-lg transition-transform hover:opacity-90">
                   {/* Cow Image */}
                   <Image
-                    src={cow.photo}
+                    src={cow.photo || ''}
                     alt={cow.name}
                     width={600}
                     height={400}

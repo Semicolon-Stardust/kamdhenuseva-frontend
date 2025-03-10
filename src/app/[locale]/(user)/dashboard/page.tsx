@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
 import CowCard from '@/components/cows/cow-card';
+import Loader from '@/components/ui/loader';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -148,6 +149,7 @@ const DashboardPage: React.FC = () => {
                 className="bg-card mt-4 rounded-lg p-6 shadow"
               >
                 <motion.ul>
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                   {donationHistoryData.map((donation: any) => (
                     <motion.li
                       key={donation._id}
@@ -192,13 +194,14 @@ const DashboardPage: React.FC = () => {
               Cows
             </motion.h2>
             {cowsLoading ? (
-              <motion.p variants={itemVariants}>Loading cows...</motion.p>
+              <Loader />
             ) : cowsError ? (
               <motion.p variants={itemVariants} className="text-red-500">
                 Error loading cows.
               </motion.p>
             ) : cowsData && cowsData.length > 0 ? (
               <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {cowsData.map((cow: any) => (
                   <CowCard
                     key={cow._id}

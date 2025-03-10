@@ -102,11 +102,7 @@ export default function CowsPage() {
       </div>
 
       {/* Loading & Error Handling */}
-      {isLoading && (
-        <div className="min-h-screen">
-          <Loader />
-        </div>
-      )}
+      {isLoading && <Loader />}
       {error && (
         <div>Error: {error instanceof Error ? error.message : error}</div>
       )}

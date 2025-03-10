@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
-import { useRouter, useParams } from 'next/navigation';
 import { Link } from '@/i18n/routing';
+import Loader from '@/components/ui/loader';
 
 import {
   Table,
@@ -17,17 +17,19 @@ import {
 
 export default function AdminCowList() {
   const fetchCows = useAuthStore((state) => state.fetchCows);
-  const cows = useAuthStore((state) => state.cows);
-  const router = useRouter();
-  const params = useParams();
-  const locale = params.locale || 'en';
 
-  const { isLoading, error } = useQuery({
+  const {
+    data: cows,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['adminCows'],
     queryFn: async () => {
       await fetchCows();
       return useAuthStore.getState().cows;
     },
+    staleTime: 300000,
+    refetchOnWindowFocus: false,
   });
 
   return (
@@ -38,50 +40,53 @@ export default function AdminCowList() {
     >
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-primary text-2xl font-bold">Admin - Cow List</h1>
-        <Link href={`/admin/cows/create`}>
+        <Link href="/admin/cows/create">
           <button className="bg-primary text-primary-foreground hover:bg-primary-dark rounded px-4 py-2 transition-colors">
             Create New Cow
           </button>
         </Link>
       </div>
-      {isLoading && <div>Loading...</div>}
+
+      {isLoading && <Loader />}
+
       {error && (
-        <div className="text-destructive">
+        <div className="text-destructive text-center">
           Error: {error instanceof Error ? error.message : error}
         </div>
       )}
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-
-            <TableHead className="text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {cows && cows.length > 0 ? (
-            cows.map((cow) => (
-              <TableRow key={cow._id}>
-                <TableCell>{cow.name}</TableCell>
-                <TableCell className="text-right">
-                  <Link href={`/admin/cows/${cow._id}/edit`}>
-                    <button className="bg-primary text-primary-foreground hover:bg-primary-dark rounded px-2 py-1 transition-colors">
-                      Edit
-                    </button>
-                  </Link>
+      {!isLoading && !error && (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {cows && cows.length > 0 ? (
+              cows.map((cow) => (
+                <TableRow key={cow._id}>
+                  <TableCell>{cow.name}</TableCell>
+                  <TableCell className="text-right">
+                    <Link href={`/admin/cows/${cow._id}/edit`}>
+                      <button className="bg-primary text-primary-foreground hover:bg-primary-dark rounded px-2 py-1 transition-colors">
+                        Edit
+                      </button>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={2} className="py-4 text-center">
+                  No cows found.
                 </TableCell>
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={3} className="text-center">
-                No cows found.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            )}
+          </TableBody>
+        </Table>
+      )}
     </motion.div>
   );
 }

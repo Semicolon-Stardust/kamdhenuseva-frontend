@@ -72,7 +72,12 @@ export default function AdminCowEdit() {
 
   const mutation = useMutation({
     mutationFn: async (data: CowFormValues) => {
-      if (cowId) await updateCow(cowId, data);
+      if (cowId) {
+        await updateCow(cowId, {
+          ...data,
+          gender: data.gender as 'Male' | 'Female' | undefined,
+        });
+      }
     },
     onSuccess: () => {
       router.push(`/${locale}/admin/cows`);
