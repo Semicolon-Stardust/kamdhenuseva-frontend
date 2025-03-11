@@ -27,24 +27,24 @@ export default function AuthHeaderWrapper() {
   // Get auth functions and state from authStore.
   const checkUserAuth = useAuthStore((state) => state.checkUserAuth);
   const checkAdminAuth = useAuthStore((state) => state.checkAdminAuth);
+  const checkUserProfile = useAuthStore((state) => state.checkUserProfile);
+  const checkAdminProfile = useAuthStore((state) => state.checkAdminProfile);
   const admin = useAuthStore((state) => state.admin);
-  const isAuthenticatedAdmin = useAuthStore(
-    (state) => state.isAuthenticatedAdmin,
-  );
+  const isAuthenticatedAdmin = useAuthStore((state) => state.isAuthenticatedAdmin);
   const user = useAuthStore((state) => state.user);
-  const isAuthenticatedUser = useAuthStore(
-    (state) => state.isAuthenticatedUser,
-  );
+  const isAuthenticatedUser = useAuthStore((state) => state.isAuthenticatedUser);
   const logoutAdmin = useAuthStore((state) => state.logoutAdmin);
   const logoutUser = useAuthStore((state) => state.logoutUser);
 
   const router = useRouter();
 
-  // Run both admin and user auth checks on mount.
+  // Run both auth and profile checks on mount.
   useEffect(() => {
     checkAdminAuth();
     checkUserAuth();
-  }, [checkAdminAuth, checkUserAuth]);
+    checkAdminProfile();
+    checkUserProfile();
+  }, [checkAdminAuth, checkUserAuth, checkAdminProfile, checkUserProfile]);
 
   // Prepare authData based on the authenticated entity.
   let authData: AuthData = {
