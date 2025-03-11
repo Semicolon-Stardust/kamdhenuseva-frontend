@@ -30,7 +30,7 @@ export interface User {
 export interface Cow {
   _id: string;
   name: string;
-  photo?: string;
+  photos?: string[];
   age: number;
   sicknessStatus: boolean;
   agedStatus: boolean;
@@ -794,10 +794,27 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
   },
 
-  createCow: async (data) => {
+  createCow: async (data: (Partial<Cow> & { images?: File[] }) | FormData) => {
     set({ isLoading: true, error: null });
     try {
-      await apiClient.post('/cows/admin/cows', data);
+      if (data instanceof FormData) {
+        await apiClient.post('/cows/admin/cows', data, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+      } else {
+        const formData = new FormData();
+        if (data.images && data.images.length) {
+          data.images.forEach((file) => {
+            formData.append('images', file);
+          });
+        }
+        const { images, ...rest } = data;
+        formData.append('data', JSON.stringify(rest));
+
+        await apiClient.post('/cows/admin/cows', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+      }
       set({ isLoading: false });
     } catch (err: any) {
       set({ error: err.message || 'Failed to create cow', isLoading: false });
@@ -805,10 +822,30 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
   },
 
-  updateCow: async (id: string, data) => {
+  updateCow: async (id: string, data: Partial<Cow> & { images?: File[] }) => {
     set({ isLoading: true, error: null });
     try {
-      await apiClient.put(`/cows/admin/cows/${id}`, data);
+      let payload: Partial<Cow> | FormData = data;
+
+      // Check if images are provided
+      if (data.images && data.images.length) {
+        payload = new FormData();
+        // Append each image file
+        data.images.forEach((file) => {
+          (payload as FormData).append('images', file);
+        });
+        // Remove the images property from data and append the rest as JSON string
+        const { images, ...rest } = data;
+        (payload as FormData).append('data', JSON.stringify(rest));
+      }
+
+      // If using FormData, specify the multipart header; otherwise, default headers will work
+      await apiClient.put(`/cows/admin/cows/${id}`, payload, {
+        headers:
+          payload instanceof FormData
+            ? { 'Content-Type': 'multipart/form-data' }
+            : {},
+      });
       set({ isLoading: false });
     } catch (err: any) {
       set({ error: err.message || 'Failed to update cow', isLoading: false });

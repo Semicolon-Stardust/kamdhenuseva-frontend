@@ -5,7 +5,8 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
 
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -21,12 +22,13 @@ import {
 
 interface CowFormValues {
   name: string;
-  photo?: string;
   description?: string;
   sicknessStatus: boolean;
-  gender?: string;
+  gender?: 'Male' | 'Female';
   agedStatus: boolean;
   adoptionStatus: boolean;
+  // New field for file uploads (array of File objects)
+  images?: File[];
 }
 
 export default function AdminCowEdit() {
@@ -61,7 +63,6 @@ export default function AdminCowEdit() {
     if (cow) {
       reset({
         name: cow.name,
-        photo: cow.photo || '',
         description: cow.description || '',
         sicknessStatus: cow.sicknessStatus,
         gender: cow.gender || undefined,
@@ -71,13 +72,52 @@ export default function AdminCowEdit() {
     }
   }, [cow, reset]);
 
+  // Dropzone component for file upload
+  const DropzoneField = ({
+    onChange,
+  }: {
+    onChange: (files: File[]) => void;
+  }) => {
+    const onDrop = useCallback(
+      (acceptedFiles: File[]) => {
+        onChange(acceptedFiles);
+      },
+      [onChange],
+    );
+
+    const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
+      useDropzone({
+        onDrop,
+        accept: { 'image/*': [] },
+      });
+
+    return (
+      <div
+        {...getRootProps()}
+        className="cursor-pointer rounded border-2 border-dashed p-4"
+      >
+        <input {...getInputProps()} />
+        {isDragActive ? (
+          <p>Drop the files here ...</p>
+        ) : (
+          <p>Drag & drop some images here, or click to select files</p>
+        )}
+        {acceptedFiles.length > 0 && (
+          <ul className="mt-2">
+            {acceptedFiles.map((file) => (
+              <li key={file.name}>{file.name}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  };
+
   const mutation = useMutation({
     mutationFn: async (data: CowFormValues) => {
       if (cowId) {
-        await updateCow(cowId, {
-          ...data,
-          gender: data.gender as 'Male' | 'Female' | undefined,
-        });
+        // updateCow should be updated to support FormData if images are provided
+        await updateCow(cowId, data);
       }
     },
     onSuccess: () => {
@@ -120,12 +160,6 @@ export default function AdminCowEdit() {
           )}
         </div>
 
-        {/* Photo URL */}
-        <div>
-          <Label htmlFor="photo">Photo URL:</Label>
-          <Input id="photo" type="text" {...register('photo')} />
-        </div>
-
         {/* Description */}
         <div>
           <Label htmlFor="description">Description:</Label>
@@ -138,12 +172,9 @@ export default function AdminCowEdit() {
           <Controller
             control={control}
             name="gender"
-            defaultValue={cow?.gender || ''} // set default value from cow data
+            defaultValue={cow?.gender || ''}
             render={({ field }) => (
-              <Select
-                onValueChange={field.onChange}
-                value={field.value} // pass field.value directly
-              >
+              <Select onValueChange={field.onChange} value={field.value}>
                 <SelectTrigger>
                   <SelectValue>
                     {field.value ? field.value : 'Select Gender'}
@@ -201,6 +232,18 @@ export default function AdminCowEdit() {
             )}
           />
           <Label>Adopted?</Label>
+        </div>
+
+        {/* Image Upload via Dropzone */}
+        <div>
+          <Label>Upload Images:</Label>
+          <Controller
+            control={control}
+            name="images"
+            render={({ field: { onChange } }) => (
+              <DropzoneField onChange={onChange} />
+            )}
+          />
         </div>
 
         <button

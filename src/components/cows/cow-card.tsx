@@ -14,13 +14,18 @@ export default function CowCard({ cow, link }: CowCardProps) {
       <div className="h-64 cursor-pointer overflow-hidden rounded-lg border border-gray-200 shadow-md transition-all duration-300 hover:opacity-90 sm:h-72 md:h-80">
         {/* Image (Top Half) */}
         <div className="h-2/3 w-full">
-          <Image
-            src={cow.photo || ''}
-            alt={cow.name}
-            width={400}
-            height={300}
-            className="h-full w-full object-cover"
-          />
+          {cow.photos && cow.photos.length > 0 ? (
+            <Image
+              src={cow.photos[0]}
+              alt={cow.name}
+              width={400}
+              height={300}
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center bg-gray-100">
+              <span className="text-gray-500">No Image</span>
+            </div>
+          )}
         </div>
 
         {/* Name & Description (Bottom Half) */}

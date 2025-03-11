@@ -121,13 +121,23 @@ export default function DonateCowPage(props: {
         </div>
 
         {/* Larger Cow Image */}
-        <Image
-          src={cow.photo || '/assets/donate/placeholder.png'}
-          alt={cow.name}
-          width={550}
-          height={450}
-          className="object-fit mt-6 rounded-lg shadow-lg sm:mt-0"
-        />
+        {cow.photos && cow.photos.length > 0 ? (
+          <Image
+            src={cow.photos[0]}
+            alt={cow.name}
+            width={550}
+            height={450}
+            className="object-fit mt-6 rounded-lg shadow-lg sm:mt-0"
+          />
+        ) : (
+          <Image
+            src={'/assets/donate/placeholder.png'}
+            alt={cow.name}
+            width={550}
+            height={450}
+            className="object-fit mt-6 rounded-lg shadow-lg sm:mt-0"
+          />
+        )}
       </section>
 
       {/* Highlights Section */}
