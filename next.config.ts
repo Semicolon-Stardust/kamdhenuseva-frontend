@@ -18,6 +18,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'unsplash.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'pub-4d0f40a00e3346068d49bbdd4c914540.r2.dev',
+      },
     ],
   },
   webpack(config) {

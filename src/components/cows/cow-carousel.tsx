@@ -51,14 +51,18 @@ export function CowCarousel({ cows, limit = cows.length }: CowCarouselProps) {
             >
               <Link href={`/${locale}/donate/${cow._id}`} className="block">
                 <Card className="group relative overflow-hidden rounded-lg shadow-lg transition-transform hover:opacity-90">
-                  {/* Cow Image */}
-                  <Image
-                    src={cow.photo || ''}
-                    alt={cow.name}
-                    width={600}
-                    height={400}
-                    className="h-64 w-full object-cover"
-                  />
+                  {cow.photos && cow.photos.length > 0 ? (
+                    <Image
+                      src={cow.photos[0]}
+                      alt={cow.name}
+                      width={400}
+                      height={300}
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center bg-gray-100">
+                      <span className="text-gray-500">No Image</span>
+                    </div>
+                  )}
                   {/* Name Overlay (always visible) */}
                   <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent px-4 py-3">
                     <h3 className="text-lg font-semibold text-white">

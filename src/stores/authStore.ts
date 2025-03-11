@@ -30,7 +30,7 @@ export interface User {
 export interface Cow {
   _id: string;
   name: string;
-  photo?: string;
+  photos?: string[];
   age: number;
   sicknessStatus: boolean;
   agedStatus: boolean;
