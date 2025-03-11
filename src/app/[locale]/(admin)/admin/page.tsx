@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -21,16 +20,6 @@ const loginSchema = z.object({
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
-
-const containerVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
-const fieldVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
-};
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -86,24 +75,11 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <motion.div
-      className="bg-background dark:bg-background-dark flex min-h-screen items-center justify-center p-4"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-    >
-      <motion.div
-        className="bg-card w-full max-w-md space-y-6 rounded-lg p-8 shadow"
-        variants={containerVariants}
-      >
-        <motion.h1
-          className="text-primary text-center text-3xl font-bold"
-          variants={fieldVariants}
-        >
-          Admin Login
-        </motion.h1>
+    <div className="bg-accent flex min-h-screen items-center justify-center p-4 text-white">
+      <div className="bg-primary w-full max-w-md space-y-6 rounded-lg p-8 shadow">
+        <h1 className="text-center text-3xl font-bold">Admin Login</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <motion.div variants={fieldVariants}>
+          <div>
             <Label htmlFor="email" className="block text-sm font-medium">
               Email
             </Label>
@@ -119,8 +95,8 @@ export default function AdminLoginPage() {
                 {errors.email.message}
               </p>
             )}
-          </motion.div>
-          <motion.div variants={fieldVariants}>
+          </div>
+          <div>
             <Label htmlFor="password" className="block text-sm font-medium">
               Password
             </Label>
@@ -136,12 +112,12 @@ export default function AdminLoginPage() {
                 {errors.password.message}
               </p>
             )}
-          </motion.div>
-          <motion.div variants={fieldVariants}>
+          </div>
+          <div>
             <Button type="submit" className="w-full">
               {loginMutation.isPending ? 'Logging in...' : 'Login'}
             </Button>
-          </motion.div>
+          </div>
           {(loginMutation.error || localError) && (
             <p className="text-destructive text-center">
               {localError ||
@@ -150,7 +126,7 @@ export default function AdminLoginPage() {
             </p>
           )}
         </form>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }

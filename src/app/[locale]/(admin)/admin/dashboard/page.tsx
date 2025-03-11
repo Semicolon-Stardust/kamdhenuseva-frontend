@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
 import CowCard from '@/components/cows/cow-card';
@@ -15,39 +14,23 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 
-const containerVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.2,
-      duration: 0.5,
-    },
-  },
-  exit: { opacity: 0, y: -20, transition: { duration: 0.3 } },
-};
-
-const sectionVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, x: -10 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
-};
+// Function to get a greeting based on the current time
+function getGreeting(t: (key: string) => string) {
+  const hour = new Date().getHours();
+  if (hour < 12) return t('AdminDashboardPage.greeting.morning');
+  if (hour < 18) return t('AdminDashboardPage.greeting.afternoon');
+  return t('AdminDashboardPage.greeting.evening');
+}
 
 const AdminDashboardPage: React.FC = () => {
-  // Extract functions from the auth store
+  const t = useTranslations();
   const admin = useAuthStore((state) => state.admin);
   const fetchDonationHistory = useAuthStore(
     (state) => state.fetchDonationHistory,
   );
   const fetchCows = useAuthStore((state) => state.fetchCows);
 
-  // TanStack Query to fetch donation history
+  // Fetch donation history
   const {
     data: donationHistoryData,
     isLoading: donationLoading,
@@ -62,7 +45,7 @@ const AdminDashboardPage: React.FC = () => {
     refetchOnWindowFocus: false,
   });
 
-  // TanStack Query to fetch cows data
+  // Fetch cows data
   const {
     data: cowsData,
     isLoading: cowsLoading,
@@ -77,7 +60,7 @@ const AdminDashboardPage: React.FC = () => {
     refetchOnWindowFocus: false,
   });
 
-  // Pagination state and logic for cows
+  // Pagination state for cows
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 8;
   const totalPages = cowsData ? Math.ceil(cowsData.length / pageSize) : 0;
@@ -100,126 +83,127 @@ const AdminDashboardPage: React.FC = () => {
   };
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="bg-background text-foreground min-h-screen"
-    >
-      <main className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-        <motion.div className="px-4 py-6 sm:px-0" variants={sectionVariants}>
+    <div className="text-foreground mt-10 min-h-screen">
+      <main className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Greeting */}
+        <div>
+          {admin && (
+            <h1 className="text-3xl font-bold text-black">
+              {getGreeting(t)},{' '}
+              {admin?.name?.split(' ')[0] || t('AdminDashboardPage.user')}
+            </h1>
+          )}
+        </div>
+
+        <div className="px-4 py-6 sm:px-0">
           {/* Profile Section */}
           <section className="mb-8">
-            <motion.h2
-              variants={itemVariants}
-              className="text-2xl font-semibold"
-            >
-              Profile
-            </motion.h2>
+            <h2 className="text-2xl font-semibold">
+              {t('AdminDashboardPage.profile')}
+            </h2>
             {admin ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="bg-card mt-4 rounded-lg p-6 shadow"
-              >
+              <div className="mt-4">
                 <p>
-                  <span className="font-medium">Name:</span> {admin.name}
+                  <span className="font-medium">
+                    {t('AdminDashboardPage.name')}:
+                  </span>{' '}
+                  {admin.name}
                 </p>
                 <p>
-                  <span className="font-medium">Email:</span> {admin.email}
+                  <span className="font-medium">
+                    {t('AdminDashboardPage.email')}:
+                  </span>{' '}
+                  {admin.email}
                 </p>
                 <p>
-                  <span className="font-medium">Verified:</span>{' '}
-                  {admin.isVerified ? 'Yes' : 'No'}
+                  <span className="font-medium">
+                    {t('AdminDashboardPage.verified')}:
+                  </span>{' '}
+                  {admin.isVerified
+                    ? t('AdminDashboardPage.yes')
+                    : t('AdminDashboardPage.no')}
                 </p>
                 {admin.dateOfBirth && (
                   <p>
-                    <span className="font-medium">Date of Birth:</span>{' '}
+                    <span className="font-medium">
+                      {t('AdminDashboardPage.dateOfBirth')}:
+                    </span>{' '}
                     {admin.dateOfBirth}
                   </p>
                 )}
-              </motion.div>
+              </div>
             ) : (
-              <motion.p variants={itemVariants} className="mt-4">
-                No admin data available.
-              </motion.p>
+              <p className="mt-4">{t('AdminDashboardPage.noAdminData')}</p>
             )}
           </section>
 
           {/* Donation History Section */}
           <section className="mb-8">
-            <motion.h2
-              variants={itemVariants}
-              className="text-2xl font-semibold"
-            >
-              Donation History
-            </motion.h2>
+            <h2 className="text-2xl font-semibold">
+              {t('AdminDashboardPage.donationHistory')}
+            </h2>
             {donationLoading ? (
-              <motion.p variants={itemVariants}>
-                Loading donation history...
-              </motion.p>
+              <p>{t('AdminDashboardPage.loadingDonationHistory')}</p>
             ) : donationError ? (
-              <motion.p variants={itemVariants} className="text-red-500">
-                Error loading donation history.
-              </motion.p>
+              <p className="text-red-500">
+                {t('AdminDashboardPage.errorLoadingDonationHistory')}
+              </p>
             ) : donationHistoryData && donationHistoryData.length > 0 ? (
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={containerVariants}
-                className="bg-card mt-4 rounded-lg p-6 shadow"
-              >
-                <motion.ul>
+              <div className="bg-card mt-4 rounded-lg p-6 shadow">
+                <ul>
                   {donationHistoryData.map((donation: any) => (
-                    <motion.li
+                    <li
                       key={donation._id}
-                      variants={itemVariants}
                       className="border-b border-gray-200 py-2"
                     >
                       <p>
-                        <span className="font-medium">Amount:</span> $
-                        {donation.amount}
+                        <span className="font-medium">
+                          {t('AdminDashboardPage.amount')}:
+                        </span>{' '}
+                        ${donation.amount}
                       </p>
                       <p>
-                        <span className="font-medium">Tier:</span>{' '}
+                        <span className="font-medium">
+                          {t('AdminDashboardPage.tier')}:
+                        </span>{' '}
                         {donation.tier}
                       </p>
                       <p>
-                        <span className="font-medium">Type:</span>{' '}
+                        <span className="font-medium">
+                          {t('AdminDashboardPage.type')}:
+                        </span>{' '}
                         {donation.donationType}
                       </p>
                       {donation.createdAt && (
                         <p>
-                          <span className="font-medium">Date:</span>{' '}
+                          <span className="font-medium">
+                            {t('AdminDashboardPage.date')}:
+                          </span>{' '}
                           {new Date(donation.createdAt).toLocaleDateString()}
                         </p>
                       )}
-                    </motion.li>
+                    </li>
                   ))}
-                </motion.ul>
-              </motion.div>
+                </ul>
+              </div>
             ) : (
-              <motion.p variants={itemVariants} className="mt-4">
-                No donation history available.
-              </motion.p>
+              <p className="mt-4">
+                {t('AdminDashboardPage.noDonationHistory')}
+              </p>
             )}
           </section>
 
           {/* Cows Section */}
           <section className="mb-8">
-            <motion.h2
-              variants={itemVariants}
-              className="text-2xl font-semibold"
-            >
-              Cows
-            </motion.h2>
+            <h2 className="text-2xl font-semibold">
+              {t('AdminDashboardPage.cows')}
+            </h2>
             {cowsLoading ? (
-              <motion.p variants={itemVariants}>Loading cows...</motion.p>
+              <p>{t('AdminDashboardPage.loadingCows')}</p>
             ) : cowsError ? (
-              <motion.p variants={itemVariants} className="text-red-500">
-                Error loading cows.
-              </motion.p>
+              <p className="text-red-500">
+                {t('AdminDashboardPage.errorLoadingCows')}
+              </p>
             ) : cowsData && cowsData.length > 0 ? (
               <>
                 <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -236,25 +220,15 @@ const AdminDashboardPage: React.FC = () => {
                     <Pagination>
                       <PaginationContent>
                         <PaginationItem>
-                          <PaginationPrevious
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handlePrevious();
-                            }}
-                          />
+                          <PaginationPrevious onClick={handlePrevious} />
                         </PaginationItem>
                         {Array.from({ length: totalPages }, (_, i) => {
                           const page = i + 1;
                           return (
                             <PaginationItem key={page}>
                               <PaginationLink
-                                href="#"
                                 isActive={currentPage === page}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  handlePageClick(page);
-                                }}
+                                onClick={() => handlePageClick(page)}
                               >
                                 {page}
                               </PaginationLink>
@@ -262,13 +236,7 @@ const AdminDashboardPage: React.FC = () => {
                           );
                         })}
                         <PaginationItem>
-                          <PaginationNext
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleNext();
-                            }}
-                          />
+                          <PaginationNext onClick={handleNext} />
                         </PaginationItem>
                       </PaginationContent>
                     </Pagination>
@@ -276,14 +244,12 @@ const AdminDashboardPage: React.FC = () => {
                 )}
               </>
             ) : (
-              <motion.p variants={itemVariants} className="mt-4">
-                No cows available.
-              </motion.p>
+              <p className="mt-4">{t('AdminDashboardPage.noCowsAvailable')}</p>
             )}
           </section>
-        </motion.div>
+        </div>
       </main>
-    </motion.div>
+    </div>
   );
 };
 

@@ -258,6 +258,37 @@
       "emailChecking": "Checking verification status..."
     }
   },
+  "AdminDashboardPage": {
+    "greeting": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening",
+      "user": "Admin"
+    },
+    "profile": "Profile",
+    "user": "User",
+    "name": "Name",
+    "email": "Email",
+    "verified": "Verified",
+    "yes": "Yes",
+    "no": "No",
+    "dateOfBirth": "Date of Birth",
+    "noAdminData": "No admin data available.",
+
+    "donationHistory": "Donation History",
+    "loadingDonationHistory": "Loading donation history...",
+    "errorLoadingDonationHistory": "Error loading donation history.",
+    "amount": "Amount",
+    "tier": "Tier",
+    "type": "Type",
+    "date": "Date",
+    "noDonationHistory": "No donation history available.",
+
+    "cows": "Cows",
+    "loadingCows": "Loading cows...",
+    "errorLoadingCows": "Error loading cows.",
+    "noCowsAvailable": "No cows available."
+  },
   "Footer": {
     "logo": "Kamdhenuseva",
     "description": "Kamdhenuseva is an initiative by Daya Devraha Ashram dedicated to the welfare of cows. Your contributions help provide food, shelter, and medical care to support and protect these sacred beings.",
