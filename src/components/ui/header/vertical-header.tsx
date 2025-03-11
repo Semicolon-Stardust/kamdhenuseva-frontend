@@ -40,7 +40,7 @@ export default function VerticalSidebar({
           <Link href={headingLink}>{heading}</Link>
         </h2>
       </SidebarHeader>
-      <SidebarContent className="bg-primary p-6">
+      <SidebarContent className="bg-primary pl-6">
         <nav className="mt-4 flex flex-col gap-4">
           {links.map((link) => (
             <Link

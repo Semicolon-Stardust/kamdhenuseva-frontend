@@ -142,7 +142,7 @@ export default function UserSettingsPage() {
           </h2>
 
           {/* Password Update */}
-          <div className="rounded-lg bg-gray-100 p-6 shadow-md">
+          <div className="rounded-lg p-6 shadow-md">
             <h3 className="text-lg font-semibold text-gray-800">
               Update Password
             </h3>
@@ -157,6 +157,7 @@ export default function UserSettingsPage() {
                   type="password"
                   {...register('newPassword')}
                   placeholder="Enter new password"
+                  className="bg-gray-200"
                 />
                 {errors.newPassword && (
                   <p className="text-xs text-red-500">
@@ -171,6 +172,7 @@ export default function UserSettingsPage() {
                   type="password"
                   {...register('confirmPassword')}
                   placeholder="Confirm new password"
+                  className="bg-gray-200"
                 />
                 {errors.confirmPassword && (
                   <p className="text-xs text-red-500">
