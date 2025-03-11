@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import { useSearchParams, useRouter, useParams } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -42,29 +41,12 @@ export default function VerifyEmailPage() {
     router.push(`/${locale}/login`);
   };
 
-  // Framer Motion animation variants for the icons.
-  const iconVariants = {
-    hidden: { scale: 0 },
-    visible: {
-      scale: 1,
-      transition: { type: 'spring', stiffness: 260, damping: 20 },
-    },
-  };
-
   return (
-    <motion.div
-      className="bg-background dark:bg-background-dark flex min-h-screen flex-col items-center justify-center p-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <div className="bg-background dark:bg-background-dark flex min-h-screen w-full flex-col items-center justify-center p-4">
       {isLoading && <p className="text-lg">Verifying...</p>}
+
       {!isLoading && verificationStatus === 'success' && (
-        <motion.div
-          className="flex flex-col items-center"
-          variants={iconVariants}
-          initial="hidden"
-          animate="visible"
-        >
+        <div className="flex flex-col items-center">
           <svg
             className="h-16 w-16 text-green-500"
             fill="none"
@@ -87,15 +69,11 @@ export default function VerifyEmailPage() {
           >
             Go to Login
           </button>
-        </motion.div>
+        </div>
       )}
+
       {!isLoading && verificationStatus === 'already' && (
-        <motion.div
-          className="flex flex-col items-center"
-          variants={iconVariants}
-          initial="hidden"
-          animate="visible"
-        >
+        <div className="flex flex-col items-center">
           <svg
             className="h-16 w-16 text-green-500"
             fill="none"
@@ -116,15 +94,11 @@ export default function VerifyEmailPage() {
           >
             Go to Login
           </button>
-        </motion.div>
+        </div>
       )}
+
       {!isLoading && verificationStatus === 'failure' && (
-        <motion.div
-          className="flex flex-col items-center"
-          variants={iconVariants}
-          initial="hidden"
-          animate="visible"
-        >
+        <div className="flex flex-col items-center">
           <svg
             className="h-16 w-16 text-red-500"
             fill="none"
@@ -154,8 +128,8 @@ export default function VerifyEmailPage() {
           >
             Back to Login
           </button>
-        </motion.div>
+        </div>
       )}
-    </motion.div>
+    </div>
   );
 }

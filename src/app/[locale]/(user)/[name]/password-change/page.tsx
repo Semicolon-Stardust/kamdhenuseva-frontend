@@ -62,19 +62,14 @@ export default function AdminPasswordChangePage() {
       variants={containerVariants}
       className="mt-8 flex justify-center"
     >
-      <div className="bg-card w-full max-w-md rounded-lg p-6 shadow-lg">
-        <h2 className="text-foreground text-center text-2xl font-semibold">
-          Update Password
-        </h2>
+      <div className="bg-primary w-full max-w-md rounded-lg p-6 text-white shadow-lg">
+        <h2 className="text-center text-2xl font-semibold">Update Password</h2>
         <form
           onSubmit={handleSubmit(onPasswordSubmit)}
           className="mt-4 space-y-4"
         >
           <div>
-            <Label
-              htmlFor="newPassword"
-              className="text-foreground block text-sm font-medium"
-            >
+            <Label htmlFor="newPassword" className="block text-sm font-medium">
               New Password
             </Label>
             <Input
@@ -92,7 +87,7 @@ export default function AdminPasswordChangePage() {
           <div>
             <Label
               htmlFor="confirmPassword"
-              className="text-foreground block text-sm font-medium"
+              className="block text-sm font-medium"
             >
               Confirm New Password
             </Label>
@@ -112,9 +107,7 @@ export default function AdminPasswordChangePage() {
             Update Password
           </Button>
           {passwordMsg && (
-            <p className="mt-2 text-center text-sm text-green-500">
-              {passwordMsg}
-            </p>
+            <p className="mt-2 text-center text-sm">{passwordMsg}</p>
           )}
         </form>
       </div>

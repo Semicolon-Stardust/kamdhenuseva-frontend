@@ -37,7 +37,7 @@ export default function ShortFooter() {
           <Separator orientation="horizontal" />
         </div>
         <div className="text-center">
-          Dayadevraha &copy; {new Date().getFullYear()}
+          DAYA Devraha &copy; {new Date().getFullYear()}
         </div>
       </div>
       <LocaleToggle className="text-gray-500" iconClassName="text-gray-500" />
