@@ -39,7 +39,7 @@ export default function DeleteAccountSection() {
       variants={containerVariants}
       className="mt-8 flex justify-center"
     >
-      <div className="bg-card w-full max-w-md rounded-lg p-6 shadow-lg">
+      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
         <h2 className="text-foreground text-center text-2xl font-semibold">
           Delete Account
         </h2>

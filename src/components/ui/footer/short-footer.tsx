@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 export default function ShortFooter() {
   return (
     <footer className="flex flex-col items-center">
-      <div className="my-4 text-xs text-gray-500">
+      <div className="my-4 text-xs text-white">
         <div className="flex justify-center gap-2">
           <Link
             className="underline-gray-500 hover:underline"
@@ -37,7 +37,7 @@ export default function ShortFooter() {
           <Separator orientation="horizontal" />
         </div>
         <div className="text-center">
-          Dayadevraha &copy; {new Date().getFullYear()}
+          DAYA Devraha &copy; {new Date().getFullYear()}
         </div>
       </div>
       <LocaleToggle className="text-gray-500" iconClassName="text-gray-500" />

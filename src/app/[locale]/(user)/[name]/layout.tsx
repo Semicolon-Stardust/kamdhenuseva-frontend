@@ -91,7 +91,7 @@ export default function UserSettingsLayout({
           links={links}
         />
         <SidebarTrigger />
-        <div className="min-h-screen px-10 pt-14">
+        <div className="min-h-screen w-full px-10 pt-14">
           <main>{children}</main>
         </div>
       </SidebarProvider>
