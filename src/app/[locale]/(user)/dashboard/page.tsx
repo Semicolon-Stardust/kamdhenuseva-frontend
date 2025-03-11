@@ -108,54 +108,10 @@ const DashboardPage: React.FC = () => {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="bg-background text-foreground min-h-screen"
+      className="text-foreground min-h-screen"
     >
       <main className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <motion.div className="px-4 py-6 sm:px-0" variants={sectionVariants}>
-          {/* Profile Section */}
-          <section className="mb-8">
-            <motion.h2
-              variants={itemVariants}
-              className="text-2xl font-semibold"
-            >
-              Profile
-            </motion.h2>
-            {user ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="bg-card mt-4 rounded-lg p-6 shadow"
-              >
-                <p>
-                  <span className="font-medium">Name:</span> {user.name}
-                </p>
-                <p>
-                  <span className="font-medium">Email:</span> {user.email}
-                </p>
-                <p>
-                  <span className="font-medium">Verified:</span>{' '}
-                  {user.isVerified ? 'Yes' : 'No'}
-                </p>
-                {user.dateOfBirth && (
-                  <p>
-                    <span className="font-medium">Date of Birth:</span>{' '}
-                    {user.dateOfBirth}
-                  </p>
-                )}
-                {user.emergencyRecoveryContact && (
-                  <p>
-                    <span className="font-medium">Emergency Contact:</span>{' '}
-                    {user.emergencyRecoveryContact}
-                  </p>
-                )}
-              </motion.div>
-            ) : (
-              <motion.p variants={itemVariants} className="mt-4">
-                No user data available.
-              </motion.p>
-            )}
-          </section>
-
           {/* Donation History Section */}
           <section className="mb-8">
             <motion.h2
@@ -177,7 +133,7 @@ const DashboardPage: React.FC = () => {
                 initial="hidden"
                 animate="visible"
                 variants={containerVariants}
-                className="bg-card mt-4 rounded-lg p-6 shadow"
+                className=""
               >
                 <motion.ul>
                   {donationHistoryData.map((donation: any) => (
