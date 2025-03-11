@@ -3,8 +3,12 @@
 import { useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
-import AuthHeaderWrapper from '@/components/ui/header/AuthHeaderWrapper';
-import Footer from '@/components/ui/footer/footer';
+import {
+  Sidebar,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
+import VerticalSidebar from '@/components/ui/header/vertical-header';
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -27,7 +31,6 @@ export default function DashboardLayout({
     isAuthenticatedUser,
     checkUserAuth,
     checkUserProfile,
-    logoutUser,
     isEmailVerified,
   } = useAuthStore();
 
@@ -49,7 +52,6 @@ export default function DashboardLayout({
   useEffect(() => {
     const handleVerificationCheck = async () => {
       if (isAuthenticatedUser && user && !isEmailVerified) {
-        await logoutUser();
         router.push(`/${locale}/login`);
       }
     };
@@ -57,7 +59,7 @@ export default function DashboardLayout({
     if (user) {
       handleVerificationCheck();
     }
-  }, [user, isEmailVerified, isAuthenticatedUser, logoutUser, router, locale]);
+  }, [user, isEmailVerified, isAuthenticatedUser, router, locale]);
 
   // Redirect to login if not authenticated once checking is complete.
   useEffect(() => {
@@ -76,22 +78,32 @@ export default function DashboardLayout({
   }
 
   return (
-    <main className="">
-      <AuthHeaderWrapper />
-      <div className="flex min-h-screen pt-14">
-        {/* Main content area */}
-        <div className="flex-1 p-6 sm:p-8">
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            {user && (
-              <h1 className="text-3xl font-bold text-black">
-                {getGreeting()}, {user?.name?.split(' ')[0] || 'User'}
-              </h1>
-            )}
-          </div>
-          {children}
+    <div className="min-h-screen">
+      <SidebarProvider>
+        <VerticalSidebar
+          heading='Dashboard'
+          headingLink='/dashboard'
+          links={[
+            { href: '/dashboard', label: 'Dashboard' },
+            { href: '/dashboard/donations', label: 'Donations' },
+            { href: '/dashboard/cows', label: 'Cows' },
+          ]}
+        />
+        <div className="flex">
+          {/* Main content area */}
+          <main className="flex-1 p-6 sm:p-8">
+            <SidebarTrigger />
+            <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+              {user && (
+                <h1 className="text-3xl font-bold text-black">
+                  {getGreeting()}, {user?.name?.split(' ')[0] || 'User'}
+                </h1>
+              )}
+            </div>
+            {children}
+          </main>
         </div>
-      </div>
-      <Footer />
-    </main>
+      </SidebarProvider>
+    </div>
   );
 }

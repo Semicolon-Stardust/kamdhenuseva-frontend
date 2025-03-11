@@ -34,7 +34,7 @@ export default function VerticalSidebar({
   };
 
   return (
-    <Sidebar>
+    <Sidebar className='fixed top-0 left-0'>
       <SidebarHeader className="p-6">
         <h2 className="text-foreground text-2xl font-bold">
           <Link href={headingLink}>{heading}</Link>
