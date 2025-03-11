@@ -100,7 +100,7 @@ export default function LoginPage() {
 
   return (
     <motion.div
-      className="bg-background flex min-h-screen items-center justify-center p-4"
+      className="bg-accent flex min-h-screen items-center justify-center p-4"
       initial="hidden"
       animate="visible"
       variants={containerVariants}

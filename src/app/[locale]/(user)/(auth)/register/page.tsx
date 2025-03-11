@@ -140,7 +140,7 @@ export default function RegisterPage() {
 
   return (
     <motion.div
-      className="bg-background mt-20 flex min-h-screen items-center justify-center p-4"
+      className="bg-accent flex min-h-screen items-center justify-center p-4 md:mt-14"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
