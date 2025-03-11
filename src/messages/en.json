@@ -20,7 +20,8 @@
   },
   "breadcrumb": {
     "home": "Home",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "settings": "Settings"
   },
   "HomePage": {
     "heroSection": {
@@ -215,6 +216,47 @@
     },
     "noDonationHistory": "No donation history available.",
     "noCowsAvailable": "No cows available."
+  },
+  "UserSettingsPage": {
+    "tabs": {
+      "profile": "Profile",
+      "security": "Security",
+      "account": "Account"
+    },
+    "profile": {
+      "heading": "User Profile",
+      "name": "Name",
+      "email": "Email"
+    },
+    "security": {
+      "heading": "Security Settings",
+      "updatePassword": "Update Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "passwordPlaceholder": "Enter new password",
+      "confirmPlaceholder": "Confirm new password",
+      "updateButton": "Update Password",
+      "twoFactor": "Two-Factor Authentication",
+      "status": "Status",
+      "passwordUpdated": "Password updated successfully.",
+      "passwordUpdateError": "Error updating password",
+      "twoFactorUpdated": "Two-Factor Authentication preferences updated.",
+      "twoFactorError": "Error toggling 2FA preferences"
+    },
+    "account": {
+      "heading": "Account Management",
+      "emailVerification": "Email Verification",
+      "emailVerified": "Your email is verified!",
+      "emailNotVerified": "Your email is not verified.",
+      "resendEmail": "Resend Verification Email",
+      "deleteAccount": "Delete Account",
+      "deleteWarning": "Warning: This action is irreversible.",
+      "deleteButton": "Delete Account",
+      "deleteConfirm": "Are you sure you want to delete your account? This action cannot be undone.",
+      "accountDeleted": "Account deleted successfully.",
+      "accountDeleteError": "Error deleting account",
+      "emailChecking": "Checking verification status..."
+    }
   },
   "Footer": {
     "logo": "Kamdhenuseva",

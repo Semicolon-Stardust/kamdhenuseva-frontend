@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
 import { useAuthStore } from '@/stores/authStore';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -9,6 +10,14 @@ import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 const passwordSchema = z
   .object({
@@ -23,6 +32,8 @@ const passwordSchema = z
 type PasswordFormData = z.infer<typeof passwordSchema>;
 
 export default function UserSettingsPage() {
+  const t = useTranslations();
+  const locale = useLocale();
   const {
     user,
     deleteUserAccount,
@@ -100,9 +111,30 @@ export default function UserSettingsPage() {
 
   return (
     <div className="mx-auto max-w-4xl rounded-lg bg-white px-6 pt-4 pb-10 shadow-lg">
+      {/* Breadcrumbs */}
+      <Breadcrumb className="mb-6">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/${locale}`}>
+              {t('breadcrumb.home')}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/${locale}/dashboard`}>
+              {t('breadcrumb.dashboard')}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{t('breadcrumb.settings')}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
       {/* Tabs */}
       <div className="flex space-x-6 border-b pb-3">
-        {['profile', 'security', 'account'].map((tab) => (
+        {(['profile', 'security', 'account'] as const).map((tab) => (
           <button
             key={tab}
             className={`px-4 py-2 text-sm font-medium transition ${
@@ -110,11 +142,9 @@ export default function UserSettingsPage() {
                 ? 'border-primary text-primary border-b-2 font-bold'
                 : 'hover:text-primary text-gray-500'
             }`}
-            onClick={() =>
-              setActiveTab(tab as 'profile' | 'security' | 'account')
-            }
+            onClick={() => setActiveTab(tab)}
           >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            {t(`UserSettingsPage.tabs.${tab}`)}
           </button>
         ))}
       </div>
@@ -122,13 +152,19 @@ export default function UserSettingsPage() {
       {/* Profile Section */}
       {activeTab === 'profile' && (
         <div className="mt-6 space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-800">User Profile</h2>
+          <h2 className="text-2xl font-semibold text-gray-800">
+            {t('UserSettingsPage.profile.heading')}
+          </h2>
           <div className="rounded-lg border p-5 shadow-sm">
-            <p className="font-medium text-gray-700">Name:</p>
+            <p className="font-medium text-gray-700">
+              {t('UserSettingsPage.profile.name')}:
+            </p>
             <p className="text-gray-900">{user?.name}</p>
           </div>
           <div className="rounded-lg border p-5 shadow-sm">
-            <p className="font-medium text-gray-700">Email:</p>
+            <p className="font-medium text-gray-700">
+              {t('UserSettingsPage.profile.email')}:
+            </p>
             <p className="text-gray-900">{user?.email}</p>
           </div>
         </div>
@@ -138,57 +174,46 @@ export default function UserSettingsPage() {
       {activeTab === 'security' && (
         <div className="mt-6 space-y-6">
           <h2 className="text-2xl font-semibold text-gray-800">
-            Security Settings
+            {t('UserSettingsPage.security.heading')}
           </h2>
 
           {/* Password Update */}
           <div className="rounded-lg p-6 shadow-md">
             <h3 className="text-lg font-semibold text-gray-800">
-              Update Password
+              {t('UserSettingsPage.security.updatePassword')}
             </h3>
             <form
               onSubmit={handleSubmit(handlePasswordUpdate)}
               className="mt-4 space-y-4"
             >
-              <div>
-                <Label htmlFor="newPassword">New Password</Label>
-                <Input
-                  id="newPassword"
-                  type="password"
-                  {...register('newPassword')}
-                  placeholder="Enter new password"
-                  className="bg-gray-200"
-                />
-                {errors.newPassword && (
-                  <p className="text-xs text-red-500">
-                    {errors.newPassword.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <Label htmlFor="confirmPassword">Confirm New Password</Label>
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  {...register('confirmPassword')}
-                  placeholder="Confirm new password"
-                  className="bg-gray-200"
-                />
-                {errors.confirmPassword && (
-                  <p className="text-xs text-red-500">
-                    {errors.confirmPassword.message}
-                  </p>
-                )}
-              </div>
+              <Label htmlFor="newPassword">
+                {t('UserSettingsPage.security.newPassword')}
+              </Label>
+              <Input
+                id="newPassword"
+                type="password"
+                {...register('newPassword')}
+                placeholder={t('UserSettingsPage.security.passwordPlaceholder')}
+                className="bg-gray-200"
+              />
+              <Label htmlFor="confirmPassword">
+                {t('UserSettingsPage.security.confirmPassword')}
+              </Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                {...register('confirmPassword')}
+                placeholder={t('UserSettingsPage.security.confirmPlaceholder')}
+                className="bg-gray-200"
+              />
               <Button type="submit" className="w-full">
-                Update Password
+                {t('UserSettingsPage.security.updateButton')}
               </Button>
               {passwordMsg && (
                 <p className="mt-2 text-green-500">{passwordMsg}</p>
               )}
             </form>
           </div>
-
           {/* Two-Factor Authentication */}
           <div className="rounded-lg border p-5 shadow-md">
             <h3 className="text-lg font-semibold text-gray-800">
@@ -211,23 +236,27 @@ export default function UserSettingsPage() {
       {activeTab === 'account' && (
         <div className="mt-6 space-y-6">
           <h2 className="text-2xl font-semibold text-gray-800">
-            Account Management
+            {t('UserSettingsPage.account.heading')}
           </h2>
 
           {/* Email Verification */}
           <div className="rounded-lg border p-5 shadow-md">
             <h3 className="text-lg font-semibold text-gray-800">
-              Email Verification
+              {t('UserSettingsPage.account.emailVerification')}
             </h3>
             {status === 'loading' ? (
-              <p>Checking verification status...</p>
+              <p>{t('UserSettingsPage.account.emailChecking')}</p>
             ) : status === 'verified' ? (
-              <p className="text-green-500">Your email is verified!</p>
+              <p className="text-green-500">
+                {t('UserSettingsPage.account.emailVerified')}
+              </p>
             ) : (
               <div>
-                <p className="text-red-500">Your email is not verified.</p>
+                <p className="text-red-500">
+                  {t('UserSettingsPage.account.emailNotVerified')}
+                </p>
                 <Button className="bg-primary mt-4 w-full text-white">
-                  Resend Verification Email
+                  {t('UserSettingsPage.account.resendEmail')}
                 </Button>
               </div>
             )}
@@ -236,17 +265,17 @@ export default function UserSettingsPage() {
           {/* Delete Account */}
           <div className="rounded-lg border border-red-500 p-5 shadow-md">
             <h3 className="text-lg font-semibold text-red-500">
-              Delete Account
+              {t('UserSettingsPage.account.deleteAccount')}
             </h3>
             <p className="text-red-600">
-              Warning: This action is irreversible.
+              {t('UserSettingsPage.account.deleteWarning')}
             </p>
             <Button
               variant="destructive"
               onClick={handleDeleteAccount}
               className="mt-4 w-full"
             >
-              Delete Account
+              {t('UserSettingsPage.account.deleteButton')}
             </Button>
             {deleteMsg && <p className="mt-2 text-red-500">{deleteMsg}</p>}
           </div>
