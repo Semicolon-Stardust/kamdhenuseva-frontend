@@ -78,18 +78,18 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="">
       <SidebarProvider>
         <VerticalSidebar
-          heading='Dashboard'
-          headingLink='/dashboard'
+          heading="Dashboard"
+          headingLink="/dashboard"
           links={[
             { href: '/dashboard', label: 'Dashboard' },
             { href: '/dashboard/donations', label: 'Donations' },
             { href: '/dashboard/cows', label: 'Cows' },
           ]}
         />
-        <div className="flex">
+        <div className="flex min-h-screen">
           {/* Main content area */}
           <main className="flex-1 p-6 sm:p-8">
             <SidebarTrigger />

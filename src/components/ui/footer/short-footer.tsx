@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 export default function ShortFooter() {
   return (
     <footer className="flex flex-col items-center">
-      <div className="my-4 text-xs text-gray-500">
+      <div className="my-4 text-xs text-white">
         <div className="flex justify-center gap-2">
           <Link
             className="underline-gray-500 hover:underline"
