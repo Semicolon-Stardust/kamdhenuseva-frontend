@@ -99,7 +99,7 @@ export default function UserSettingsPage() {
   };
 
   return (
-    <div className="mx-auto max-w-4xl rounded-lg bg-white px-6 py-10 shadow-lg">
+    <div className="mx-auto max-w-4xl rounded-lg bg-white px-6 pt-4 pb-10 shadow-lg">
       {/* Tabs */}
       <div className="flex space-x-6 border-b pb-3">
         {['profile', 'security', 'account'].map((tab) => (

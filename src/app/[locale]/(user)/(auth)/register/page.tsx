@@ -266,7 +266,7 @@ export default function RegisterPage() {
             />
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full cursor-pointer">
               {registerMutation.isPending ? 'Registering...' : 'Register'}
             </Button>
           </motion.div>

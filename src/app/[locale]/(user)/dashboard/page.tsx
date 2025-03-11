@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
 import CowCard from '@/components/cows/cow-card';
@@ -16,40 +14,32 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
-const containerVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.2,
-      duration: 0.5,
-    },
-  },
-  exit: { opacity: 0, y: -20, transition: { duration: 0.3 } },
-};
-
-const sectionVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, x: -10 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
-};
+// Function to get a greeting based on the current time
+function getGreeting(t: (key: string) => string) {
+  const hour = new Date().getHours();
+  if (hour < 12) return t('UserDashboardPage.greeting.morning');
+  if (hour < 18) return t('UserDashboardPage.greeting.afternoon');
+  return t('UserDashboardPage.greeting.evening');
+}
 
 const DashboardPage: React.FC = () => {
-  // Extract functions and data from the auth store
+  const t = useTranslations();
   const user = useAuthStore((state) => state.user);
   const fetchDonationHistory = useAuthStore(
     (state) => state.fetchDonationHistory,
   );
   const fetchCows = useAuthStore((state) => state.fetchCows);
 
-  // TanStack Query to fetch donation history
+  // Fetch donation history
   const {
     data: donationHistoryData,
     isLoading: donationLoading,
@@ -64,7 +54,7 @@ const DashboardPage: React.FC = () => {
     refetchOnWindowFocus: false,
   });
 
-  // TanStack Query to fetch cows data
+  // Fetch cows data
   const {
     data: cowsData,
     isLoading: cowsLoading,
@@ -105,88 +95,95 @@ const DashboardPage: React.FC = () => {
   };
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="text-foreground min-h-screen"
-    >
+    <div className="text-foreground min-h-screen">
       <main className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-        <motion.div className="px-4 py-6 sm:px-0" variants={sectionVariants}>
+        {/* Breadcrumbs */}
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">{t('breadcrumb.home')}</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{t('breadcrumb.dashboard')}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        {/* Greeting */}
+        <div className="mb-6">
+          {user && (
+            <h1 className="text-3xl font-bold text-black">
+              {getGreeting(t)},{' '}
+              {user?.name?.split(' ')[0] || t('UserDashboardPage.user')}
+            </h1>
+          )}
+        </div>
+
+        <div className="px-4 py-6 sm:px-0">
           {/* Donation History Section */}
           <section className="mb-8">
-            <motion.h2
-              variants={itemVariants}
-              className="text-2xl font-semibold"
-            >
-              Donation History
-            </motion.h2>
+            <h2 className="text-2xl font-semibold">
+              {t('UserDashboardPage.donationHistory')}
+            </h2>
             {donationLoading ? (
-              <motion.p variants={itemVariants}>
-                Loading donation history...
-              </motion.p>
+              <Loader />
             ) : donationError ? (
-              <motion.p variants={itemVariants} className="text-red-500">
-                Error loading donation history.
-              </motion.p>
+              <p className="text-red-500">
+                {t('UserDashboardPage.error.loading')}
+              </p>
             ) : donationHistoryData && donationHistoryData.length > 0 ? (
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={containerVariants}
-                className=""
-              >
-                <motion.ul>
-                  {donationHistoryData.map((donation: any) => (
-                    <motion.li
-                      key={donation._id}
-                      variants={itemVariants}
-                      className="border-b border-gray-200 py-2"
-                    >
+              <ul>
+                {donationHistoryData.map((donation: any) => (
+                  <li
+                    key={donation._id}
+                    className="border-b border-gray-200 py-2"
+                  >
+                    <p>
+                      <span className="font-medium">
+                        {t('UserDashboardPage.amount')}:
+                      </span>{' '}
+                      ${donation.amount}
+                    </p>
+                    <p>
+                      <span className="font-medium">
+                        {t('UserDashboardPage.tier')}:
+                      </span>{' '}
+                      {donation.tier}
+                    </p>
+                    <p>
+                      <span className="font-medium">
+                        {t('UserDashboardPage.type')}:
+                      </span>{' '}
+                      {donation.donationType}
+                    </p>
+                    {donation.createdAt && (
                       <p>
-                        <span className="font-medium">Amount:</span> $
-                        {donation.amount}
+                        <span className="font-medium">
+                          {t('UserDashboardPage.date')}:
+                        </span>{' '}
+                        {new Date(donation.createdAt).toLocaleDateString()}
                       </p>
-                      <p>
-                        <span className="font-medium">Tier:</span>{' '}
-                        {donation.tier}
-                      </p>
-                      <p>
-                        <span className="font-medium">Type:</span>{' '}
-                        {donation.donationType}
-                      </p>
-                      {donation.createdAt && (
-                        <p>
-                          <span className="font-medium">Date:</span>{' '}
-                          {new Date(donation.createdAt).toLocaleDateString()}
-                        </p>
-                      )}
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              </motion.div>
+                    )}
+                  </li>
+                ))}
+              </ul>
             ) : (
-              <motion.p variants={itemVariants} className="mt-4">
-                No donation history available.
-              </motion.p>
+              <p className="mt-4">{t('UserDashboardPage.noDonationHistory')}</p>
             )}
           </section>
 
           {/* Cows Section with Pagination */}
           <section className="mb-8">
-            <motion.h2
-              variants={itemVariants}
-              className="text-2xl font-semibold"
-            >
-              Cows
-            </motion.h2>
+            <h2 className="text-2xl font-semibold">
+              {t('UserDashboardPage.cows')}
+            </h2>
             {cowsLoading ? (
               <Loader />
             ) : cowsError ? (
-              <motion.p variants={itemVariants} className="text-red-500">
-                Error loading cows.
-              </motion.p>
+              <p className="text-red-500">
+                {t('UserDashboardPage.error.loading')}
+              </p>
             ) : cowsData && cowsData.length > 0 ? (
               <>
                 <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -203,25 +200,15 @@ const DashboardPage: React.FC = () => {
                     <Pagination>
                       <PaginationContent>
                         <PaginationItem>
-                          <PaginationPrevious
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleCowsPrevious();
-                            }}
-                          />
+                          <PaginationPrevious onClick={handleCowsPrevious} />
                         </PaginationItem>
                         {Array.from({ length: totalCowsPages }, (_, i) => {
                           const page = i + 1;
                           return (
                             <PaginationItem key={page}>
                               <PaginationLink
-                                href="#"
                                 isActive={currentCowsPage === page}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  handleCowsPageClick(page);
-                                }}
+                                onClick={() => handleCowsPageClick(page)}
                               >
                                 {page}
                               </PaginationLink>
@@ -229,13 +216,7 @@ const DashboardPage: React.FC = () => {
                           );
                         })}
                         <PaginationItem>
-                          <PaginationNext
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleCowsNext();
-                            }}
-                          />
+                          <PaginationNext onClick={handleCowsNext} />
                         </PaginationItem>
                       </PaginationContent>
                     </Pagination>
@@ -243,14 +224,12 @@ const DashboardPage: React.FC = () => {
                 )}
               </>
             ) : (
-              <motion.p variants={itemVariants} className="mt-4">
-                No cows available.
-              </motion.p>
+              <p className="mt-4">{t('UserDashboardPage.noCowsAvailable')}</p>
             )}
           </section>
-        </motion.div>
+        </div>
       </main>
-    </motion.div>
+    </div>
   );
 };
 

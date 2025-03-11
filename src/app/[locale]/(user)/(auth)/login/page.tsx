@@ -157,7 +157,7 @@ export default function LoginPage() {
             )}
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full cursor-pointer">
               {loginMutation.isPending ? 'Logging in...' : 'Login'}
             </Button>
           </motion.div>
