@@ -140,7 +140,7 @@ export default function RegisterPage() {
 
   return (
     <motion.div
-      className="bg-background mt-20 flex min-h-screen items-center justify-center p-4"
+      className="bg-accent flex min-h-screen items-center justify-center p-4 md:mt-14"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
@@ -266,7 +266,7 @@ export default function RegisterPage() {
             />
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full cursor-pointer">
               {registerMutation.isPending ? 'Registering...' : 'Register'}
             </Button>
           </motion.div>

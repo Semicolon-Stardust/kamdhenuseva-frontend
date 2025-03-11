@@ -42,7 +42,7 @@ export default function VerifyOTPPage() {
   // If there's no pending user, redirect away (e.g. to the login page)
   useEffect(() => {
     if (!pendingAdminEmail) {
-      router.push(`/${locale}/admin/login`);
+      router.push(`/${locale}/admin`);
     }
   }, [pendingAdminEmail, router, locale]);
 
@@ -66,7 +66,7 @@ export default function VerifyOTPPage() {
 
   return (
     <motion.div
-      className="bg-background dark:bg-background-dark flex min-h-screen items-center justify-center p-4"
+      className="bg-accent flex min-h-screen items-center justify-center p-4"
       initial="hidden"
       animate="visible"
       variants={containerVariants}

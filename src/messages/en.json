@@ -18,6 +18,11 @@
       "system": "System"
     }
   },
+  "breadcrumb": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "settings": "Settings"
+  },
   "HomePage": {
     "heroSection": {
       "carousel": {
@@ -193,27 +198,96 @@
     "logIn": "Log In",
     "adminKey": "Admin Key"
   },
-  "FrequentlyAskedQuestions": {
-    "title": "Frequently Asked Questions",
-    "description": "Find answers to the most commonly asked questions about our platform.",
-    "questions": {
-      "1": {
-        "question": "What is the purpose of this platform?",
-        "answer": "The purpose of this platform is to provide a template for building web applications and websites with a modern frontend stack and best practices."
-      },
-      "2": {
-        "question": "What technologies are used in this template?",
-        "answer": "This template uses Next.js, TypeScript, and Tailwind CSS for the frontend, and Jest and React Testing Library for testing."
-      },
-      "3": {
-        "question": "How can I contribute to this project?",
-        "answer": "You can contribute to this project by forking the repository on GitHub, making your changes, and submitting a pull request."
-      },
-      "4": {
-        "question": "Is this template free to use?",
-        "answer": "Yes, this template is free to use for personal and commercial projects. However, attribution is appreciated."
-      }
+  "UserDashboardPage": {
+    "greeting": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "user": "User",
+    "donationHistory": "Donation History",
+    "cows": "Cows",
+    "amount": "Amount",
+    "tier": "Tier",
+    "type": "Type",
+    "date": "Date",
+    "error": {
+      "loading": "Error loading data."
+    },
+    "noDonationHistory": "No donation history available.",
+    "noCowsAvailable": "No cows available."
+  },
+  "UserSettingsPage": {
+    "tabs": {
+      "profile": "Profile",
+      "security": "Security",
+      "account": "Account"
+    },
+    "profile": {
+      "heading": "User Profile",
+      "name": "Name",
+      "email": "Email"
+    },
+    "security": {
+      "heading": "Security Settings",
+      "updatePassword": "Update Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "passwordPlaceholder": "Enter new password",
+      "confirmPlaceholder": "Confirm new password",
+      "updateButton": "Update Password",
+      "twoFactor": "Two-Factor Authentication",
+      "status": "Status",
+      "passwordUpdated": "Password updated successfully.",
+      "passwordUpdateError": "Error updating password",
+      "twoFactorUpdated": "Two-Factor Authentication preferences updated.",
+      "twoFactorError": "Error toggling 2FA preferences"
+    },
+    "account": {
+      "heading": "Account Management",
+      "emailVerification": "Email Verification",
+      "emailVerified": "Your email is verified!",
+      "emailNotVerified": "Your email is not verified.",
+      "resendEmail": "Resend Verification Email",
+      "deleteAccount": "Delete Account",
+      "deleteWarning": "Warning: This action is irreversible.",
+      "deleteButton": "Delete Account",
+      "deleteConfirm": "Are you sure you want to delete your account? This action cannot be undone.",
+      "accountDeleted": "Account deleted successfully.",
+      "accountDeleteError": "Error deleting account",
+      "emailChecking": "Checking verification status..."
     }
+  },
+  "AdminDashboardPage": {
+    "greeting": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening",
+      "user": "Admin"
+    },
+    "profile": "Profile",
+    "user": "User",
+    "name": "Name",
+    "email": "Email",
+    "verified": "Verified",
+    "yes": "Yes",
+    "no": "No",
+    "dateOfBirth": "Date of Birth",
+    "noAdminData": "No admin data available.",
+
+    "donationHistory": "Donation History",
+    "loadingDonationHistory": "Loading donation history...",
+    "errorLoadingDonationHistory": "Error loading donation history.",
+    "amount": "Amount",
+    "tier": "Tier",
+    "type": "Type",
+    "date": "Date",
+    "noDonationHistory": "No donation history available.",
+
+    "cows": "Cows",
+    "loadingCows": "Loading cows...",
+    "errorLoadingCows": "Error loading cows.",
+    "noCowsAvailable": "No cows available."
   },
   "Footer": {
     "logo": "Kamdhenuseva",

@@ -130,12 +130,18 @@ function Navbar({ headerData, authData }: NavbarProps) {
       {/* Mobile Navigation */}
       {isOpen && (
         <nav className="mt-10 flex w-full flex-col items-center gap-5 md:hidden">
-          <Links links={headerData.links} />
-          {authData && authData.isAuthenticated ? (
-            <UserDropdown authData={authData} />
-          ) : (
-            <CTAButtons ctaButtons={headerData.ctaButtons} />
-          )}
+          {/* Navigation Links */}
+          <div className="flex w-full flex-wrap justify-center gap-4 px-4">
+            <Links links={headerData.links} />
+          </div>
+          {/* Authentication Controls */}
+          <div className="flex w-full flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            {authData && authData.isAuthenticated ? (
+              <UserDropdown authData={authData} />
+            ) : (
+              <CTAButtons ctaButtons={headerData.ctaButtons} />
+            )}
+          </div>
         </nav>
       )}
     </div>
@@ -148,7 +154,7 @@ interface LinksProps {
 
 function Links({ links }: LinksProps) {
   return (
-    <ul className="flex items-center">
+    <ul className="flex flex-wrap justify-center md:flex-nowrap">
       {links.map((link) => (
         <li key={link.href}>
           <Button

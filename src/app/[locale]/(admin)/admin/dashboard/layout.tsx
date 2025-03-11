@@ -1,15 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
-
-function getGreeting() {
-  const hour = new Date().getHours();
-  if (hour < 12) return 'Good morning';
-  if (hour < 18) return 'Good afternoon';
-  return 'Good evening';
-}
+import Loader from '@/components/ui/loader';
 
 export default function DashboardLayout({
   children,
@@ -51,26 +46,16 @@ export default function DashboardLayout({
   // While waiting for the auth check to finish, show a loading indicator.
   if (isCheckingAuth) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        Loading...
+      <div className="min-h-screen">
+        <Loader />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-14">
+    <div className="mt-14 min-h-screen">
       <div className="flex">
-        {/* Main content area */}
-        <main className="flex-1 p-6 sm:p-8">
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            {user && (
-              <h1 className="text-3xl font-bold text-black">
-                {getGreeting()}, {user?.name?.split(' ')[0] || 'User'}
-              </h1>
-            )}
-          </div>
-          {children}
-        </main>
+        <main className="flex-1">{children}</main>
       </div>
     </div>
   );

@@ -28,7 +28,7 @@ export default function Loader() {
   return (
     <div
       ref={loaderRef}
-      className="flex min-h-screen items-center justify-center py-10"
+      className="flex min-h-[50vh] items-center justify-center py-10"
     >
       <div className="flex space-x-2">
         <span className="dot bg-primary h-4 w-4 rounded-full"></span>

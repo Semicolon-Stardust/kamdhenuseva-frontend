@@ -30,9 +30,13 @@ export default function AuthHeaderWrapper() {
   const checkUserProfile = useAuthStore((state) => state.checkUserProfile);
   const checkAdminProfile = useAuthStore((state) => state.checkAdminProfile);
   const admin = useAuthStore((state) => state.admin);
-  const isAuthenticatedAdmin = useAuthStore((state) => state.isAuthenticatedAdmin);
+  const isAuthenticatedAdmin = useAuthStore(
+    (state) => state.isAuthenticatedAdmin,
+  );
   const user = useAuthStore((state) => state.user);
-  const isAuthenticatedUser = useAuthStore((state) => state.isAuthenticatedUser);
+  const isAuthenticatedUser = useAuthStore(
+    (state) => state.isAuthenticatedUser,
+  );
   const logoutAdmin = useAuthStore((state) => state.logoutAdmin);
   const logoutUser = useAuthStore((state) => state.logoutUser);
 

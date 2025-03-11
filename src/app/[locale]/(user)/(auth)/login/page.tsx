@@ -100,7 +100,7 @@ export default function LoginPage() {
 
   return (
     <motion.div
-      className="bg-background flex min-h-screen items-center justify-center p-4"
+      className="bg-accent flex min-h-screen items-center justify-center p-4"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
@@ -157,7 +157,7 @@ export default function LoginPage() {
             )}
           </motion.div>
           <motion.div variants={fieldVariants}>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full cursor-pointer">
               {loginMutation.isPending ? 'Logging in...' : 'Login'}
             </Button>
           </motion.div>
