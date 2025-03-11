@@ -8,10 +8,7 @@ export default function ShortFooter() {
     <footer className="flex flex-col items-center">
       <div className="my-4 text-xs text-white">
         <div className="flex justify-center gap-2">
-          <Link
-            className="underline-gray-500 hover:underline"
-            href={'/about-us'}
-          >
+          <Link className="underline-gray-500 hover:underline" href={'/about'}>
             About Us
           </Link>
           <div>
@@ -19,7 +16,7 @@ export default function ShortFooter() {
           </div>
           <Link
             className="underline-gray-500 hover:underline"
-            href={'/contact-us'}
+            href={'/contact'}
           >
             Contact Us
           </Link>
