@@ -127,15 +127,15 @@ export default function DonateCowPage(props: {
             alt={cow.name}
             width={550}
             height={450}
-            className="object-fit mt-6 rounded-lg shadow-lg sm:mt-0"
+            className="mt-6 h-[400px] w-[550px] rounded-lg object-cover shadow-lg sm:mt-0"
           />
         ) : (
           <Image
-            src={'/assets/donate/placeholder.png'}
+            src={'/assets/donate/placeholder.jpg'}
             alt={cow.name}
             width={550}
             height={450}
-            className="object-fit mt-6 rounded-lg shadow-lg sm:mt-0"
+            className="mt-6 h-[400px] w-[550px] rounded-lg object-cover shadow-lg sm:mt-0"
           />
         )}
       </section>

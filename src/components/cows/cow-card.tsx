@@ -19,12 +19,17 @@ export default function CowCard({ cow, link }: CowCardProps) {
               src={cow.photos[0]}
               alt={cow.name}
               width={400}
-              height={300}
+              height={220}
+              className="object-fit h-[220px] w-[400px]"
             />
           ) : (
-            <div className="flex h-full items-center justify-center bg-gray-100">
-              <span className="text-gray-500">No Image</span>
-            </div>
+            <Image
+              src={'/assets/donate/placeholder.jpg'}
+              alt={cow.name}
+              width={400}
+              height={220}
+              className="object-fit h-[220px] w-[400px]"
+            />
           )}
         </div>
 
