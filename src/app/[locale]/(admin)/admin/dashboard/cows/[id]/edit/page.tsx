@@ -43,6 +43,7 @@ export default function AdminCowEdit() {
   const router = useRouter();
   const fetchCowById = useAuthStore((state) => state.fetchCowById);
   const updateCow = useAuthStore((state) => state.updateCow);
+  const deleteCow = useAuthStore((state) => state.deleteCow);
 
   const {
     data: cow,
@@ -119,6 +120,7 @@ export default function AdminCowEdit() {
     );
   };
 
+  // Mutation for updating the cow
   const mutation = useMutation({
     mutationFn: async (data: CowFormValues) => {
       if (cowId) {
@@ -133,6 +135,18 @@ export default function AdminCowEdit() {
   const onSubmit: SubmitHandler<CowFormValues> = (data) => {
     mutation.mutate(data);
   };
+
+  // Mutation for deleting the cow with confirmation
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
+      if (cowId) {
+        await deleteCow(cowId);
+      }
+    },
+    onSuccess: () => {
+      router.push(`/${locale}/admin/dashboard/cows`);
+    },
+  });
 
   if (isLoading) return <div className="text-center">Loading...</div>;
   if (error)
@@ -215,32 +229,38 @@ export default function AdminCowEdit() {
 
           {/* Status Checkboxes */}
           <div className="flex flex-wrap gap-4">
-            <Controller
-              control={control}
-              name="sicknessStatus"
-              render={({ field: { onChange, value } }) => (
-                <Checkbox checked={value} onCheckedChange={onChange} />
-              )}
-            />
-            <Label>Sick?</Label>
+            <div className="flex items-center gap-2">
+              <Controller
+                control={control}
+                name="sicknessStatus"
+                render={({ field: { onChange, value } }) => (
+                  <Checkbox checked={value} onCheckedChange={onChange} />
+                )}
+              />
+              <Label>Sick?</Label>
+            </div>
 
-            <Controller
-              control={control}
-              name="agedStatus"
-              render={({ field: { onChange, value } }) => (
-                <Checkbox checked={value} onCheckedChange={onChange} />
-              )}
-            />
-            <Label>Aged?</Label>
+            <div className="flex items-center gap-2">
+              <Controller
+                control={control}
+                name="agedStatus"
+                render={({ field: { onChange, value } }) => (
+                  <Checkbox checked={value} onCheckedChange={onChange} />
+                )}
+              />
+              <Label>Aged?</Label>
+            </div>
 
-            <Controller
-              control={control}
-              name="adoptionStatus"
-              render={({ field: { onChange, value } }) => (
-                <Checkbox checked={value} onCheckedChange={onChange} />
-              )}
-            />
-            <Label>Adopted?</Label>
+            <div className="flex items-center gap-2">
+              <Controller
+                control={control}
+                name="adoptionStatus"
+                render={({ field: { onChange, value } }) => (
+                  <Checkbox checked={value} onCheckedChange={onChange} />
+                )}
+              />
+              <Label>Adopted?</Label>
+            </div>
           </div>
 
           {/* Image Upload */}
@@ -255,11 +275,28 @@ export default function AdminCowEdit() {
 
           <button
             type="submit"
-            className="bg-primary w-full rounded-lg py-2 text-white"
+            className="bg-primary hover:bg-secondary w-full cursor-pointer rounded-lg py-2 text-white"
           >
             {mutation.isPending ? 'Updating...' : 'Update Cow'}
           </button>
         </form>
+
+        {/* Delete Cow Button */}
+        <button
+          type="button"
+          onClick={() => {
+            if (
+              confirm(
+                'Are you sure you want to delete this cow? This action cannot be undone.',
+              )
+            ) {
+              deleteMutation.mutate();
+            }
+          }}
+          className="mt-4 w-full cursor-pointer rounded-lg bg-red-700 py-2 text-white hover:bg-red-800"
+        >
+          {deleteMutation.isPending ? 'Deleting...' : 'Delete Cow'}
+        </button>
       </div>
     </div>
   );
