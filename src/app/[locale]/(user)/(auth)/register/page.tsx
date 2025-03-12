@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -34,16 +33,6 @@ const registerSchema = z
   });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
-
-const containerVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
-const fieldVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
-};
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -85,7 +74,6 @@ export default function RegisterPage() {
       );
     },
     onSuccess: async () => {
-      // If the email isn't verified, logout and push to login.
       if (!useAuthStore.getState().isEmailVerified) {
         await logoutUser();
         router.push(`/${locale}/login`);
@@ -109,22 +97,11 @@ export default function RegisterPage() {
 
   if (registrationSuccess) {
     return (
-      <motion.div
-        className="bg-background dark:bg-background-dark flex min-h-screen items-center justify-center p-4"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-      >
-        <motion.div
-          className="bg-card w-full max-w-md space-y-6 rounded-lg p-8 shadow"
-          variants={containerVariants}
-        >
-          <motion.h1
-            className="text-primary text-center text-3xl font-bold"
-            variants={fieldVariants}
-          >
+      <div className="bg-background dark:bg-background-dark flex min-h-screen items-center justify-center p-4">
+        <div className="bg-card w-full max-w-md space-y-6 rounded-lg p-8 shadow">
+          <h1 className="text-primary text-center text-3xl font-bold">
             Registration Successful!
-          </motion.h1>
+          </h1>
           <p className="text-center">
             Please check your email for a verification link before logging in.
           </p>
@@ -133,30 +110,19 @@ export default function RegisterPage() {
               Go to Login
             </Button>
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     );
   }
 
   return (
-    <motion.div
-      className="bg-accent flex min-h-screen items-center justify-center p-4 md:mt-14"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-    >
-      <motion.div
-        className="bg-primary w-full max-w-md space-y-6 rounded-lg p-8 shadow"
-        variants={containerVariants}
-      >
-        <motion.h1
-          className="text-center text-3xl font-bold text-white"
-          variants={fieldVariants}
-        >
+    <div className="bg-accent flex min-h-screen items-center justify-center p-4 md:mt-14">
+      <div className="bg-primary w-full max-w-md space-y-6 rounded-lg p-8 shadow">
+        <h1 className="text-center text-3xl font-bold text-white">
           Create Your Account
-        </motion.h1>
+        </h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <motion.div variants={fieldVariants}>
+          <div>
             <Label
               htmlFor="name"
               className="block text-sm font-medium text-white"
@@ -175,8 +141,8 @@ export default function RegisterPage() {
                 {errors.name.message}
               </p>
             )}
-          </motion.div>
-          <motion.div variants={fieldVariants}>
+          </div>
+          <div>
             <Label
               htmlFor="email"
               className="block text-sm font-medium text-white"
@@ -195,8 +161,8 @@ export default function RegisterPage() {
                 {errors.email.message}
               </p>
             )}
-          </motion.div>
-          <motion.div variants={fieldVariants}>
+          </div>
+          <div>
             <Label
               htmlFor="password"
               className="block text-sm font-medium text-white"
@@ -215,8 +181,8 @@ export default function RegisterPage() {
                 {errors.password.message}
               </p>
             )}
-          </motion.div>
-          <motion.div variants={fieldVariants}>
+          </div>
+          <div>
             <Label
               htmlFor="confirmPassword"
               className="block text-sm font-medium text-white"
@@ -235,8 +201,8 @@ export default function RegisterPage() {
                 {errors.confirmPassword.message}
               </p>
             )}
-          </motion.div>
-          <motion.div variants={fieldVariants}>
+          </div>
+          <div>
             <Label
               htmlFor="dateOfBirth"
               className="block text-sm font-medium text-white"
@@ -249,8 +215,8 @@ export default function RegisterPage() {
               {...register('dateOfBirth')}
               className="mt-1 w-full"
             />
-          </motion.div>
-          <motion.div variants={fieldVariants}>
+          </div>
+          <div>
             <Label
               htmlFor="emergencyRecoveryContact"
               className="block text-sm font-medium text-white"
@@ -264,12 +230,12 @@ export default function RegisterPage() {
               className="mt-1 w-full"
               placeholder="Alternate email"
             />
-          </motion.div>
-          <motion.div variants={fieldVariants}>
+          </div>
+          <div>
             <Button type="submit" className="w-full cursor-pointer">
               {registerMutation.isPending ? 'Registering...' : 'Register'}
             </Button>
-          </motion.div>
+          </div>
           {registerMutation.error && (
             <p className="text-destructive text-center">
               {(registerMutation.error as Error)?.message ||
@@ -277,7 +243,7 @@ export default function RegisterPage() {
             </p>
           )}
         </form>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
