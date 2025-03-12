@@ -51,7 +51,7 @@ const createCowsSchema = z.object({
 
 type CreateCowsFormValues = z.infer<typeof createCowsSchema>;
 
-// A reusable dropzone component for file uploads
+// A reusable dropzone component for file uploads with present styling
 const DropzoneField = ({ onChange }: { onChange: (files: File[]) => void }) => {
   const onDrop = (acceptedFiles: File[]) => {
     onChange(acceptedFiles);
@@ -182,7 +182,7 @@ export default function AdminCowCreate() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {fields.map((field, index) => (
-            <div key={field.id} className="rounded-lg p-4">
+            <div key={field.id} className="mb-4 rounded-lg border p-4">
               <h2 className="mb-2 text-lg font-semibold">Cow {index + 1}</h2>
 
               {/* Name */}
@@ -227,23 +227,48 @@ export default function AdminCowCreate() {
               />
 
               {/* Status Checkboxes */}
-              <div className="mt-2 flex flex-wrap gap-4">
-                <div className="flex items-center gap-2">
-                  <Controller
-                    control={control}
-                    name={`cows.${index}.sicknessStatus` as const}
-                    render={({ field: { onChange, value } }) => (
-                      <>
-                        <Checkbox checked={value} onCheckedChange={onChange} />
-                        <Label>Sick?</Label>
-                      </>
-                    )}
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox checked={false} />
-                  <Label>Aged?</Label>
-                </div>
+              <div className="mt-2 flex items-center space-x-4">
+                <Controller
+                  control={control}
+                  name={`cows.${index}.sicknessStatus` as const}
+                  render={({ field: { onChange, value } }) => (
+                    <>
+                      <Checkbox
+                        checked={value}
+                        onCheckedChange={(checked) => onChange(checked)}
+                      />
+                      <Label>Sick?</Label>
+                    </>
+                  )}
+                />
+
+                <Controller
+                  control={control}
+                  name={`cows.${index}.agedStatus` as const}
+                  render={({ field: { onChange, value } }) => (
+                    <>
+                      <Checkbox
+                        checked={value}
+                        onCheckedChange={(checked) => onChange(checked)}
+                      />
+                      <Label>Aged?</Label>
+                    </>
+                  )}
+                />
+
+                <Controller
+                  control={control}
+                  name={`cows.${index}.adoptionStatus` as const}
+                  render={({ field: { onChange, value } }) => (
+                    <>
+                      <Checkbox
+                        checked={value}
+                        onCheckedChange={(checked) => onChange(checked)}
+                      />
+                      <Label>Adopted?</Label>
+                    </>
+                  )}
+                />
               </div>
 
               {/* Image Upload */}
@@ -255,12 +280,40 @@ export default function AdminCowCreate() {
                   <DropzoneField onChange={onChange} />
                 )}
               />
+
+              {/* Remove Cow Button */}
+              <button
+                type="button"
+                onClick={() => remove(index)}
+                className="mt-2 text-red-500"
+              >
+                Remove Cow
+              </button>
             </div>
           ))}
 
+          {/* Add Another Cow Button */}
+          <button
+            type="button"
+            onClick={() =>
+              append({
+                name: '',
+                description: '',
+                sicknessStatus: false,
+                gender: undefined,
+                agedStatus: false,
+                adoptionStatus: false,
+                images: [],
+              })
+            }
+            className="bg-secondary text-secondary-foreground w-full cursor-pointer rounded px-4 py-2"
+          >
+            Add Another Cow
+          </button>
+
           <button
             type="submit"
-            className="bg-primary w-full rounded-lg py-2 text-white"
+            className="bg-primary w-full cursor-pointer rounded-lg py-2 text-white"
           >
             {mutation.isPending ? 'Creating...' : 'Create Cows'}
           </button>
