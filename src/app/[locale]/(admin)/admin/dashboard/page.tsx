@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
@@ -5,6 +6,9 @@ import React, { useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
+import { useParams } from 'next/navigation';
+import { Link } from '@/i18n/routing';
+import { Users, Leaf, Shield } from 'lucide-react'; // Lucide icons
 import CowCard from '@/components/cows/cow-card';
 import {
   Pagination,
@@ -14,6 +18,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 // Function to get a greeting based on the current time
 function getGreeting(t: (key: string) => string) {
@@ -25,6 +37,8 @@ function getGreeting(t: (key: string) => string) {
 
 const AdminDashboardPage: React.FC = () => {
   const t = useTranslations();
+  const params = useParams();
+  const locale = params.locale || 'en';
   const admin = useAuthStore((state) => state.admin);
   const fetchDonationHistory = useAuthStore(
     (state) => state.fetchDonationHistory,
@@ -86,8 +100,29 @@ const AdminDashboardPage: React.FC = () => {
   return (
     <div className="text-foreground mt-10 min-h-screen">
       <main className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Breadcrumbs */}
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href={`/${locale}`}>
+                {t('breadcrumb.home')}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href={`/${locale}/admin`}>
+                {t('breadcrumb.admin')}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{t('breadcrumb.dashboard')}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
         {/* Greeting */}
-        <div>
+        <div className="mb-6">
           {admin && (
             <h1 className="text-3xl font-bold text-black">
               {getGreeting(t)},{' '}
@@ -96,159 +131,99 @@ const AdminDashboardPage: React.FC = () => {
           )}
         </div>
 
-        <div className="px-4 py-6 sm:px-0">
-          {/* Profile Section */}
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold">
-              {t('AdminDashboardPage.profile')}
-            </h2>
-            {admin ? (
-              <div className="mt-4">
-                <p>
-                  <span className="font-medium">
-                    {t('AdminDashboardPage.name')}:
-                  </span>{' '}
-                  {admin.name}
+        {/* Quick Action Cards */}
+        <div className="mb-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Cows Card */}
+          <Link href={`/admin/dashboard/cows`}>
+            <div className="bg-primary text-primary-foreground hover:bg-primary-dark flex cursor-pointer items-center justify-between rounded-lg p-6 shadow transition">
+              <div>
+                <h2 className="text-xl font-semibold">Manage Cows</h2>
+                <p className="text-sm opacity-90">
+                  View and manage all registered cows.
                 </p>
-                <p>
-                  <span className="font-medium">
-                    {t('AdminDashboardPage.email')}:
-                  </span>{' '}
-                  {admin.email}
-                </p>
-                <p>
-                  <span className="font-medium">
-                    {t('AdminDashboardPage.verified')}:
-                  </span>{' '}
-                  {admin.isVerified
-                    ? t('AdminDashboardPage.yes')
-                    : t('AdminDashboardPage.no')}
-                </p>
-                {admin.dateOfBirth && (
-                  <p>
-                    <span className="font-medium">
-                      {t('AdminDashboardPage.dateOfBirth')}:
-                    </span>{' '}
-                    {admin.dateOfBirth}
-                  </p>
-                )}
               </div>
-            ) : (
-              <p className="mt-4">{t('AdminDashboardPage.noAdminData')}</p>
-            )}
-          </section>
+              <Leaf className="h-10 w-10 text-white" />
+            </div>
+          </Link>
 
-          {/* Donation History Section */}
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold">
-              {t('AdminDashboardPage.donationHistory')}
-            </h2>
-            {donationLoading ? (
-              <p>{t('AdminDashboardPage.loadingDonationHistory')}</p>
-            ) : donationError ? (
-              <p className="text-red-500">
-                {t('AdminDashboardPage.errorLoadingDonationHistory')}
-              </p>
-            ) : donationHistoryData && donationHistoryData.length > 0 ? (
-              <div className="bg-card mt-4 rounded-lg p-6 shadow">
-                <ul>
-                  {donationHistoryData.map((donation: any) => (
-                    <li
-                      key={donation._id}
-                      className="border-b border-gray-200 py-2"
-                    >
-                      <p>
-                        <span className="font-medium">
-                          {t('AdminDashboardPage.amount')}:
-                        </span>{' '}
-                        ${donation.amount}
-                      </p>
-                      <p>
-                        <span className="font-medium">
-                          {t('AdminDashboardPage.tier')}:
-                        </span>{' '}
-                        {donation.tier}
-                      </p>
-                      <p>
-                        <span className="font-medium">
-                          {t('AdminDashboardPage.type')}:
-                        </span>{' '}
-                        {donation.donationType}
-                      </p>
-                      {donation.createdAt && (
-                        <p>
-                          <span className="font-medium">
-                            {t('AdminDashboardPage.date')}:
-                          </span>{' '}
-                          {new Date(donation.createdAt).toLocaleDateString()}
-                        </p>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+          {/* Users Card */}
+          <Link href={`/admin/dashboard/users`}>
+            <div className="bg-primary text-primary-foreground hover:bg-primary-dark flex cursor-pointer items-center justify-between rounded-lg p-6 shadow transition">
+              <div>
+                <h2 className="text-xl font-semibold">Manage Users</h2>
+                <p className="text-sm opacity-90">
+                  View and manage user accounts.
+                </p>
               </div>
-            ) : (
-              <p className="mt-4">
-                {t('AdminDashboardPage.noDonationHistory')}
-              </p>
-            )}
-          </section>
+              <Users className="h-10 w-10 text-white" />
+            </div>
+          </Link>
 
-          {/* Cows Section */}
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold">
-              {t('AdminDashboardPage.cows')}
-            </h2>
-            {cowsLoading ? (
-              <p>{t('AdminDashboardPage.loadingCows')}</p>
-            ) : cowsError ? (
-              <p className="text-red-500">
-                {t('AdminDashboardPage.errorLoadingCows')}
-              </p>
-            ) : cowsData && cowsData.length > 0 ? (
-              <>
-                <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                  {paginatedCows.map((cow: any) => (
-                    <CowCard
-                      key={cow._id}
-                      cow={cow}
-                      link={`/admin/cows/${cow._id}/edit`}
-                    />
-                  ))}
-                </div>
-                {totalPages > 1 && (
-                  <nav className="mt-8">
-                    <Pagination>
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious onClick={handlePrevious} />
-                        </PaginationItem>
-                        {Array.from({ length: totalPages }, (_, i) => {
-                          const page = i + 1;
-                          return (
-                            <PaginationItem key={page}>
-                              <PaginationLink
-                                isActive={currentPage === page}
-                                onClick={() => handlePageClick(page)}
-                              >
-                                {page}
-                              </PaginationLink>
-                            </PaginationItem>
-                          );
-                        })}
-                        <PaginationItem>
-                          <PaginationNext onClick={handleNext} />
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
-                  </nav>
-                )}
-              </>
-            ) : (
-              <p className="mt-4">{t('AdminDashboardPage.noCowsAvailable')}</p>
-            )}
-          </section>
+          {/* Moderators Card */}
+          <Link href={`/admin/dashboard/moderators`}>
+            <div className="bg-primary text-primary-foreground hover:bg-primary-dark flex cursor-pointer items-center justify-between rounded-lg p-6 shadow transition">
+              <div>
+                <h2 className="text-xl font-semibold">Manage Moderators</h2>
+                <p className="text-sm opacity-90">
+                  Assign and manage moderator roles.
+                </p>
+              </div>
+              <Shield className="h-10 w-10 text-white" />
+            </div>
+          </Link>
         </div>
+
+        {/* Cows Section */}
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold">
+            {t('AdminDashboardPage.cows')}
+          </h2>
+          {cowsLoading ? (
+            <p>{t('AdminDashboardPage.loadingCows')}</p>
+          ) : cowsError ? (
+            <p className="text-red-500">
+              {t('AdminDashboardPage.errorLoadingCows')}
+            </p>
+          ) : cowsData && cowsData.length > 0 ? (
+            <>
+              <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {paginatedCows.map((cow: any) => (
+                  <CowCard
+                    key={cow._id}
+                    cow={cow}
+                    link={`/admin/dashboard/cows/${cow._id}/edit`}
+                  />
+                ))}
+              </div>
+              {totalPages > 1 && (
+                <nav className="mt-8">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious onClick={handlePrevious} />
+                      </PaginationItem>
+                      {Array.from({ length: totalPages }, (_, i) => (
+                        <PaginationItem key={i + 1}>
+                          <PaginationLink
+                            isActive={currentPage === i + 1}
+                            onClick={() => handlePageClick(i + 1)}
+                          >
+                            {i + 1}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                      <PaginationItem>
+                        <PaginationNext onClick={handleNext} />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </nav>
+              )}
+            </>
+          ) : (
+            <p className="mt-4">{t('AdminDashboardPage.noCowsAvailable')}</p>
+          )}
+        </section>
       </main>
     </div>
   );

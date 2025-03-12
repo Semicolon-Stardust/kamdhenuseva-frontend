@@ -1,7 +1,7 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -22,17 +22,6 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-// Framer Motion animation variants.
-const containerVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
-const fieldVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
-};
-
 export default function LoginPage() {
   const router = useRouter();
   const params = useParams();
@@ -43,7 +32,7 @@ export default function LoginPage() {
     loginUser,
     logoutUser,
     checkUserAuth,
-    checkUserVerificationStatus, // new function to check email verification status
+    checkUserVerificationStatus,
     isAuthenticatedUser: storeAuthenticated,
   } = useAuthStore();
 
@@ -69,9 +58,8 @@ export default function LoginPage() {
       return await loginUser(data.email, data.password);
     },
     onSuccess: async (result) => {
-      // Call checkUserVerificationStatus to update isEmailVerified in store.
+      // Check email verification status.
       await checkUserVerificationStatus();
-      // Now check if the user is verified
       if (result.twoFactorRequired) {
         router.push(`/${locale}/verify-otp`);
       } else if (!useAuthStore.getState().isEmailVerified) {
@@ -99,24 +87,13 @@ export default function LoginPage() {
   };
 
   return (
-    <motion.div
-      className="bg-accent flex min-h-screen items-center justify-center p-4"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-    >
-      <motion.div
-        className="bg-primary w-full max-w-md space-y-6 rounded-lg p-8 shadow"
-        variants={containerVariants}
-      >
-        <motion.h1
-          className="text-center text-3xl font-bold text-white"
-          variants={fieldVariants}
-        >
+    <div className="bg-accent flex min-h-screen items-center justify-center p-4">
+      <div className="bg-primary w-full max-w-md space-y-6 rounded-lg p-8 shadow">
+        <h1 className="text-center text-3xl font-bold text-white">
           Login to Your Account
-        </motion.h1>
+        </h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <motion.div variants={fieldVariants}>
+          <div>
             <Label
               htmlFor="email"
               className="block text-sm font-medium text-white"
@@ -135,8 +112,8 @@ export default function LoginPage() {
                 {errors.email.message}
               </p>
             )}
-          </motion.div>
-          <motion.div variants={fieldVariants}>
+          </div>
+          <div>
             <Label
               htmlFor="password"
               className="block text-sm font-medium text-white"
@@ -155,12 +132,12 @@ export default function LoginPage() {
                 {errors.password.message}
               </p>
             )}
-          </motion.div>
-          <motion.div variants={fieldVariants}>
+          </div>
+          <div>
             <Button type="submit" className="w-full cursor-pointer">
               {loginMutation.isPending ? 'Logging in...' : 'Login'}
             </Button>
-          </motion.div>
+          </div>
           {(loginMutation.error || localError) && (
             <p className="text-destructive text-center">
               {localError ||
@@ -179,7 +156,7 @@ export default function LoginPage() {
             Forgot Password?
           </Button>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
