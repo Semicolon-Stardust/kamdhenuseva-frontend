@@ -20,7 +20,7 @@ export default function CowCard({ cow, link }: CowCardProps) {
               alt={cow.name}
               width={400}
               height={220}
-              className="object-fit h-[220px] w-[400px]"
+              className="object-fit h-full w-full"
             />
           ) : (
             <Image
@@ -28,7 +28,7 @@ export default function CowCard({ cow, link }: CowCardProps) {
               alt={cow.name}
               width={400}
               height={220}
-              className="object-fit h-[220px] w-[400px]"
+              className="object-fit h-full w-full"
             />
           )}
         </div>

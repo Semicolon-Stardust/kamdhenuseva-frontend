@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
+import { useParams } from 'next/navigation';
 import { Link } from '@/i18n/routing';
+import { Plus, Pencil, Trash } from 'lucide-react'; // Lucide icons
 import Loader from '@/components/ui/loader';
 import {
   Table,
@@ -22,8 +23,18 @@ import {
   PaginationPrevious,
   PaginationNext,
 } from '@/components/ui/pagination';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 export default function AdminCowList() {
+  const params = useParams();
+  const locale = params.locale || 'en';
   const fetchCows = useAuthStore((state) => state.fetchCows);
 
   const {
@@ -68,20 +79,59 @@ export default function AdminCowList() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="bg-background text-foreground p-40"
-    >
-      <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-primary text-2xl font-bold">Admin - Cow List</h1>
-        <Link href="/admin/cows/create">
-          <button className="bg-primary text-primary-foreground hover:bg-primary-dark rounded px-4 py-2 transition-colors">
-            Create New Cow
-          </button>
+    <div className="bg-background text-foreground p-10">
+      {/* Breadcrumbs */}
+      <Breadcrumb className="mb-6">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/${locale}`}>Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/${locale}/admin`}>Admin</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/${locale}/admin/dashboard`}>
+              Dashboard
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Manage Cows</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      {/* Manage Cows Heading */}
+      <h1 className="text-primary mb-6 text-3xl font-bold">Manage Cows</h1>
+
+      {/* Quick Action Cards */}
+      <div className="mb-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        {/* Create Cows Card */}
+        <Link href={`/admin/dashboard/cows/create`}>
+          <div className="bg-primary text-primary-foreground hover:bg-primary-dark flex cursor-pointer items-center justify-between rounded-lg p-6 shadow transition">
+            <div>
+              <h2 className="text-xl font-semibold">Create Cows</h2>
+              <p className="text-sm opacity-90">Add a new cow to the system.</p>
+            </div>
+            <Plus className="h-10 w-10 text-white" />
+          </div>
+        </Link>
+
+        {/* Edit Cows Card */}
+        <Link href={`/admin/dashboard/cows/edit`}>
+          <div className="bg-primary text-primary-foreground hover:bg-primary-dark flex cursor-pointer items-center justify-between rounded-lg p-6 shadow transition">
+            <div>
+              <h2 className="text-xl font-semibold">Edit Cows</h2>
+              <p className="text-sm opacity-90">Modify cow details.</p>
+            </div>
+            <Pencil className="h-10 w-10 text-white" />
+          </div>
         </Link>
       </div>
 
+      {/* Cow List Table */}
       {isLoading && <Loader />}
 
       {error && (
@@ -100,12 +150,12 @@ export default function AdminCowList() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {paginatedCows && paginatedCows.length > 0 ? (
+              {paginatedCows.length > 0 ? (
                 paginatedCows.map((cow) => (
                   <TableRow key={cow._id}>
                     <TableCell>{cow.name}</TableCell>
                     <TableCell className="text-right">
-                      <Link href={`/admin/cows/${cow._id}/edit`}>
+                      <Link href={`/admin/dashboard/cows/${cow._id}/edit`}>
                         <button className="bg-primary text-primary-foreground hover:bg-primary-dark rounded px-2 py-1 transition-colors">
                           Edit
                         </button>
@@ -137,23 +187,20 @@ export default function AdminCowList() {
                       }}
                     />
                   </PaginationItem>
-                  {Array.from({ length: totalPages }, (_, i) => {
-                    const page = i + 1;
-                    return (
-                      <PaginationItem key={page}>
-                        <PaginationLink
-                          href="#"
-                          isActive={currentPage === page}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handlePageClick(page);
-                          }}
-                        >
-                          {page}
-                        </PaginationLink>
-                      </PaginationItem>
-                    );
-                  })}
+                  {Array.from({ length: totalPages }, (_, i) => (
+                    <PaginationItem key={i + 1}>
+                      <PaginationLink
+                        href="#"
+                        isActive={currentPage === i + 1}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageClick(i + 1);
+                        }}
+                      >
+                        {i + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
                   <PaginationItem>
                     <PaginationNext
                       href="#"
@@ -169,6 +216,6 @@ export default function AdminCowList() {
           )}
         </>
       )}
-    </motion.div>
+    </div>
   );
 }
