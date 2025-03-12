@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
 import { useParams } from 'next/navigation';
 import { Link } from '@/i18n/routing';
-import { Plus, Pencil, Trash } from 'lucide-react'; // Lucide icons
+import { Plus, Pencil } from 'lucide-react'; // Lucide icons
 import Loader from '@/components/ui/loader';
 import {
   Table,
