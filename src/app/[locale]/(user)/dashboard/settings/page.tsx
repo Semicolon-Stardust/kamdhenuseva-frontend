@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -38,9 +37,9 @@ export default function UserSettingsPage() {
   const {
     user,
     deleteUserAccount,
-    updateAdminProfile,
-    toggleAdminTwoFactor,
-    checkAdminVerificationStatus,
+    updateUserPassword,
+    toggleUserTwoFactor,
+    checkUserVerificationStatus,
     isEmailVerified,
   } = useAuthStore();
   const [activeTab, setActiveTab] = useState<
@@ -63,14 +62,14 @@ export default function UserSettingsPage() {
   });
 
   useEffect(() => {
-    checkAdminVerificationStatus()
+    checkUserVerificationStatus()
       .then(() => setStatus(isEmailVerified ? 'verified' : 'not_verified'))
       .catch(() => setStatus('not_verified'));
-  }, [checkAdminVerificationStatus, isEmailVerified]);
+  }, [checkUserVerificationStatus, isEmailVerified]);
 
   const handlePasswordUpdate = async (data: PasswordFormData) => {
     try {
-      await updateAdminProfile({ password: data.newPassword });
+      await updateUserPassword(data.newPassword);
       setPasswordMsg('Password updated successfully.');
       reset();
     } catch (error: unknown) {
@@ -99,7 +98,7 @@ export default function UserSettingsPage() {
 
   const handleToggle2FA = async () => {
     try {
-      await toggleAdminTwoFactor();
+      await toggleUserTwoFactor();
       setTwoFAMsg('Two-Factor Authentication preferences updated.');
     } catch (error: unknown) {
       setTwoFAMsg(
@@ -160,13 +159,13 @@ export default function UserSettingsPage() {
             <p className="font-medium text-gray-700">
               {t('UserSettingsPage.profile.name')}:
             </p>
-            <p className="text-gray-900">{user?.name}</p>
+            <p className="text-gray-900">{user?.name ?? 'Unknown User'}</p>
           </div>
           <div className="rounded-lg border p-5 shadow-sm">
             <p className="font-medium text-gray-700">
               {t('UserSettingsPage.profile.email')}:
             </p>
-            <p className="text-gray-900">{user?.email}</p>
+            <p className="text-gray-900">{user?.email ?? 'No Email'}</p>
           </div>
         </div>
       )}
@@ -197,6 +196,11 @@ export default function UserSettingsPage() {
                 placeholder={t('UserSettingsPage.security.passwordPlaceholder')}
                 className="bg-gray-200"
               />
+              {errors.newPassword && (
+                <p className="text-sm text-red-500">
+                  {errors.newPassword.message}
+                </p>
+              )}
               <Label htmlFor="confirmPassword">
                 {t('UserSettingsPage.security.confirmPassword')}
               </Label>
@@ -207,6 +211,11 @@ export default function UserSettingsPage() {
                 placeholder={t('UserSettingsPage.security.confirmPlaceholder')}
                 className="bg-gray-200"
               />
+              {errors.confirmPassword && (
+                <p className="text-sm text-red-500">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
               <Button type="submit" className="w-full">
                 {t('UserSettingsPage.security.updateButton')}
               </Button>

@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
-import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useMutation } from '@tanstack/react-query';
 import { useForm, Controller } from 'react-hook-form';
@@ -14,11 +13,6 @@ import {
   InputOTPSlot,
 } from '@/components/ui/input-otp';
 
-const containerVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
 interface OTPFormData {
   otp: string;
 }
@@ -27,7 +21,6 @@ export default function VerifyOTPPage() {
   const router = useRouter();
   const params = useParams();
   const locale = params.locale || 'en';
-  // Destructure verifyUserOTP and pendingUserEmail from the auth store.
   const { verifyUserOTP, pendingUserEmail } = useAuthStore();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -39,7 +32,7 @@ export default function VerifyOTPPage() {
     defaultValues: { otp: '' },
   });
 
-  // If there's no pending user, redirect away (e.g. to the login page)
+  // Redirect to login if there's no pending user
   useEffect(() => {
     if (!pendingUserEmail) {
       router.push(`/${locale}/login`);
@@ -54,9 +47,6 @@ export default function VerifyOTPPage() {
         router.push(`/${locale}/dashboard`);
       }, 2000);
     },
-    onError: () => {
-      // Error message is handled below.
-    },
   });
 
   const onSubmit = (data: OTPFormData) => {
@@ -65,12 +55,7 @@ export default function VerifyOTPPage() {
   };
 
   return (
-    <motion.div
-      className="bg-background dark:bg-background-dark flex min-h-screen items-center justify-center p-4"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-    >
+    <div className="bg-background dark:bg-background-dark flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow dark:bg-stone-800">
         <h1 className="text-primary mb-4 text-center text-2xl font-bold">
           Verify OTP
@@ -141,6 +126,6 @@ export default function VerifyOTPPage() {
           </Button>
         </form>
       </div>
-    </motion.div>
+    </div>
   );
 }
