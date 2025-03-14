@@ -191,12 +191,12 @@ const AdminDashboardPage: React.FC = () => {
                   <CowCard
                     key={cow._id}
                     cow={cow}
-                    link={`/admin/dashboard/cows/${cow._id}/edit`}
+                    link={`/admin/dashboard/cows/${cow._id}`}
                   />
                 ))}
               </div>
               {totalPages > 1 && (
-                <nav className="mt-8">
+                <nav className="my-8">
                   <Pagination>
                     <PaginationContent>
                       <PaginationItem>

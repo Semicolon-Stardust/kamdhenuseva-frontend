@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/authStore';
 import { useParams } from 'next/navigation';
 import { Link } from '@/i18n/routing';
-import { Plus, Pencil } from 'lucide-react'; // Lucide icons
+import { Plus } from 'lucide-react'; // Lucide icons
 import Loader from '@/components/ui/loader';
 import {
   Table,
@@ -79,7 +79,7 @@ export default function AdminCowList() {
   };
 
   return (
-    <div className="bg-background text-foreground p-10">
+    <div className="bg-background text-foreground mx-auto max-w-7xl px-4 md:mt-14">
       {/* Breadcrumbs */}
       <Breadcrumb className="mb-6">
         <BreadcrumbList>
@@ -107,7 +107,7 @@ export default function AdminCowList() {
       <h1 className="text-primary mb-6 text-3xl font-bold">Manage Cows</h1>
 
       {/* Quick Action Cards */}
-      <div className="mb-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <div className="mb-10 grid grid-cols-1">
         {/* Create Cows Card */}
         <Link href={`/admin/dashboard/cows/create`}>
           <div className="bg-primary text-primary-foreground hover:bg-primary-dark flex cursor-pointer items-center justify-between rounded-lg p-6 shadow transition">
@@ -116,17 +116,6 @@ export default function AdminCowList() {
               <p className="text-sm opacity-90">Add a new cow to the system.</p>
             </div>
             <Plus className="h-10 w-10 text-white" />
-          </div>
-        </Link>
-
-        {/* Edit Cows Card */}
-        <Link href={`/admin/dashboard/cows/edit`}>
-          <div className="bg-primary text-primary-foreground hover:bg-primary-dark flex cursor-pointer items-center justify-between rounded-lg p-6 shadow transition">
-            <div>
-              <h2 className="text-xl font-semibold">Edit Cows</h2>
-              <p className="text-sm opacity-90">Modify cow details.</p>
-            </div>
-            <Pencil className="h-10 w-10 text-white" />
           </div>
         </Link>
       </div>
@@ -155,7 +144,7 @@ export default function AdminCowList() {
                   <TableRow key={cow._id}>
                     <TableCell>{cow.name}</TableCell>
                     <TableCell className="text-right">
-                      <Link href={`/admin/dashboard/cows/${cow._id}/edit`}>
+                      <Link href={`/admin/dashboard/cows/${cow._id}`}>
                         <button className="bg-primary text-primary-foreground hover:bg-primary-dark rounded px-2 py-1 transition-colors">
                           Edit
                         </button>
@@ -175,7 +164,7 @@ export default function AdminCowList() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <nav className="mt-8">
+            <nav className="my-8">
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
