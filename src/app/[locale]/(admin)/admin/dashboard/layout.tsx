@@ -53,7 +53,7 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="mt-14 min-h-screen">
+    <div className="mt-4 min-h-screen md:mt-14">
       <div className="flex">
         <main className="flex-1">{children}</main>
       </div>

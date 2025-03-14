@@ -98,7 +98,7 @@ const AdminDashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="text-foreground mt-10 min-h-screen">
+    <div className="text-foreground min-h-screen md:mt-8">
       <main className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Breadcrumbs */}
         <Breadcrumb className="mb-6">
